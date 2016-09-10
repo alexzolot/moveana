@@ -1,0 +1,344 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+  <title>MA tool</title zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz >
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://chrisbeeley.net:8080/shiny/jquerydemo/shared/shiny.css"/><!-- dropinshiny -->
+  <script type="text/javascript">
+  
+  
+  
+$(document).ready(function(){
+	//vid1.currentTime= v100('#iTime1')
+	//vid2.currentTime= v100('#iTime2')
+    
+    $('#bGPS').click(function() {
+        $('#kRate').val(vid1.playbackRate);
+    })
+
+    $('#bSPS').click(function() {
+    	vid1.playbackRate= vid2.playbackRate= $('#kRate').val();
+    })
+
+$(document).on("mouseover", "tr", function(evt) {
+    $(this).css('background-color', 'yellow');
+})
+
+$(document).on("mouseout", "tr", function(evt) {
+    $(this).css('background-color', 'transparent');
+});
+
+$(document).on("click", "td", function(evt) {
+    $('td').css('font-weight', 'normal');
+    $(this).css('font-weight', 'bold');
+})
+
+$(document).on("dblclick", "#datatext", function(evt) {
+    alert($('#hiddentext').text());
+})
+
+});
+  </script>
+  <style type = "text/css">
+
+    #navigation {
+      position: absolute;
+      width: 300px;
+    }
+ 
+    #centerdoc {
+      max-width: 600px;
+      margin-left: 350px;
+      border-left: 1px solid #c6ec8c;
+      padding-left: 20px;
+    }
+    
+  </style>
+
+  <link rel="stylesheet" href="http://thematicmapping.org/playground/d3/d3.slider/d3.slider.css" />  
+    
+  <!--  http://thematicmapping.org/playground/d3/d3.slider/ --> 
+  <style>
+
+    body {
+      font-family: Verdana,Arial,sans-serif;
+    }
+
+    h2 {
+        font-size: 1.2em;
+        margin: 60px 0 5px 0;
+    }
+
+    .wrapper div {
+        margin: 35px 0;
+    }
+
+    .wrapper {
+      width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #slider3, #slider4 {
+        /* height: 40px; */
+        width: 300px; margin-bottom: 5px;
+    }
+  </style>
+
+
+</head>
+
+<body> 
+
+<h2>Vid1</h2>
+<div id="video-placeholder"></div>  http://tutorialzine.com/2015/08/how-to-control-youtubes-video-player-with-javascript/
+
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<script>
+var player;
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('video-placeholder', {
+        width: 600,
+        height: 400,
+        videoId: 'Xa0Q0J5tOP0',
+        playerVars: {
+            color: 'white',
+            playlist: 'taJ60kskkns,FG0fTKAqZ5g'
+        },
+        events: {
+            onReady: initialize
+        }
+    });
+}
+
+function initialize(){
+
+    // Update the controls on load
+    updateTimerDisplay();
+    updateProgressBar();
+
+    // Clear any old interval.
+    clearInterval(time_update_interval);
+
+    // Start interval to update elapsed time display and
+    // the elapsed part of the progress bar every second.
+    time_update_interval = setInterval(function () {
+        updateTimerDisplay();
+        updateProgressBar();
+    }, 1000)
+
+}
+
+// This function is called by initialize()
+function updateTimerDisplay(){
+    // Update current time text display.
+    $('#current-time').text(formatTime( player.getCurrentTime() ));
+    $('#duration').text(formatTime( player.getDuration() ));
+}
+
+function formatTime(time){
+    time = Math.round(time);
+
+    var minutes = Math.floor(time / 60),
+    seconds = time - minutes * 60;
+
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    return minutes + ":" + seconds;
+}
+
+$('#progress-bar').on('mouseup touchend', function (e) {
+
+    // Calculate the new time for the video.
+    // new time in seconds = total duration in seconds * ( value of range input / 100 )
+    var newTime = player.getDuration() * (e.target.value / 100);
+
+    // Skip video to new time.
+    player.seekTo(newTime);
+
+});
+
+// This function is called by initialize()
+function updateProgressBar(){
+    // Update the value of our progress bar accordingly.
+    $('#progress-bar').val((player.getCurrentTime() / player.getDuration()) * 100);
+}
+
+$('#play').on('click', function () {
+    player.playVideo();
+});
+
+$('#pause').on('click', function () {
+    player.pauseVideo();
+});
+
+$('#speed').on('change', function () {
+    player.setPlaybackRate($(this).val());
+});
+
+$('#quality').on('change', function () {
+    player.setPlaybackQuality($(this).val());
+});
+
+$('#next').on('click', function () {
+    player.nextVideo()
+});
+
+$('#prev').on('click', function () {
+    player.previousVideo()
+});
+
+
+</script>
+
+<h2>Vid 2</h2>
+
+
+
+ <iframe width="640" height="360" src="https://www.youtube.com/embed/urAXN77X6zU" 
+     frameborder="0" allowfullscreen="1">
+ </iframe>
+ 
+<h2>Vid 3</h2>
+
+<video width="640" height="360"> 
+<source src= "https://www.youtube.com/embed/urAXN77X6zU"  type="video/mp4">
+ </source></video>
+
+<h2>Vid 4</h2>
+
+ <table><tr><td>
+ <h3>rlx: RLX4 (cover vehicle) : Shige-san, Dark navy?</h3>
+ 
+
+ 
+<video id="vid1" width="500"  controls onseeked="console.log($('#iTime1').val());$('#iTime1').val(r100(vid1.currentTime))" onpause='onseeked()'>
+  <!--  source src="../in/HondaData/Run6Yoichi/rlx/1/4youtubeHD.mp4" type="video/mp4">
+  -->
+  <source src= "www/rlx/4youtubeHD.mp4" type="video/mp4">
+  Your browser does not support HTML5 video.
+</video> <br/>
+
+  <div id="slider3"></div><br/><br/> 
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://thematicmapping.org/playground/d3/d3.slider/d3.slider.js"></script>
+  <script>
+      d3.select('#slider3')
+       .call(d3.slider().axis(true).min(0).max(10).step(.05).value(Math.log(2))
+               .on("slide", function(evt, value) {
+                   var v= Math.exp(value)-1;
+                   $('#kRate').val(r100(v));  
+                   vid1.playbackRate = vid2.playbackRate = v;
+               }));
+  </script>
+
+    kRate:<input id="kRate" value=1 size=3>
+    Time:<input id="iTime1"  name="iTime1" type="text" value=556.8 size=3>
+    <button onclick="setCurTime(vid1, $('#iTime1').val())" type="button">Set time</button><br> 
+
+
+<br/>
+
+<button id="bBack"  onclick='vid1.currentTime -= $("#kRate").val(); $("#iTime1").val(vid1.currentTime)'><</button>
+<button id="bStep"  onclick='vid1.currentTime += Math.min($("#kRate").val(), 20); $("#iTime1").val(r100(vid1.currentTime))'>></button>
+<button id="bGo"  type="button">>></button><br/>
+ 
+ </td><td>
+ <button id='bGoBo' onclick="playpauseboth()">play/pause both</button>
+ </td><td>
+ 
+ 
+	<h3>tl: Silver TL (Aggressive driver): Yoichi -san</h3>
+	
+	<video id="vid2" width="500"  controls onseeked="$('#iTime2').val(r100(vid2.currentTime))" onpause='onseeked()'>
+      <!--  source src="../in/HondaData/Run6Yoichi/tl/1/4youtubeHD.mp4">
+      -->
+      <source src= "www/tl/4youtubeHD.mp4" type="video/mp4">
+	  Your browser does not support HTML5 video.
+	</video> <br/>
+	  <div id="slider4"></div><br/><br/> 
+	    <script>
+      d3.select('#slider4')
+       .call(d3.slider().axis(true).min(0).max(10).step(.05).value(Math.log(2))
+               .on("slide", function(evt, value) {
+                   var v= Math.exp(value)-1;
+                   $('#idTime').val(r100(v));  
+                   vid2.currentTime= vid1.currentTime + v;
+               }));
+  </script>
+
+        <!-- button onclick="setCurTime(vid1, vid2.currentTime + $('#idTime').val()); $('#iTime1').val(r100(vid1.currentTime));" type="button"><-</button>
+         -->
+         <button onclick="vid1.currentTime= vid2.currentTime -(-$('#idTime').val()); $('#iTime1').val(r100(vid1.currentTime));" type="button"><-</button>
+	    dTime:<input id="idTime" value=504.9 size=4>
+        <button onclick="vid2.currentTime= vid1.currentTime - $('#idTime').val(); $('#iTime2').val(r100(vid2.currentTime));" 
+           type="button">-></button>
+        <button onclick="$('#idTime').val(r100(vid1.currentTime - vid2.currentTime))"  
+           type="button"><-</button>
+	    Time:<input id="iTime2"  name="iTime2" type="text" value=93 size=4>
+   <!--  button onclick="setCurTime(vid2, $('#iTime2').val())" type="button">Set time</button><br> 
+        <button onclick="vid2.currentTime= $('#iTime2').val()" type="button">Set time</button><br> -->
+        <button onclick="vid2.currentTime= v100('#iTime2')" type="button">Set time</button><br> 
+	
+	<br/>
+	
+	<button id="bBack"  onclick='vid2.currentTime -= $("#kRate").val(); $("#iTime2").val(vid2.currentTime)'><</button>
+	<button id="bStep"  onclick='vid2.currentTime += Math.min($("#kRate").val(), 20); $("#iTime2").val(r100(vid2.currentTime))'>></button>
+	<button id="bGo"  type="button">>></button><br/>
+
+ </td></tr></table>
+
+The same place t1= t2 + 463s; timeDiff ~= 500s <br/>
+Start 556.8 93<br/>
+Fork 674.7 213.2<br/>
+<a href="www/Aggressive driver_1_sept.pdf">Aggressive driver_1_sept.pdf</a>
+
+<script>
+function round(x,n){return Math.round(x*n)/n}
+function r100(x) {return round(x, 100)};
+function v100(x) {return r100($(x).val())};
+
+var vid1 = document.getElementById("vid1"); //=  d3.select('#vid1') ; //$("#vid1"); //
+var vid2 = document.getElementById("vid2");
+
+
+function playpauseboth() {
+	  if (vid1.paused) { vid1.play();  vid2.play();  $('#bGoBo').text('||');
+	  } else           { vid1.pause(); vid2.pause(); $('#bGoBo').text('>'); }
+	};
+	
+	vid2.onwaiting = vid1.onwaiting = function() {
+		vid1.pause(); vid2.pause(); $('#bGoBo').text('> both');
+	};	
+
+
+function incr(vid, t) { vid.currentTime += t } 
+
+function getPlaySpeed(vid) { 
+    alert(vid.playbackRate);
+   // $('#kRate').text(vid.playbackRate);
+    //$('#kRate').value(vid.playbackRate);
+} 
+
+function setPlaySpeed(vid) { vid.playbackRate = 0.5; } 
+
+function getCurTime(vid) {   alert(vid.currentTime); } 
+function setCurTime(vid, t) { vid.currentTime= t; console.log(vid); console.log(t); } 
+
+// vid1.onpause = function() {
+//    // alert("The video has been paused at " + vid.currentTime);
+// };
+
+// vid2.onpause = function() {
+//    // alert("The video has been paused at " + vid.currentTime);
+// };
+console.log(vid1);
+</script> 
+
+<p>Video courtesy of <a href="http://www.w3schools.com/tags/ref_av_dom.asp" target="_blank">w3schools</a>.</p>
+<p> <a href="http://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_av_prop_playbackrate" target="_blank">w3schools prop_playbackrate</a>.</p>
+</body> 
+</html>
