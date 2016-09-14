@@ -9,18 +9,26 @@
    
    <!-- Include jQuery & Bootstrap-->
 
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="lib/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sheetrock/1.1.0/dist/sheetrock.min.js"></script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-    <link href="bower_components/handsontable/dist/handsontable.full.min.css" rel="stylesheet">
-    <script src="bower_components/handsontable/dist/handsontable.full.min.js"></script>
-    <script src="bower_components/handsontable/dist/moment/moment.js"></script>
-    <script src="bower_components/handsontable/dist/pikaday/pikaday.js"></script>
+    <link href="lib/handsontable.full.min.css" rel="stylesheet">
+    <script src="lib/handsontable.full.min.js"></script>
+    <script src="lib/moment.min.js"></script>
+    <script src="lib/pikaday.js"></script>
 
     <script src="ma.js"></script>         <!-- AZ -->
+    
+    <style>
+         input {width: 60px}
+	    .pp {width: 100%; padding-bottom:"56.25%";}
+	    
+	      .currentRow { background-color: #E9E9EB !important;}
+          .currentCol { background-color: #E7E8EF !important;}
+	</style>
 
 </head>
 
@@ -38,19 +46,99 @@
 </div> -->
 
 <h1>MA tool</h1 hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh>
-<h2> Links</h2>
-<ol>
-<li><a href="http://clip2net.com">Clip2net - Share screenshots</a></li>
-<li><a href="http://www.psia-nw.org/video-galleries/alpine-level-iii-tasks/">PSIA-NW Level 3</a></li>
-<li><a href="http://www.psia-rm.org/education/alpine/alpine-demonstration-videos/level-iii-skiing">PSIA-RM Level 3</a></li>
-<li><a href="https://www.youtube.com/watch?v=aiSzmN82I4A">CSIA Level 4</a></li>
-</ol>
-
 <div class="container-fluid">
   <div class="row"> 
+     <div class="col-md-8 vid"> 
+          <h2> Links</h2>
+			<ol>
+			<li><a href="http://clip2net.com" target="_blank">Clip2net - Share screenshots</a></li>
+			<!-- </br>-->  Video: 
+			<li><a href="http://www.psia-nw.org/video-galleries/alpine-level-iii-tasks/" target="_blank">PSIA-NW Level 3</a></li>
+			<li><a href="http://www.psia-rm.org/education/alpine/alpine-demonstration-videos/level-iii-skiing" target="_blank">PSIA-RM Level 3</a></li>
+			<li><a href="https://www.youtube.com/watch?v=aiSzmN82I4A" target="_blank">CSIA Level 4</a></li>
+			</ol>    
+      </div>        
+      <div class="col-md-4 vid"> 
+	      <a href="img/help1.jpg" target="_blank">Help 1</a>   </br> 
+	      <a href="img/help2.jpg" target="_blank">Help 2</a>    
+      </div>
+  </div row>
+  
+  <div class="row"> 
         <!--  https://handsontable.com/examples.html#fndtn-advanced  --> 
-        G-sheet: <a href="http://bit.ly/alexzolot-ma"> http://bit.ly/alexzolot-ma</a>
-        <h3 title='DblClk set by uTime, Ctrl+DblClk set all times'>Observed Events(from video):</h3> 
+       <a href="http://bit.ly/alexzolot-ma" target="_blank">  G-sheet (to copy-paste the data) </a>
+
+
+        <div class="col-md-8 vid">    
+	        <h4>Playlists:</h4>
+	           <div id="tbPlaylistsH" title='Playlists'></div>
+            <h4>Points for MA:</h4>
+                <div id="tbEventsH" title='DblClk set event'></div>
+	            <table id="tbSheetrock" class="table table-condensed table-striped"></table>
+	              <button onclick="LoadPlaylists()">Load Playlists</button> 
+                  <button onclick="go2SelectedEvent()">Go to Selected Point</button> 
+                  <input title="current Point"  onchange="go2evs(value-1); 
+	                  evsHT.scrollViewportTo(value-1, 0); 
+	                  evsHT.selectCell(value-1, 0)" 
+	                  type="number" step = "1" value="1">
+                  </input> 
+                  &nbsp;&nbsp;
+                  <button onclick="LogCurrentPoint()">Log Current Point</button> 
+        </div>
+   </div>
+
+
+  <div class="row">
+      <div class="col-md-6 vid">
+      
+          <div id="v1" class="pp"> </div>
+              Step:   <button onclick="pshift(pp[1], -.1,'#t1')" ondblclick="pshift(pp[1], -.3,'#t1')" title="Back 0.1 or 0.3 sec">.<</button> 
+              <button onclick="pshift(pp[1], .1,'#t1')" ondblclick="pshift(pp[1], .3,'#t1')" title="Forward 0.1 or 0.3 sec">>.</button>
+&nbsp;&nbsp; Play/Pause:
+              <button onclick="plays(pp[1], .25)" style="font-size:60%" title="Play Speed 1/4 or Pause">></button>
+              <button onclick="plays(pp[1], .5)" style="font-size:80%" title="Play Speed 1/2 or Pause">></button>
+              <button onclick="plays(pp[1], 1)" title="Play normal Speed or Pause">></button>
+              <button onclick="plays(pp[1], 1.5)" style="font-size:105%" title="Play Speed 1.5 or Pause">></button>
+              <button onclick="plays(pp[1], 2)" style="font-size:110%" title="Play Speed 2 or Pause">></button>
+              <input id="t1"  onchange="pp[1].seekTo(value)" type="number" step = ".3"></input>
+&nbsp;&nbsp;&nbsp; Both:      
+               <button onclick="pp[1].pauseVideo();pp[2].pauseVideo()">||||</button>
+               <button onclick="pshift(pp[1], .1,'#t1'); pshift(pp[2], .1,'#t2')">>.</button>
+               <button onclick="plays(pp[1], .25); plays(pp[2], .25)"title="Play Both speed 1/4 or Pause">></button>
+
+<!--                  <input type="range" id="progr1"  min="0" max="100" value="50" onmousedown="t1= pp[1].getCurrentTime(); pp[1].pauseVideo();" -->
+<!--                      onchange=" var t= t1+ value/25. -2; pp[1].seekTo(t); $('#t1').val(r100(t))"> -->
+                  
+    
+      </div class="col-md-6"> 
+      
+      <div class="col-md-6 vid">
+<!--         <div id="v2" width="100%" height="360"></div> -->
+        <div id="v2" class="pp"></div>
+            Step:   <button onclick="pshift(pp[2], -.1,'#t1')" ondblclick="pshift(pp[2], -.3,'#t1')" title="Back 0.1 or 0.3 sec">.<</button> 
+              <button onclick="pshift(pp[2], .1,'#t1')" ondblclick="pshift(pp[2], .3,'#t1')" title="Forward 0.1 or 0.3 sec">>.</button>
+&nbsp;&nbsp; Play/Pause:
+              <button onclick="plays(pp[2], .25)" style="font-size:60%"">></button>
+              <button onclick="plays(pp[2], .5)" style="font-size:80%">></button>
+              <button onclick="plays(pp[2], 1)">></button>
+              <button onclick="plays(pp[2], 1.5)" style="font-size:105%">></button>
+              <button onclick="plays(pp[2], 2)" style="font-size:110%">></button>
+              <input id="t2" onchange="pp[2].seekTo(value)"  type="number" step = ".3"></input>
+<!--               <input type="range" id="progr2"  min="0" max="400" value="200" onchange="v= pp[2].getCurrentTime()+ value/100. -2; pp[2].seekTo(v); $('#t2').val(r100(v))"> -->
+<!--               <input type="range" id="progr2"  min="0" max="100" value="50" onmousedown="t2= pp[2].getCurrentTime()" -->
+<!--                      onchange="var t= t2+ value/25. -2; pp[2].seekTo(t); $('#t2').val(r100(t))"> -->
+              
+              
+      </div> 
+  </div class="row">
+  
+<hr/>
+  
+ API: <a href="https://developers.google.com/sheets/samples/reading">Google Sheets API </a></br>
+<a href="https://developers.google.com/youtube/js_api_reference">YouTube JavaScript Player API Reference</a></br>
+<a href="http://demo.tutorialzine.com/2015/08/how-to-control-youtubes-video-player-with-javascript">Tutorial how-to-control-youtubes-video-player-with-javascript</a>
+</div>
+
             <div class="btn-group" data-toggle="buttons">
                 <button class="btn btn-primary" onclick="getSheetrock2Handst()">load from GDoc</button>
 <!--                 <button class="btn btn-primary" onclick="saveHandst2GDoc()">save to GDoc</button> -->
@@ -58,66 +146,7 @@
              <a href="https://handsontable.com/examples.html?headers">handsontable.com</a>   :</h3> 
             </div>
             
-        <div class="col-md-6 vid">    
-	        Playlists:<div id="tbPlaylistsH" title='Playlists'></div>
-            Points for MA:<div id="tbEventsH" title='DblClk set event'></div>
-<!--             Points2:<div id="tbEventsH2" title='DblClk set event'></div> -->
-	        <table id="tbSheetrock" class="table table-condensed table-striped"></table>
-	              <button onclick="LoadPlaylists()">Load Playlists</button> 
-                  <button onclick="Go2SelectedPoint()">Go to Selected Point</button> 
-                  <button onclick="LogCurrentPoint()">Log Current Point</button> 
-        </div>
-  </div>
-
-
-  <div class="row">
-      <div class="col-md-6 vid">
-      
-          <div id="v1"> <!--  onclick="$('#t1').val(r100(pla1.getCurrentTime())); $('#progr1').val(50)"> --> </div>
-              <br/> Step: <button onclick="pshift(pla1, -.3,'#t1')">..<</button>
-              <button onclick="pshift(pla1, -.1,'#t1')">.<</button> 
-              <button onclick="pshift(pla1, .1,'#t1')">>.</button>
-              <button onclick="pshift(pla1, .3,'#t1')">>..</button> &nbsp;&nbsp; Play:
-              <button onclick="plays(pla1, .25)">/4</button>
-              <button onclick="plays(pla1, .5)">/2</button>
-              <button onclick="plays(pla1, 1)">></button>
-              <button onclick="plays(pla1, 1.5)">x1.5</button>
-              <button onclick="plays(pla1, 2)">x2</button>
-              <input id="t1"  onchange="pla1.seekTo(value)" size="5"></input>
-               &nbsp;&nbsp;&nbsp; Both:      
-               <button onclick="pla1.pauseVideo();pla2.pauseVideo()">||||</button>
-               <button onclick="plays(pla1, .25); plays(pla2, .25)">//4</button>
-
-                 <input type="range" id="progr1"  min="0" max="100" value="50" onmousedown="t1= pla1.getCurrentTime(); pla1.pauseVideo();"
-                     onchange=" var t= t1+ value/25. -2; pla1.seekTo(t); $('#t1').val(r100(t))">
-                  
-    
-      </div class="col-md-6"> 
-      
-      <div class="col-md-6 vid">
-        <div id="v2" width="100%" height="360"></div>
-        <br/> Step: <button id="z" onclick="pshift(pla2, -.3,'#t2')">..<</button>
-              <button id="z" onclick="pshift(pla2, -.1,'#t2')">.<</button> 
-              <button id="z" onclick="pshift(pla2, .1,'#t2')">>.</button>
-              <button id="z" onclick="pshift(pla2, .3,'#t2')">>..</button> &nbsp;&nbsp; Play:
-              <button id="z" onclick="plays(pla2, .25)">/4</button>
-              <button id="z" onclick="plays(pla2, .5)">/2</button>
-              <button id="z" onclick="plays(pla2, 1)">></button>
-              <button id="z" onclick="plays(pla2, 1.5)">x1.5</button>
-              <button id="z" onclick="plays(pla2, 2)">x2</button>
-              <input id="t2" onchange="pla2.seekTo(value)" size="5"></input>
-<!--               <input type="range" id="progr2"  min="0" max="400" value="200" onchange="v= pla2.getCurrentTime()+ value/100. -2; pla2.seekTo(v); $('#t2').val(r100(v))"> -->
-              <input type="range" id="progr2"  min="0" max="100" value="50" onmousedown="t2= pla2.getCurrentTime()"
-                     onchange="var t= t2+ value/25. -2; pla2.seekTo(t); $('#t2').val(r100(t))">
-              
-              
-      </div> 
-  </div class="row">
-  
- API: <a href="https://developers.google.com/sheets/samples/reading">Google Sheets API </a></br>
-<a href="https://developers.google.com/youtube/js_api_reference">YouTube JavaScript Player API Reference</a></br>
-<a href="http://demo.tutorialzine.com/2015/08/how-to-control-youtubes-video-player-with-javascript">Tutorial how-to-control-youtubes-video-player-with-javascript</a>
-</div>
+            <!-- this on AWS: http://bit.ly/MA-tool = http://moveana.s3-website-us-east-1.amazonaws.com/-->
 
 </body>
 </html>
