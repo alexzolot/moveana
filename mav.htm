@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<!-- saved from url=(0090)http://demo.tutorialzine.com/2015/08/how-to-control-youtubes-video-player-with-javascript/ -->
+<html>
+<head>
+   <base href="."></base>
+   <link href="img/vue.ico" rel="SHORTCUT ICON" /> <!-- http://antifavicon.com/ -->
+
+   <title>MA tool</title>
+   
+   
+   <!-- Include jQuery & Bootstrap-->
+
+    <script src="lib/jquery.min.js"></script>
+    <script src="http://intridea.github.io/sketch.js/lib/sketch.js"></script>
+    <script src="lib/zCanvas.js"></script>
+    
+<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sheetrock/1.1.0/dist/sheetrock.min.js"></script> -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <link href="lib/handsontable.full.min.css" rel="stylesheet">
+    <script src="lib/handsontable.full.min.js"></script>
+    <script src="lib/moment.min.js"></script>
+    <script src="lib/pikaday.js"></script>
+    
+
+    
+    <style>
+         input {width: 60px}
+	    .pp {width: 100%; padding-bottom:"56.25%";}
+	    
+	      .currentRow { background-color: #E9E9EB !important;}
+          .currentCol { background-color: #E7E8EF !important;}
+	</style>
+	
+	
+	
+	<style type='text/css'>
+	
+	   .pp{z-index:10}
+
+  /*  #canvas { border:1px solid #cccccc; z-index:15;  */
+      #canvas { border:none; z-index:15;
+                position: absolute;
+              }
+
+/*       article canvas { 
+    #canvas_sketch {
+        width: 800px;
+        height: 300px;
+        border: 1px solid #ccc; z-index:19;
+      }
+*/
+    #divcanvas,  .tools { margin-bottom: 10px; }
+   .brush,  #divcanvas a, .canvtools, .tools {
+        border: 1px solid black; height: 30px; line-height: 30px; 
+/*         padding: 0 10px; vertical-align: middle; text-align: center;  */
+        padding: 10px 0; vertical-align: middle; text-align: center; 
+        text-decoration: none; display: inline-block; color: black; font-weight: bold;
+      }
+
+    </style>
+
+</head>
+
+
+<body>
+<div id="app">
+
+<!-- nOK <template id="vPlayer-template"  v-for= "ip in [1,2]"> -->
+<template id="vPlayer-template">
+	<div class="col-md-6 vid"> 
+	    <div id="v{{ip}}" class="pp" >  v-on:ready="clkB" v-on:attached="clkB" </div>
+	</div>    
+</template>
+
+
+<template id="vPlayerControls-template">    
+       <div class="col-md-4 vid"> 
+              
+              Step:   <button onclick="pshift(pp[{{ip}}], -.1,'#t1')" ondblclick="pshift(pp[{{ip}}], -.3,'#t1')" title="Back 0.1 or 0.3 sec">.<</button> 
+              <button onclick="pshift(pp[{{ip}}], .1,'#t1')" ondblclick="pshift(pp[{{ip}}], .3,'#t1')" title="Forward 0.1 or 0.3 sec">>.</button>
+&nbsp;&nbsp; Play/Pause:
+              <button onclick="plays(pp[{{ip}}], .25)" style="font-size:60%" title="Play Speed 1/4 or Pause">></button>
+              <button onclick="plays(pp[{{ip}}], .5)" style="font-size:80%" title="Play Speed 1/2 or Pause">></button>
+              <button onclick="plays(pp[{{ip}}], 1)" title="Play normal Speed or Pause" style='background:#8f8;'>></button>  <!-- width: 10px; height: 10px; -->
+              <button onclick="plays(pp[{{ip}}], 1.5)" style="font-size:110%" title="Play Speed 1.5 or Pause">></button>
+              <button onclick="plays(pp[{{ip}}], 2)" style="font-size:119%" title="Play Speed 2 or Pause">></button>
+              <input id="t{{ip}}"  onchange="pp[{{ip}}].seekTo(value)" type="number" step = ".5"></input>
+<!--               <input id="t{{ip}}"  onchange="pp[{{ip}}].seekTo(value)" ></input> -->
+</div>
+</template>
+ 
+<template id="note-template">
+    <div class="col-md-3 vid">
+    {{header}}:<br/><textarea id="{{id}}"  rows="3" cols="45"></textarea>
+    </div>
+</template> 
+
+
+
+<h1>MA tool</h1 hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh>
+<div class="container-fluid">
+  <div class="row"> 
+     <div class="col-md-8 vid"> 
+          <h2> Useful Links</h2>
+			<ol>
+            <li><a href="http://clip2net.com" target="_blank">Clip2net - Share screenshots</a></li>
+            <li><a href="https://chrome.google.com/webstore/detail/adblock-for-youtube/cmedhionkhpnakcndndgjdbohmhepckk" target="_blank">Adblock for Youtube</a></li>
+			
+			
+			<!-- </br>-->  Video: 
+			<li><a href="http://www.psia-nw.org/video-galleries/alpine-level-iii-tasks/" target="_blank">PSIA-NW Level 3</a></li>
+			<li><a href="http://www.psia-rm.org/education/alpine/alpine-demonstration-videos/level-iii-skiing" target="_blank">PSIA-RM Level 3</a></li>
+			
+            <li><a href="https://www.youtube.com/user/ussasec" target="_blank">USSA Sport Education</a></li>
+
+            <li><a href="https://www.youtube.com/watch?v=aiSzmN82I4A" target="_blank">CSIA Level 4</a></li>
+            <li><a href="https://www.youtube.com/watch?v=tG4g62wTZXg" target="_blank"> BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures</a></li>
+            <li><a href="https://vimeo.com/nzsia" target="_blank"> NZSIA Vimeo</a></li>
+            <li><a href="https://vimeo.com/46490610" target="_blank"> French ski instructor course & Test Technique training</a></li>
+ 			
+			<li><a href="https://www.youtube.com/playlist?list=PLU2mZrfZu7XEMRCILFWx_g9BOEpuQYtR8" target="_blank">  Great Skiing</a></li>
+			<li><a href="https://www.youtube.com/playlist?list=PLU2mZrfZu7XHLdmgG3gohsdOyXzzYah8o" target="_blank">  Ski lessons</a></li>
+			
+			</ol>    
+      </div>        
+      <div class="col-md-4 vid"> 
+	      <a href="img/help1.jpg" target="_blank">Help 1</a>   </br> 
+	      <a href="img/help2.jpg" target="_blank">Help 2</a>    
+      </div>
+  </div row>
+  
+  <div class="row"> 
+        <!--  https://handsontable.com/examples.html#fndtn-advanced  --> 
+       <a href="http://bit.ly/alexzolot-ma" target="_blank">  G-sheet (to copy-paste the data) </a>
+
+        <button id="getG" >load from GDoc</button>
+
+  <div class="col-md-11 vid">    
+	     <h4>Playlists:
+
+<!--             (<input type="checkbox" title="Use html in Note? -uncheck before copy-paste to Excel or Google Sheets"  -->
+<!--             id="chri" checked onchange="playlistsHT.loadData(playlists)"> -->
+<!-- 			Rich Info? ) </input> -->
+
+         </h4>
+
+	           <div id="tbPlaylistsH" title='Playlists'></div>
+            <h4>Points for MA:</h4>
+                <div id="tbEventsH" title='DblClk set event'></div>
+                
+	            <table id="tbSheetrock" class="table table-condensed table-striped"></table>
+	              <button onclick="LoadPlaylists()">Load Playlists</button> 
+                  <button onclick="go2SelectedEvent()">Go to Selected Point</button> 
+                  <input id="inpCurrPoint" title="current Point"  onchange="
+                        if(value> evData.length)value= 1;
+                      go2evs(value-1); 
+	                  evsHT.scrollViewportTo(value-1, 0); 
+	                  evsHT.selectCell(value-1, 0)" 
+	                  type="number" step = "1" value="1">
+                  </input> 
+        </div>
+   </div>
+
+
+<!-- http://intridea.github.io/sketch.js/ -->
+
+ 
+ <div id='vplayers'class="row">
+ 
+    <div id="divcanvas"  width="100%" height="100%" ></div>
+    
+    <vplayer ip="1"></vplayer>
+    <vplayer ip="2"></vplayer>
+</div>
+
+<div class="row">
+    <vplayercontrols ip="1"></vplayercontrols>
+
+<div class="col-md-4 vid"> 
+     Both:      
+               <button onclick="pshift(pp[1], .1,'#t1'); pshift(pp[2], .1,'#t2')" title="Step Both">>.</button>
+               <button onclick="plays(pp[1], .25); plays(pp[2], .25)" title="Play Both speed 1/4 or Pause">></button>
+               <button onclick="pp[1].pauseVideo();pp[2].pauseVideo()" title="Pause Both">||||</button>&nbsp;&nbsp;&nbsp;
+
+         <span id="canv-tools"><button id="erase" onclick="clearCanv();" title="Erase all Lines">Erase</button></span> 
+         <button id="bt-draw" onclick="toggleCanv();" title="toggle drawing">X</button>     
+<!--     <button id="save">Save</button> -->
+  
+</div>
+
+    <vplayercontrols ip="2"></vplayercontrols>
+</div>
+
+
+<div class="row">
+	<note header="Ski-Snow Interaction" id="taSS"></note>
+	<note header="Body Movements" id="taBM"></note>
+	<note header="Todo" id="taTD"></note>
+
+
+	<div class="col-md-2 vid">
+	  <br/> <button onclick="LogCurrentPoint()" title='Current Point to tabble "Points"'>to Log</button> 
+	</div>
+</div>
+</div app>
+
+
+   
+<hr/>
+<hr/>
+
+<h3> for Developers</h3>
+  
+ API: <a href="https://developers.google.com/sheets/samples/reading">Google Sheets API </a></br>
+<a href="https://developers.google.com/youtube/js_api_reference">YouTube JavaScript Player API Reference</a></br>
+<a href="http://demo.tutorialzine.com/2015/08/how-to-control-youtubes-video-player-with-javascript">Tutorial how-to-control-youtubes-video-player-with-javascript</a>
+</div>
+
+            <div class="btn-group" data-toggle="buttons">
+<!--                 <button class="btn btn-primary" onclick="getSheetrock2Handst()">load from GDoc</button> -->
+<!--                 <button id="getG.bak" class="btn btn-primary">load from GDoc  onclick="getGSpreadsheet2Handst()"</button> -->
+<!--                 <button class="btn btn-primary" onclick="saveHandst2GDoc()">save to GDoc</button> -->
+                &nbsp; &nbsp; <a href="http://bit.ly/alexzolot-ma"> G-doc</a> -> <a href="https://chriszarate.github.io/sheetrock/">sheetrock</a> -> 
+             <a href="https://handsontable.com/examples.html?headers">handsontable.com</a>   :</h3> 
+            </div>
+            
+            <!-- this on AWS: http://bit.ly/MA-tool = http://moveana.s3-website-us-east-1.amazonaws.com/-->
+
+<button id="test">test  onclick="test()"</button> 
+<div id="testOut"></div>
+
+    <script src="http://cdn.jsdelivr.net/vue/1.0.16/vue.min.js"></script>
+    <script src="mav.js"></script>         <!-- AZ -->
+</body>
+</html>
