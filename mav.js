@@ -243,9 +243,15 @@ var vm = new Vue({
    {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}]; 
   
    var playlistsDict={}, playlistsDictY={}, plt={1:[], 2:[]};
-  for(i=0, l= playlists.length; i<l; i++){ var p= playlists[i];
-  	if(p.Type>0) plt[p.Type].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
-  }
+   
+   function fillPlaylistsDict(){
+	     playlistsDict={}; playlistsDictY={}; plt= {1:[], 2:[]};
+	     for(var i=0, l= playlists.length; i<l; i++){ var p= playlists[i];
+		  	if(p.Type>0) plt[p.Type].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
+		  }
+   }
+   
+   fillPlaylistsDict();
   
   var cl= console.log;
   var evs, selection, currEvent=0;
@@ -466,7 +472,9 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		 ]
        // , afterRender : createCanvas // function(){positionCanvas('playlistsHT afterRender');  }
 //nOK zzz        , afterRender : evsHT.loadData(evData) //updateSettings()  // // function(){positionCanvas('playlistsHT afterRender');  }
-        , afterChange: function(changes, source) {
+        , afterRender : function(){fillPlaylistsDict(); evs= fillEvs()}
+
+	    , afterChange: function(changes, source) {
         	//if(changes) if(1 || source === 'alter'){
             if(changes) if(source === 'alter'){
             	for(var i=0, l= changes.length; i<l; i++){
@@ -552,7 +560,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		  ] //,     minSpareRows: 1
          , autoWrapRow: true
      //   , afterRender : function(){positionCanvas('evsHT afterRender');  }
-
+         , afterRender : function(){evs= fillEvs()}
 	  });	
   
 //  function imgRenderer (instance, td, row, col, prop, value, cellProperties) {}  // dummy

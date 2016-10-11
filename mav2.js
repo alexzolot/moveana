@@ -199,6 +199,33 @@ var vm = new Vue({
 
  /// Handsontable Events 
   var evsHT, evsHT2, playlistsHT; 
+  
+
+  var playlists= [//{Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:1, 	Info:"med", 	Comment:""}, 
+               //    {Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:2, 	Info:"med", 	Comment:""}, 
+                   {Id:"AZ1", 	YTId:"TSDx6RK15es", 	Type:1, 	Info:"Med radius turns, at Palmer Field, by Alex Zolotovitski", 	Comment:""}, 
+                   {Id:"AZ2", 	YTId:"urAXN77X6zU", 	Type:1, 	Info:"3 runs on Outland 87 x 178, by Alex Zolotovitski", 	Comment:""}, 
+                   {Id:"==", 	YTId:"", 	Type:"", 	Info:"", 	Comment:""}, 
+                   {Id:"Reilly", 	YTId:"t334XENKLFo", 	Type:2, 	Info:"Reilly Ski Training 2012.mov, by Reilly McGlashan", 	Comment:"32-bumps, 75-med back, 87-short, 129=med"}, 
+                   {Id:"Berger", 	YTId:"5SZqiCggJN8", 	Type:2, 	Info:"Imagination Richard Berger, by Dnalor Elraes", 	Comment:""}, 
+                   {Id:"BASI", 	YTId:"SgrO7Dprl6g", 	Type:2, 	Info:"BASI level 4 interpretation by Jon Ahlsén, by Jon Ahlsén", 	Comment:"22-short back, 33-med,71-bumps,114-med"} 
+//                  , {Id:"CSIA", 	YTId:"aiSzmN82I4A", 	Type:2, 	Info:"Training demos for the level 4 CSIA 2013, by Javier Fuentes", 	Comment:""}, 
+//                   {Id:"PSIANW", 	YTId:"HrCfQR3qwi0", 	Type:2, 	Info:"LEVEL III - MEDIUM RADIUS TURNS, by BaileyPSIANW", 	Comment:""}, 
+//                   {Id:"JfB29", 	YTId:"r07Ea0TYkaA", 	Type:2, 	Info:"Jf Beaulieu: Video 29, by Jf Beaulieu", 	Comment:"1. Carving -"}, 
+//                   {Id:"Landes", 	YTId:"ZoRsJYRmD5k", 	Type:2, 	Info:"Landes 1 Mogul Training Ski Instructor Academy 2013, by SIA Austria", 	Comment:"2. Bumps -"}, 
+//                   {Id:"ReMog", 	YTId:"cIMfJKslkyo", 	Type:2, 	Info:"Reilly McGlashan Spring Mogul Skiing Niseko Japan 2016, by Reilly McGlashan", 	Comment:"3. Bumps -"}, 
+//                   {Id:"Cats", 	YTId:"9Y0v2tpSP0s", 	Type:2, 	Info:"Cat skiing with Selkirk Powder @ Schweitzer Mountain, by Thomas Smiley", 	Comment:"4. Powder -"}, 
+//                   {Id:"Powder", 	YTId:"vp4OgUjJx2M", 	Type:2, 	Info:"Powder 101 with CMH - Powder Intro with Roko, by skipurepowder", 	Comment:"5. Powder -"}, 
+//                   {Id:"ReTu", 	YTId:"aJVhrraLRkw", 	Type:2, 	Info:"Reilly McGlashan - Long turn to short turn rhythm change, Hokkaido Technical Ski Championships 2016, by Reilly McGlashan", 	Comment:"6. Turn Variation -"}, 
+//                   {Id:"JBa", 	YTId:"i-lgX65esDo", 	Type:2, 	Info:"Jonathan Ballou - Medium Turns, by Jonathan Ballou", 	Comment:""}, 
+//                   {Id:"BB", 	YTId:"XpA9XXa7vAU", 	Type:2, 	Info:"JF Beaulieau & Jonthan Ballou TC August 2014, by Jonathan Ballou", 	Comment:""}, 
+//                   {Id:"JfB3", 	YTId:"Us85e6y-NCE", 	Type:2, 	Info:"video 3: Expert skiing, various situations: Jf beaulieu training in Whistler, April, 2014, by Jf Beaulieu", 	Comment:""}, 
+//                   {Id:"CPow", 	YTId:"fdaudGMBaO0", 	Type:2, 	Info:"Tips Up – How To Steer Your Skis Through Powder, by Canadian Ski Council", 	Comment:"Powder"},  
+//   {Id:"BASIA", 	YTId:"YsIvjr1uH-4", 	Type:1, 	Info:"BASI Alpine  Level 4 Bumps.mpg, by OfficialBASI", 	Comment:""}, 
+//   {Id:"SKIIN", 	YTId:"7tyY8A8hobc", 	Type:1, 	Info:"SKIING LEVEL 4 BASI ISTD, by admirallimos admirallimos", 	Comment:""}, 
+//   {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}
+                   ]; 
+
   var evData=[//{Index:0, 	Video1:"R", 	t1:4.31, 	Video2:"R", 	t2:4.89, 	Info:"R, apex", 	SSI:"small edge angle", 	BM:"banking	  outside arm too high and back", 	TD:"outside arm to knee after initiation" 	},
               {Index:1, 	Video1:"AZ1", 	t1:4.31, 	Video2:"PSIANW", 	t2:4.89, 	Note:"", 	SSI:"small edge angle", 	BM:"banking", 	TD:"outside arm too high and back" 	},
               {Index:2, 	Video1:"", 	t1:5.94, 	Video2:"", 	t2:5.82, 	Note:"", 	SSI:"", 	BM:"outs arm low", 	TD:"poll in arms, parallel to ground" 	},
@@ -217,32 +244,15 @@ var vm = new Vue({
               {Index:15, 	Video1:"BASIL", 	t1:129.78, 	Video2:"ReMog", 	t2:2.19, 	Note:"Bumps, trans to L", 	SSI:"", 	BM:"", 	TD:"" 	},
               {Index:16, 	Video1:"BASIL", 	t1:28.3, 	Video2:"Reilly", 	t2:18.6, 	Note:"Short", 	SSI:"", 	BM:"", 	TD:"" 	},
               {Index:17, 	Video1:"BASIL", 	t1:31.29, 	Video2:"Reilly", 	t2:18.7, 	Note:"Short, 8 oc", 	SSI:"", 	BM:"", 	TD:"" 	}]; 
-
-  var playlists= [//{Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:1, 	Info:"med", 	Comment:""}, 
-               //    {Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:2, 	Info:"med", 	Comment:""}, 
-                   {Id:"AZ1", 	YTId:"TSDx6RK15es", 	Type:1, 	Info:"Med radius turns, at Palmer Field, by Alex Zolotovitski", 	Comment:""}, 
-                   {Id:"AZ2", 	YTId:"urAXN77X6zU", 	Type:1, 	Info:"3 runs on Outland 87 x 178, by Alex Zolotovitski", 	Comment:""}, 
-                   {Id:"==", 	YTId:"", 	Type:"", 	Info:"", 	Comment:""}, 
-                   {Id:"Reilly", 	YTId:"t334XENKLFo", 	Type:2, 	Info:"Reilly Ski Training 2012.mov, by Reilly McGlashan", 	Comment:"32-bumps, 75-med back, 87-short, 129=med"}, 
-                   {Id:"Berger", 	YTId:"5SZqiCggJN8", 	Type:2, 	Info:"Imagination Richard Berger, by Dnalor Elraes", 	Comment:""}, 
-                   {Id:"BASI", 	YTId:"SgrO7Dprl6g", 	Type:2, 	Info:"BASI level 4 interpretation by Jon Ahlsén, by Jon Ahlsén", 	Comment:"22-short back, 33-med,71-bumps,114-med"}, 
-                   {Id:"CSIA", 	YTId:"aiSzmN82I4A", 	Type:2, 	Info:"Training demos for the level 4 CSIA 2013, by Javier Fuentes", 	Comment:""}, 
-                   {Id:"PSIANW", 	YTId:"HrCfQR3qwi0", 	Type:2, 	Info:"LEVEL III - MEDIUM RADIUS TURNS, by BaileyPSIANW", 	Comment:""}, 
-                   {Id:"JfB29", 	YTId:"r07Ea0TYkaA", 	Type:2, 	Info:"Jf Beaulieu: Video 29, by Jf Beaulieu", 	Comment:"1. Carving -"}, 
-                   {Id:"Landes", 	YTId:"ZoRsJYRmD5k", 	Type:2, 	Info:"Landes 1 Mogul Training Ski Instructor Academy 2013, by SIA Austria", 	Comment:"2. Bumps -"}, 
-                   {Id:"ReMog", 	YTId:"cIMfJKslkyo", 	Type:2, 	Info:"Reilly McGlashan Spring Mogul Skiing Niseko Japan 2016, by Reilly McGlashan", 	Comment:"3. Bumps -"}, 
-                   {Id:"Cats", 	YTId:"9Y0v2tpSP0s", 	Type:2, 	Info:"Cat skiing with Selkirk Powder @ Schweitzer Mountain, by Thomas Smiley", 	Comment:"4. Powder -"}, 
-                   {Id:"Powder", 	YTId:"vp4OgUjJx2M", 	Type:2, 	Info:"Powder 101 with CMH - Powder Intro with Roko, by skipurepowder", 	Comment:"5. Powder -"}, 
-                   {Id:"ReTu", 	YTId:"aJVhrraLRkw", 	Type:2, 	Info:"Reilly McGlashan - Long turn to short turn rhythm change, Hokkaido Technical Ski Championships 2016, by Reilly McGlashan", 	Comment:"6. Turn Variation -"}, 
-                   {Id:"JBa", 	YTId:"i-lgX65esDo", 	Type:2, 	Info:"Jonathan Ballou - Medium Turns, by Jonathan Ballou", 	Comment:""}, 
-                   {Id:"BB", 	YTId:"XpA9XXa7vAU", 	Type:2, 	Info:"JF Beaulieau & Jonthan Ballou TC August 2014, by Jonathan Ballou", 	Comment:""}, 
-                   {Id:"JfB3", 	YTId:"Us85e6y-NCE", 	Type:2, 	Info:"video 3: Expert skiing, various situations: Jf beaulieu training in Whistler, April, 2014, by Jf Beaulieu", 	Comment:""}, 
-                   {Id:"CPow", 	YTId:"fdaudGMBaO0", 	Type:2, 	Info:"Tips Up – How To Steer Your Skis Through Powder, by Canadian Ski Council", 	Comment:"Powder"},  
-   {Id:"BASIA", 	YTId:"YsIvjr1uH-4", 	Type:1, 	Info:"BASI Alpine  Level 4 Bumps.mpg, by OfficialBASI", 	Comment:""}, 
-   {Id:"SKIIN", 	YTId:"7tyY8A8hobc", 	Type:1, 	Info:"SKIING LEVEL 4 BASI ISTD, by admirallimos admirallimos", 	Comment:""}, 
-   {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}]; 
   
-   var playlistsDict={}, playlistsDictY={}, plt={1:[], 2:[]};
+
+  var dbPL = TAFFY(playlists); console.log('dbPL = ', dbPL().get());
+  var dbEv = TAFFY(evData); console.log('dbEv = ', dbEv().get());
+  var dbVid = TAFFY(); dbVid.store("dbVid"); console.log('dbVid = ', dbVid().get()); // localStorage.dbVid
+//  dbPL().remove()
+//  dbVid().remove() ; localStorage.clear()
+  
+  var playlistsDict={}, playlistsDictY={}, plt={1:[], 2:[]};
   for(i=0, l= playlists.length; i<l; i++){ var p= playlists[i];
   	if(p.Type>0) plt[p.Type].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
   }
@@ -354,10 +364,22 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
     escaped = strip_tags(escaped, '<em><b><strong><a><big>'); //be sure you only allow certain HTML tags to avoid XSS threats (you should also remove unwanted HTML attributes)
     
     var yid= escaped.replace(/.*v=|.*youtu.be\/|&.*/g, ''), url= "http://www.youtube.com/watch?v="+ yid;
-    console.log('render_YT_URL: value', value, url)
+    console.log('render_YT_URL: value, yid, url=', value, yid, url)
+    
+    if( dbVid({yid:yid}).count() ){
+    	rj= dbVid({yid}).get() ; cl('render_YT_URL: '+ yid +' found in dbVid'); 
+	    console.log('dbVid({yid:yid})=', dbVid({yid:yid}).get())
+	    callback(rj); 
+	    return 
+    }
 
     var hlink= '<a href="%s" target="_blank">%s</a>'.sf(url, yid)
-   
+    
+    cl('to ajax ', yid)
+    if( dbVid({yid:yid}).select('status') == 'sent2Ajax') {return;}
+    
+    dbVid({yid:yid}).update({status: 'sent2Ajax'});
+    
 	$.ajax({
         url: 'http://query.yahooapis.com/v1/public/yql',
             data: {
@@ -369,7 +391,11 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
     		  var res= result.query.results;
     		  if(res==null) return;
     		  
-    		  var rj=res.json, tit= rj.title; rj.yid=yid; rj.tlink= '<a href="%s" target="_blank">%s</a>'.sf(url, tit)
+    		  var rj=res.json, tit= rj.title
+              rj.yid=yid; rj.tlink= '<a href="%s" target="_blank">%s</a>'.sf(url, tit)
+
+              if(dbVid({yid:yid}).count()==0) dbVid.insert(rj);
+    		  dbVid({yid:yid}).update({status: 'gotAjax'});
     		  
     		// {"thumbnail_url": "https:\/\/i.ytimg.com\/vi\/iTc9QclQ_l0\/hqdefault.jpg"
 //    			, "title": "[FUN]CARVING Passo Tonale 2012"
@@ -407,6 +433,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 			playlists[ro].Id= rj.title.replace(/ /g, '').substr(0,5);
 			playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
 			playlists[ro].YTId= rj.yid;
+			dbPL({YTId:rj.yid}).update(playlists[ro])
 		}
 		//if(!playlists[ro].Comment && value.test('http')) {playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
 //		if(!playlists[ro].Comment && value.test('http')){playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
@@ -464,6 +491,9 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		    {row: 0, col: 1, comment: 'You can paste youtube Id or links to this column'}
 		   ,{row: playlists.length, col: 1, comment: 'You can paste youtube Id or links to this cell'}
 		 ]
+	    , afterRender: function(){ cl('playlistsHT.afterRender()')
+//	    	dbVid.store('dbVid'); dbPL.store('dbPL'); cl('afterRender: dbVid.store(); dbPL.store()', dbPL()) 
+	    	}
        // , afterRender : createCanvas // function(){positionCanvas('playlistsHT afterRender');  }
 //nOK zzz        , afterRender : evsHT.loadData(evData) //updateSettings()  // // function(){positionCanvas('playlistsHT afterRender');  }
         , afterChange: function(changes, source) {
@@ -552,7 +582,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		  ] //,     minSpareRows: 1
          , autoWrapRow: true
      //   , afterRender : function(){positionCanvas('evsHT afterRender');  }
-
+          , afterRender : function(){evs= fillEvs()}
 	  });	
   
 //  function imgRenderer (instance, td, row, col, prop, value, cellProperties) {}  // dummy
@@ -787,10 +817,16 @@ $('#getG').click(function(){
   	  
    function go2evs(iEvent){  // i = row in table Events
  	  var e= evs[iEvent];  console.log('go2evs:', iEvent, e); 
-  	  console.log('playlistsDict[e.Video1].YTId:', playlistsDict[e.Video1].YTId); 
-  	  console.log('playlistsDict[e.Video2].YTId:', playlistsDict[e.Video2].YTId); 
-	  pp[1].go1Vid(playlistsDict[e.Video1].YTId, e.t1)
-	  pp[2].go1Vid(playlistsDict[e.Video2].YTId, e.t2)
+ 	  if(playlistsDict[e.Video1]){
+	   	  console.log('playlistsDict[e.Video1].YTId:', playlistsDict[e.Video1].YTId); 
+		  pp[1].go1Vid(playlistsDict[e.Video1].YTId, e.t1)
+ 	  }
+	  
+ 	  if(playlistsDict[e.Video2]){
+	  	  console.log('playlistsDict[e.Video2].YTId:', playlistsDict[e.Video2].YTId); 
+		  pp[2].go1Vid(playlistsDict[e.Video2].YTId, e.t2)
+ 	  }
+ 	  
 	  $('#inpCurrPoint').val(iEvent+1)
 	  $('#taSS').val(e.SSI)
 	  $('#taBM').val(e.BM)
