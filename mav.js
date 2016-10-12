@@ -359,8 +359,9 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
     
     escaped = strip_tags(escaped, '<em><b><strong><a><big>'); //be sure you only allow certain HTML tags to avoid XSS threats (you should also remove unwanted HTML attributes)
     
-    var yid= escaped.replace(/.*v=|.*youtu.be\/|&.*/g, ''), url= "http://www.youtube.com/watch?v="+ yid;
-    console.log('render_YT_URL: value', value, url)
+   // var yid= escaped.replace(/.*v=|.*youtu.be\/|&.*/g, ''), url= "http://www.youtube.com/watch?v="+ yid;
+    var yid= escaped.replace(/.*v=([0-9a-zA-Z]+).*/g, '$1'), url= "http://www.youtube.com/watch?v="+ yid;
+    console.log('render_YT_URL: value,  yid, url=', value, yid, url)
 
     var hlink= '<a href="%s" target="_blank">%s</a>'.sf(url, yid)
    
@@ -397,44 +398,78 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 	
 	
 
- function YTId_Renderer(instance, td, row, col, prop, value, cellProperties) {
-    console.log('YTId_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
-	
-    var ro=row, th= this;
-    var yid= render_YT_URL(value, function(rj){
-		//alert(tit)
-    	// infoRich= $('#chri').prop('checked')
-    	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) : ' %s, by %s'.sf(rj.title, rj.author_name)
-    	    			                         
-    	//var note= '<html> %s, by <a href="%s">%s</a>  </html>'.sf(rj.tlink, rj.author_url, rj.author_name);
-		console.log('note=', note)
-		playlists[ro].Info= note;
-		if(!playlists[ro].Id) {
-			playlists[ro].Id= rj.title.replace(/ /g, '').substr(0,5);
-			playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
-			playlists[ro].YTId= rj.yid;
-		}
-		//if(!playlists[ro].Comment && value.test('http')) {playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
-//		if(!playlists[ro].Comment && value.test('http')){playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
-//?		playlists[ro].YTId= yid;
-//		th.setDataAtCell(ro, 4, note); // hlink);
-//		if(th.getDataAtCell(ro, 1)=='') {th.setDataAtCell(ro, 1, note.replace(/ /g, '').substr(0,5))}
+	 function YTId_Renderer(instance, td, row, col, prop, value, cellProperties) {
+	    console.log('YTId_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
+		
+	    var ro=row, th= this;
+	    var yid= render_YT_URL(value, function(rj){
+			//alert(tit)
+	    	// infoRich= $('#chri').prop('checked')
+	    	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) : ' %s, by %s'.sf(rj.title, rj.author_name)
+	    	    			                         
+	    	//var note= '<html> %s, by <a href="%s">%s</a>  </html>'.sf(rj.tlink, rj.author_url, rj.author_name);
+			console.log('note=', note)
+			playlists[ro].Info= note;
+			if(!playlists[ro].Id) {
+				playlists[ro].Id= rj.title.replace(/\s+/g, '').substr(0,5);
+				playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
+				playlists[ro].YTId= rj.yid;
+			}
+			//if(!playlists[ro].Comment && value.test('http')) {playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
+//			if(!playlists[ro].Comment && value.test('http')){playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
+	//?		playlists[ro].YTId= yid;
+//			th.setDataAtCell(ro, 4, note); // hlink);
+//			if(th.getDataAtCell(ro, 1)=='') {th.setDataAtCell(ro, 1, note.replace(/ /g, '').substr(0,5))}
 
-		})
-	
-    td.innerHTML= yid;
-    return td;
+			})
+		
+	    //td.innerHTML= yid;
+	    return td;
 
-    
-    
-    if(/<a href/.test(td.innerHTML)) {console.log('skipped', row, col); return td;}
-    
+	    
+	    
+	    if(/<a href/.test(td.innerHTML)) {console.log('skipped', row, col); return td;}
 
-  }  /// YTId_Renderer	
+	  }  /// YTId_Renderer	
+	 
+	 
+	 function PL_Id_Renderer(instance, td, row, col, prop, value, cellProperties) {
+		    console.log('PL_Id_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
+			
+		    
+		    if(value==null){ td.innerHTML= ""; return td;}
+		    if(value.length < 10){ td.innerHTML= value; return td;}
+		    
+		    var ro=row, th= this;
+		    var yid= render_YT_URL(value, function(rj){
+				//alert(tit)
+		    	// infoRich= $('#chri').prop('checked')
+		    	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) : ' %s, by %s'.sf(rj.title, rj.author_name)
+		    	    			                         
+		    	//var note= '<html> %s, by <a href="%s">%s</a>  </html>'.sf(rj.tlink, rj.author_url, rj.author_name);
+				console.log('note=', note)
+				playlists[ro].Info= note;
+				if(!playlists[ro].YTId) {
+					playlists[ro].Id= rj.title.replace(/\s+/g, '').substr(0,5);
+					playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
+					playlists[ro].YTId= rj.yid;
+		         //   td.innerHTML= rj.title.replace(/ /g, '').substr(0,5);
+				}
+
+			})
+			
+		    return td;
+
+		    if(/<a href/.test(td.innerHTML)) {console.log('skipped', row, col); return td;}
+
+		  }  /// YTId_Renderer	
+ 
+
 
 	  
   playlistsHT = new Handsontable($("#tbPlaylistsH")[0], {
 		data: playlists,
+		//data: playlistsDictY,
 		minSpareRows: 1,
 		height: 296,
 		//colHeaders: 'Id YTId Type Info Comment'.split(" "),
@@ -455,8 +490,8 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		//className: "htCenter htMiddle",
 		readOnly: false,
 		columns: [
-		  {data: 'Id' , type: 'text'}, 
-		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 15  }, //},
+		  {data: 'Id' , type: 'text', renderer:PL_Id_Renderer}, 
+		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 4}, //},
 		  {data: 'Type' , type: 'numeric', format: '0'},  //, width: 14
 		  {data: 'Info'  , renderer: "html"},  // , width: 1
 		  {data: 'Comment'  , type: 'text'}
@@ -472,7 +507,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		 ]
        // , afterRender : createCanvas // function(){positionCanvas('playlistsHT afterRender');  }
 //nOK zzz        , afterRender : evsHT.loadData(evData) //updateSettings()  // // function(){positionCanvas('playlistsHT afterRender');  }
-        , afterRender : function(){fillPlaylistsDict(); evs= fillEvs()}
+        , afterRender : function(){fillPlaylistsDict(); evs= fillEvs(); }  // LoadPlaylists()}
 
 	    , afterChange: function(changes, source) {
         	//if(changes) if(1 || source === 'alter'){
@@ -780,9 +815,10 @@ $('#getG').click(function(){
 
   function LoadPlaylists(){console.log(playlists); //alert(playlists)
   		var pl=[[], []]; // pl[0]=[]; pl[1]=[];
-  		for(i=0, l= playlists.length; i<l; i++)if(playlists[i].YTId > ''){
-  			pl[playlists[i].Type-1].push(playlists[i].YTId)
-  			}
+  		for(var i=0, l= playlists.length; i<l; i++) if(playlists[i].YTId > ''){
+	  			var p=playlists[i], t= p.Type-1;
+	  			if(pl[t].indexOf(p.YTId) < 0) { pl[t].push(p.YTId) }
+	  		}
   		console.log('pl=', pl);
 	    pp[1].loadPlaylist(pl[0]); setTimeout(function(){pp[1].pauseVideo().seekTo(0)}, 1000);
 		pp[2].loadPlaylist(pl[1]); setTimeout(function(){pp[2].pauseVideo().seekTo(0)}, 1000);

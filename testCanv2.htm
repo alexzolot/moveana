@@ -21,6 +21,12 @@
     <script src="lib/taffy.js"></script>
         
     <style>
+    
+/*       > */
+    #tbPlaylistsH  .ht_master tr > td:nth-child(3) {
+      background-color: #efe;
+    }
+    
          input {width: 60px}
         .pp {width: 100%; padding-bottom:"56.25%";}
         
@@ -107,7 +113,7 @@
     <div id="divcanvas"  width="100%" height="100%" ></div>
 <!--     <canvas id="canvas"  width="2000px" height="540px" >Your browser does not support HTML5 Canvas.</canvas> -->
     <vplayer ip="1"></vplayer>
-    <vplayer ip="2"></vplayer>
+   <div id="vp2">   <vplayer ip="2"></vplayer></div>
 </div>
 
 <div class="row">
@@ -120,6 +126,15 @@
                <button onclick="plays(pp[1], .25); plays(pp[2], .25)" title="Play Both speed 1/4 or Pause">></button>&nbsp;&nbsp;
 
                <button id="erase" onclick="clearCanv();" title="Erase all Lines">Erase</button>
+               <button id="fullscr" onclick="$('#vplayers').css({'position': 'absolute', 'top': '0', 'left': '0', 'width': '100%', 'height': '100%'});" title="FS">FS</button>
+               <button id="fullscr" onclick="$('#vplayers').css({'position': 'absolute', 'top': '0', 'left': '0', 'right': '0', 'bottom': '0'});" title="FS">FS</button>
+<!--                <button id="fullscr" onclick="$('vplayer[ip=\'1\']').css({'position': 'absolute', 'top': '0', 'left': '0', 'width': '100%', 'height': '100%'});" title="FS">FS</button> -->
+               <button id="fullscr" onclick="$('.pp#v1').css({'position': 'absolute', 'top': '0', 'left': '0', 'width': '100%', 'height': '100%'});" title="FS1">FS1</button>
+               <button id="fullscr" onclick="$('#v2').css({'position': 'absolute', 'top': '0', 'left': '0', 'width': '100%', 'height': '100%'});" title="FS2">FS2</button>
+               <button id="fullscr" onclick="$('#vp2').css({'position': 'absolute', 'top': '0', 'left': '0', 'width': '100%', 'height': '100%', 'right': '0', 'bottom': '0'});" title="FS2">FS2</button>
+               <button id="fullscr" onclick="$('#vp2').css({position: 'absolute',width: $(window).width(),height: $(window).height()});" title="FS2">FS2</button>
+              <button id="fullscr" onclick="$('#vp2').css({position: 'absolute','width': '100vw',height:'100vh'});" title="FS2v">FS2</button>
+              <button id="fullscr" onclick="$('#vp2').detach().appendTo('#divcanvas').css({position: 'absolute','width': '200vw','height':'200vh'});" title="FS2v">FSa</button>
                
 <!--                <button id="save">Save</button> -->
                
@@ -137,4 +152,10 @@
 
 <!-- 
 file:///M:/99_family/43_ski/out/www.vue/testCanv2.htm 
+
+ToDo:
+- play -2 +1
+- render tbPoints
+- full screen
+- persistense
 -->
