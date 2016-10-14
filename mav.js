@@ -524,7 +524,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		readOnly: false,
 		columns: [
 		  {data: 'Id' , type: 'text', renderer: PL_Id_Renderer}, // YTId_Renderer
-		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 12}, // 4 },
+		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 3}, // 4 },
 		  {data: 'Type' , type: 'numeric', format: '0'}, // renderer: function(instance, td, row, col, prop, value, cellProperties){alert("zzz"); return td}},  //, width: 14
 		  {data: 'Info'  , renderer: "html"},  // , width: 1
 		  {data: 'Comment'  , type: 'text'}
@@ -535,8 +535,9 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
          contextMenu: ['row_above', 'row_below', 'remove_row','undo', 'redo','commentsAddEdit'],
 		 comments: true,
 		 cell: [
-		    {row: 0, col: 1, comment: 'You can paste youtube Id or links to this column'}
-		   ,{row: playlists.length, col: 1, comment: 'You can paste youtube Id or links to this cell'}
+		      {row: 0, col: 0, comment: 'You can paste youtube Id or links to this column'}
+			, {row: playlists.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
+			, {row: playlists.length, col: 1, comment: 'You can paste youtube Id or links to this cell'}
 		 ]
        // , afterRender : createCanvas // function(){positionCanvas('playlistsHT afterRender');  }
 //nOK zzz        , afterRender : evsHT.loadData(evData) //updateSettings()  // // function(){positionCanvas('playlistsHT afterRender');  }
@@ -626,8 +627,14 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		  {data: 'SSI'  , type: 'text'},
 		  {data: 'BM'  , type: 'text'},
 		  {data: 'TD'  , type: 'text'}
-		  , {data: 'img'  }  // , renderer: imgRenderer}
-		  ] //,     minSpareRows: 1
+		, {data: 'img'  }  // , renderer: imgRenderer}
+
+		 ] //,     minSpareRows: 1
+		, comments: true,
+		 cell: [
+			, {row: evData.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
+			, {row: evData.length, col: 2, comment: 'You can paste youtube Id or links to this cell'}
+		 ]
          , autoWrapRow: true
      //   , afterRender : function(){positionCanvas('evsHT afterRender');  }
          , afterRender : function(){evData_Filled= fillEvs()}
@@ -661,6 +668,10 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
   
   evsHT.updateSettings({
 	  afterSelection: function (e) {selection = evsHT.getSelected(); console.log(selection)}
+//    , afterChange:  function (e) {		 evsHT.cell= [
+//                                  				 {row: evData.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
+//                                  				, {row: evData.length, col: 2, comment: 'You can paste youtube Id or links to this cell'}
+//                                  			 ]}
   })
   
     $('#tbEventsH table tbody').on('dblclick', 'tr', function(evt){
@@ -870,8 +881,10 @@ $('#getG').click(function(){
 		pp[2].cuePlaylist(pl[1]);
 		
 		fillEvs()
-  
-  		//for(i=0, l= playlists.length; i<l; i++)if(playlists[i].YTId>''){if(playlists[i].Type==1){pp[1].cueVideoById(playlists[i].YTId)} else{pp[2].cueVideoById(playlists[i].YTId)}}
+		
+        evsHT.getCellMeta(evData.length-1, 0).comment= 'You can paste youtube Id or links to this cell';
+        evsHT.getCellMeta(evData.length-1, 2).comment= 'You can paste youtube Id or links to this cell';
+		evsHT.render();
   }
   
   
