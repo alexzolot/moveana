@@ -629,6 +629,13 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		  , {data: 'img'  }  // , renderer: imgRenderer}
 		  ] //,     minSpareRows: 1
          , autoWrapRow: true
+         
+		 , comments: true
+		 , cell: [
+				  {row: evData.length, col: 0, comment: 'You can paste youtube links to this cell'}
+				 , {row: evData.length, col: 2, comment: 'You can paste youtube links to this cell'}
+		         ]
+         
      //   , afterRender : function(){positionCanvas('evsHT afterRender');  }
          , afterRender : function(){evData_Filled= fillEvs()}
 	  });	
@@ -669,7 +676,9 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
     	console.log('#tbEventsH table tbody index=', index)
     	go2evs(index-1)
 	}) ;
-
+  
+  
+  $('.pp').resizable();  // .draggable()
 
 
 //	  $('#tbSheetrock').sheetrock({
