@@ -173,9 +173,9 @@ var vm = new Vue({
 
       function updateTimerDisplay(){
     	    // Update current time text display.
-  	    $('#t1').val(r100( pp[1].getCurrentTime() ));
-	    $('#t2').val(r100( pp[2].getCurrentTime() ));
-      }
+   	     if(pp[1].getCurrentTime) $('#t1').val(r100( pp[1].getCurrentTime() ));
+	     if(pp[2].getCurrentTime) $('#t2').val(r100( pp[2].getCurrentTime() ));
+       }
       
 
       function onplaStateChange(i){ return function(event) { 
@@ -206,17 +206,17 @@ var vm = new Vue({
               {Index:4, 	Video1:"", 	t1:8.75, 	Video2:"", 	t2:8.08, 	Note:"", 	SSI:"", 	BM:"", 	TD:"" 	},
               {Index:5, 	Video1:"", 	t1:4.49, 	Video2:"Reilly", 	t2:63.61, 	Note:"", 	SSI:"", 	BM:"", 	TD:"" 	},
               {Index:6, 	Video1:"AZ2", 	t1:50.7, 	Video2:"", 	t2:69.74, 	Note:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Index:7, 	Video1:"", 	t1:50.7, 	Video2:"Berger", 	t2:413.83, 	Note:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Index:8, 	Video1:"", 	t1:50.7, 	Video2:"BASI", 	t2:65.14, 	Note:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Index:9, 	Video1:"BASIL", 	t1:83.25, 	Video2:"JBa", 	t2:2.65, 	Note:"Long - Med turns", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Index:10, 	Video1:"BASIL", 	t1:93.29, 	Video2:"JBa", 	t2:4.84, 	Note:"Long - Med turns. 9oc", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Index:11, 	Video1:"BASIL", 	t1:94.03, 	Video2:"JBa", 	t2:5.24, 	Note:"Long - Med turns. trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Index:12, 	Video1:"BASIL", 	t1:94.9, 	Video2:"JBa", 	t2:5.77, 	Note:"Long - Med turns. 3 oc", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Index:13, 	Video1:"BASIL", 	t1:96.07, 	Video2:"JBa", 	t2:6.54, 	Note:"Long - Med turns. trans to left", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Index:14, 	Video1:"BASIL", 	t1:129.26, 	Video2:"ReMog", 	t2:1.39, 	Note:"Bumps, trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Index:15, 	Video1:"BASIL", 	t1:129.78, 	Video2:"ReMog", 	t2:2.19, 	Note:"Bumps, trans to L", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Index:16, 	Video1:"BASIL", 	t1:28.3, 	Video2:"Reilly", 	t2:18.6, 	Note:"Short", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Index:17, 	Video1:"BASIL", 	t1:31.29, 	Video2:"Reilly", 	t2:18.7, 	Note:"Short, 8 oc", 	SSI:"", 	BM:"", 	TD:"" 	}]; 
+              {Index:7, 	Video1:"", 	t1:50.7, 	Video2:"Berger", 	t2:413.83, 	Note:"", 	SSI:"", 	BM:"", 	TD:"" 	}]
+//              {Index:8, 	Video1:"", 	t1:50.7, 	Video2:"BASI", 	t2:65.14, 	Note:"", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Index:9, 	Video1:"BASIL", 	t1:83.25, 	Video2:"JBa", 	t2:2.65, 	Note:"Long - Med turns", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Index:10, 	Video1:"BASIL", 	t1:93.29, 	Video2:"JBa", 	t2:4.84, 	Note:"Long - Med turns. 9oc", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Index:11, 	Video1:"BASIL", 	t1:94.03, 	Video2:"JBa", 	t2:5.24, 	Note:"Long - Med turns. trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Index:12, 	Video1:"BASIL", 	t1:94.9, 	Video2:"JBa", 	t2:5.77, 	Note:"Long - Med turns. 3 oc", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Index:13, 	Video1:"BASIL", 	t1:96.07, 	Video2:"JBa", 	t2:6.54, 	Note:"Long - Med turns. trans to left", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Index:14, 	Video1:"BASIL", 	t1:129.26, 	Video2:"ReMog", 	t2:1.39, 	Note:"Bumps, trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Index:15, 	Video1:"BASIL", 	t1:129.78, 	Video2:"ReMog", 	t2:2.19, 	Note:"Bumps, trans to L", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Index:16, 	Video1:"BASIL", 	t1:28.3, 	Video2:"Reilly", 	t2:18.6, 	Note:"Short", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Index:17, 	Video1:"BASIL", 	t1:31.29, 	Video2:"Reilly", 	t2:18.7, 	Note:"Short, 8 oc", 	SSI:"", 	BM:"", 	TD:"" 	}]; 
 
   var playlists= [//{Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:1, 	Info:"med", 	Comment:""}, 
                //    {Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:2, 	Info:"med", 	Comment:""}, 
@@ -227,34 +227,36 @@ var vm = new Vue({
                    {Id:"Berger", 	YTId:"5SZqiCggJN8", 	Type:2, 	Info:"Imagination Richard Berger, by Dnalor Elraes", 	Comment:""}, 
                    {Id:"BASI", 	YTId:"SgrO7Dprl6g", 	Type:2, 	Info:"BASI level 4 interpretation by Jon Ahlsén, by Jon Ahlsén", 	Comment:"22-short back, 33-med,71-bumps,114-med"}, 
                    {Id:"CSIA", 	YTId:"aiSzmN82I4A", 	Type:2, 	Info:"Training demos for the level 4 CSIA 2013, by Javier Fuentes", 	Comment:""}, 
-                   {Id:"PSIANW", 	YTId:"HrCfQR3qwi0", 	Type:2, 	Info:"LEVEL III - MEDIUM RADIUS TURNS, by BaileyPSIANW", 	Comment:""}, 
-                   {Id:"JfB29", 	YTId:"r07Ea0TYkaA", 	Type:2, 	Info:"Jf Beaulieu: Video 29, by Jf Beaulieu", 	Comment:"1. Carving -"}, 
-                   {Id:"Landes", 	YTId:"ZoRsJYRmD5k", 	Type:2, 	Info:"Landes 1 Mogul Training Ski Instructor Academy 2013, by SIA Austria", 	Comment:"2. Bumps -"}, 
-                   {Id:"ReMog", 	YTId:"cIMfJKslkyo", 	Type:2, 	Info:"Reilly McGlashan Spring Mogul Skiing Niseko Japan 2016, by Reilly McGlashan", 	Comment:"3. Bumps -"}, 
-                   {Id:"Cats", 	YTId:"9Y0v2tpSP0s", 	Type:2, 	Info:"Cat skiing with Selkirk Powder @ Schweitzer Mountain, by Thomas Smiley", 	Comment:"4. Powder -"}, 
-                   {Id:"Powder", 	YTId:"vp4OgUjJx2M", 	Type:2, 	Info:"Powder 101 with CMH - Powder Intro with Roko, by skipurepowder", 	Comment:"5. Powder -"}, 
-                   {Id:"ReTu", 	YTId:"aJVhrraLRkw", 	Type:2, 	Info:"Reilly McGlashan - Long turn to short turn rhythm change, Hokkaido Technical Ski Championships 2016, by Reilly McGlashan", 	Comment:"6. Turn Variation -"}, 
-                   {Id:"JBa", 	YTId:"i-lgX65esDo", 	Type:2, 	Info:"Jonathan Ballou - Medium Turns, by Jonathan Ballou", 	Comment:""}, 
-                   {Id:"BB", 	YTId:"XpA9XXa7vAU", 	Type:2, 	Info:"JF Beaulieau & Jonthan Ballou TC August 2014, by Jonathan Ballou", 	Comment:""}, 
-                   {Id:"JfB3", 	YTId:"Us85e6y-NCE", 	Type:2, 	Info:"video 3: Expert skiing, various situations: Jf beaulieu training in Whistler, April, 2014, by Jf Beaulieu", 	Comment:""}, 
-                   {Id:"CPow", 	YTId:"fdaudGMBaO0", 	Type:2, 	Info:"Tips Up – How To Steer Your Skis Through Powder, by Canadian Ski Council", 	Comment:"Powder"},  
-   {Id:"BASIA", 	YTId:"YsIvjr1uH-4", 	Type:1, 	Info:"BASI Alpine  Level 4 Bumps.mpg, by OfficialBASI", 	Comment:""}, 
-   {Id:"SKIIN", 	YTId:"7tyY8A8hobc", 	Type:1, 	Info:"SKIING LEVEL 4 BASI ISTD, by admirallimos admirallimos", 	Comment:""}, 
-   {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}]; 
+                   {Id:"PSIANW", 	YTId:"HrCfQR3qwi0", 	Type:2, 	Info:"LEVEL III - MEDIUM RADIUS TURNS, by BaileyPSIANW", 	Comment:""}] 
+//                   {Id:"JfB29", 	YTId:"r07Ea0TYkaA", 	Type:2, 	Info:"Jf Beaulieu: Video 29, by Jf Beaulieu", 	Comment:"1. Carving -"}, 
+//                   {Id:"Landes", 	YTId:"ZoRsJYRmD5k", 	Type:2, 	Info:"Landes 1 Mogul Training Ski Instructor Academy 2013, by SIA Austria", 	Comment:"2. Bumps -"}, 
+//                   {Id:"ReMog", 	YTId:"cIMfJKslkyo", 	Type:2, 	Info:"Reilly McGlashan Spring Mogul Skiing Niseko Japan 2016, by Reilly McGlashan", 	Comment:"3. Bumps -"}, 
+//                   {Id:"Cats", 	YTId:"9Y0v2tpSP0s", 	Type:2, 	Info:"Cat skiing with Selkirk Powder @ Schweitzer Mountain, by Thomas Smiley", 	Comment:"4. Powder -"}, 
+//                   {Id:"Powder", 	YTId:"vp4OgUjJx2M", 	Type:2, 	Info:"Powder 101 with CMH - Powder Intro with Roko, by skipurepowder", 	Comment:"5. Powder -"}, 
+//                   {Id:"ReTu", 	YTId:"aJVhrraLRkw", 	Type:2, 	Info:"Reilly McGlashan - Long turn to short turn rhythm change, Hokkaido Technical Ski Championships 2016, by Reilly McGlashan", 	Comment:"6. Turn Variation -"}, 
+//                   {Id:"JBa", 	YTId:"i-lgX65esDo", 	Type:2, 	Info:"Jonathan Ballou - Medium Turns, by Jonathan Ballou", 	Comment:""}, 
+//                   {Id:"BB", 	YTId:"XpA9XXa7vAU", 	Type:2, 	Info:"JF Beaulieau & Jonthan Ballou TC August 2014, by Jonathan Ballou", 	Comment:""}, 
+//                   {Id:"JfB3", 	YTId:"Us85e6y-NCE", 	Type:2, 	Info:"video 3: Expert skiing, various situations: Jf beaulieu training in Whistler, April, 2014, by Jf Beaulieu", 	Comment:""}, 
+//                   {Id:"CPow", 	YTId:"fdaudGMBaO0", 	Type:2, 	Info:"Tips Up – How To Steer Your Skis Through Powder, by Canadian Ski Council", 	Comment:"Powder"},  
+//   {Id:"BASIA", 	YTId:"YsIvjr1uH-4", 	Type:1, 	Info:"BASI Alpine  Level 4 Bumps.mpg, by OfficialBASI", 	Comment:""}, 
+//   {Id:"SKIIN", 	YTId:"7tyY8A8hobc", 	Type:1, 	Info:"SKIING LEVEL 4 BASI ISTD, by admirallimos admirallimos", 	Comment:""}, 
+//   {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}]; 
   
    var playlistsDict={}, playlistsDictY={}, plt={1:[], 2:[]};
    
    function fillPlaylistsDict(){
 	     playlistsDict={}; playlistsDictY={}; plt= {1:[], 2:[]};
 	     for(var i=0, l= playlists.length; i<l; i++){ var p= playlists[i];
-		  	if(p.Type>0) plt[p.Type].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
+		  	//if(p.Type>0) plt[p.Type].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
+		  	if(p.Type==1 || p.Type==3) plt[1].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
+		  	if(p.Type==2 || p.Type==3) plt[2].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
 		  }
    }
    
    fillPlaylistsDict();
   
   var cl= console.log;
-  var evs, selection, currEvent=0;
+  var evData_Filled, selection, currEvent=0;
   var infoRich= true;
 
   
@@ -335,7 +337,7 @@ var vm = new Vue({
 	setTimeout(createCanvas, 3000);
 	
 
-	  evs= fillEvs();
+	  evData_Filled= fillEvs();
 	  
 	  $('#v1').height(9./16 * $('#v1').width())
 	  $('#v2').height(9./16 * $('#v2').width())
@@ -360,7 +362,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
     escaped = strip_tags(escaped, '<em><b><strong><a><big>'); //be sure you only allow certain HTML tags to avoid XSS threats (you should also remove unwanted HTML attributes)
     
    // var yid= escaped.replace(/.*v=|.*youtu.be\/|&.*/g, ''), url= "http://www.youtube.com/watch?v="+ yid;
-    var yid= escaped.replace(/.*v=([0-9a-zA-Z]+).*/g, '$1'), url= "http://www.youtube.com/watch?v="+ yid;
+    var yid= escaped.replace(/.*v=([0-9a-zA-Z\-]+).*/g, '$1'), url= "http://www.youtube.com/watch?v="+ yid;
     console.log('render_YT_URL: value,  yid, url=', value, yid, url)
 
     var hlink= '<a href="%s" target="_blank">%s</a>'.sf(url, yid)
@@ -405,7 +407,8 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 	    var yid= render_YT_URL(value, function(rj){
 			//alert(tit)
 	    	// infoRich= $('#chri').prop('checked')
-	    	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) : ' %s, by %s'.sf(rj.title, rj.author_name)
+	    	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) : 
+	    		                 ' %s, by %s'.sf(rj.title, rj.author_name)
 	    	    			                         
 	    	//var note= '<html> %s, by <a href="%s">%s</a>  </html>'.sf(rj.tlink, rj.author_url, rj.author_name);
 			console.log('note=', note)
@@ -423,19 +426,13 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 
 			})
 		
-	    //td.innerHTML= yid;
+	     if(prop=='YTId'){  td.innerHTML= yid;}
 	    return td;
-
-	    
-	    
-	    if(/<a href/.test(td.innerHTML)) {console.log('skipped', row, col); return td;}
-
 	  }  /// YTId_Renderer	
 	 
 	 
 	 function PL_Id_Renderer(instance, td, row, col, prop, value, cellProperties) {
 		    console.log('PL_Id_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
-			
 		    
 		    if(value==null){ td.innerHTML= ""; return td;}
 		    if(value.length < 10){ td.innerHTML= value; return td;}
@@ -463,7 +460,43 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		    if(/<a href/.test(td.innerHTML)) {console.log('skipped', row, col); return td;}
 
 		  }  /// YTId_Renderer	
- 
+
+	 function Video_Renderer1(instance, td, row, col, prop, value, cellProperties) {
+		    console.log('Video_Renderer1: instance, td, row, col, prop, value, cellProperties:'
+		    		, instance, td, row, col, prop, value, cellProperties)
+			
+		    if(value==null){ td.innerHTML= ""; return td;}
+		    if(value.length < 10){ td.innerHTML= value; return td;}
+		    
+		    var ro=row, th= this;
+		    var yid= render_YT_URL(value, function(rj){
+				//alert(tit)s
+		    	// infoRich= $('#chri').prop('checked')
+		    	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) : ' %s, by %s'.sf(rj.title, rj.author_name)
+		    	    			                         
+		    	//var note= '<html> %s, by <a href="%s">%s</a>  </html>'.sf(rj.tlink, rj.author_url, rj.author_name);
+
+		    	var pl_YTId= playlists.map(function(p){return p.YTId}), ro= pl_YTId.indexOf(yid), type= col <2 ? 1: 2;
+
+                evData[row].Index= evData.length; 
+                evData[row]['yid'+type]= yid, 
+		    	evData[row]['t'+type]=3 //sec
+		    	evData[row].Note=""
+		    		
+		    	if(ro<0) { ///  new video
+		    		evData[row]['Video'+type]=  rj.title.replace(/\s+/g, '').substr(0,5)
+		    		playlists.push({ // new video
+							    		Id: rj.title.replace(/\s+/g, '').substr(0,5),
+										YTId: yid,
+										Comment:value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' '),
+										Type: type
+							    	}) 
+		    	} else {evData[row]['Video'+type]= playlists[ro].Id};
+			})
+			
+		    return td;
+		  }  /// Video_Renderer1	
+
 
 
 	  
@@ -490,9 +523,9 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		//className: "htCenter htMiddle",
 		readOnly: false,
 		columns: [
-		  {data: 'Id' , type: 'text', renderer:PL_Id_Renderer}, 
-		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 4}, //},
-		  {data: 'Type' , type: 'numeric', format: '0'},  //, width: 14
+		  {data: 'Id' , type: 'text', renderer: PL_Id_Renderer}, // YTId_Renderer
+		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 12}, // 4 },
+		  {data: 'Type' , type: 'numeric', format: '0'}, // renderer: function(instance, td, row, col, prop, value, cellProperties){alert("zzz"); return td}},  //, width: 14
 		  {data: 'Info'  , renderer: "html"},  // , width: 1
 		  {data: 'Comment'  , type: 'text'}
 		] //,     minSpareRows: 1
@@ -507,7 +540,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		 ]
        // , afterRender : createCanvas // function(){positionCanvas('playlistsHT afterRender');  }
 //nOK zzz        , afterRender : evsHT.loadData(evData) //updateSettings()  // // function(){positionCanvas('playlistsHT afterRender');  }
-        , afterRender : function(){fillPlaylistsDict(); evs= fillEvs(); }  // LoadPlaylists()}
+        , afterRender : function(){fillPlaylistsDict(); evData_Filled= fillEvs(); }  // LoadPlaylists()}
 
 	    , afterChange: function(changes, source) {
         	//if(changes) if(1 || source === 'alter'){
@@ -562,8 +595,9 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		data: evData,
 		minSpareRows: 1,
 		height: 196,
-		colHeaders: 'Index Video1 t1 Video2 t2 Note SSI BM TD img'.split(" "),
-		rowHeaders: false,
+		//colHeaders: 'Index Video1 t1 Video2 t2 Note SSI BM TD img'.split(" "),
+		colHeaders: 'Video1 t1 Video2 t2 Note SSI BM TD img'.split(" "),
+		rowHeaders: true,
 		stretchH: 'all',
 		columnSorting: true,
 		contextMenu: true,
@@ -576,13 +610,14 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		//className: "htCenter htMiddle",
 		readOnly: false,
 		columns: [
-		  {data: 'Index' , type: 'numeric', format: '0'}, // width: 13},
-		  {data: 'Video1' , type: 'text'
+	//	  {data: 'Index' , type: 'numeric', format: '0'}, // width: 13},
+		  {data: 'Video1' , type: 'text' , renderer: Video_Renderer1
 //zzz			  , editor: 'select'
 //			  , selectOptions: playlists.filter(function(p){return p.Type==1}) .map(function(i){return i['Id']})
 			}, //, width: 20}, 
-		  {data: 't1' , type: 'numeric', format: '0.00'}, //, width: 14},
-		  {data: 'Video2' , type: 'text'	  
+		  {data: 't1' , type: 'numeric', format: '0.00'},  // renderer: function(){alert("ttt")}}, //, width: 14},
+//		  {data: 'Video2', renderer: function(){alert("zzz")} //Video_Renderer1   , type: 'text'
+		  {data: 'Video2' , type: 'text', renderer: Video_Renderer1  
 //zzz			  , editor: 'select'
 //			  , selectOptions: playlists.filter(function(p){return p.Type==2}) .map(function(i){return i.Id})
 			}, //, width: 20}, 
@@ -595,7 +630,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		  ] //,     minSpareRows: 1
          , autoWrapRow: true
      //   , afterRender : function(){positionCanvas('evsHT afterRender');  }
-         , afterRender : function(){evs= fillEvs()}
+         , afterRender : function(){evData_Filled= fillEvs()}
 	  });	
   
 //  function imgRenderer (instance, td, row, col, prop, value, cellProperties) {}  // dummy
@@ -629,7 +664,8 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
   })
   
     $('#tbEventsH table tbody').on('dblclick', 'tr', function(evt){
-    	var index= $($(this).find('td')[0]).text();
+    	//var index= $($(this).find('td')[0]).text();
+    	var index= $($(this).find('.rowHeader')[0]).text();
     	console.log('#tbEventsH table tbody index=', index)
     	go2evs(index-1)
 	}) ;
@@ -800,28 +836,40 @@ $('#getG').click(function(){
 
 		
 	function fillEvs(){  /// fill empty cells in evData
-		var evs=[];	
+		var evData_Filled=[];	
 		for (var key in evData[0]) {
 			if (evData[0].hasOwnProperty(key)) {
-			  for (i=0, l= evData.length; i<l; i++){ evs[i]= evs[i] || {};
-			    evs[i][key]= evData[i][key];
-			    if((key=="Video1" || key=="Video2") && evs[i][key]=='' && i>0) evs[i][key]= evs[i-1][key];
+			  for (var i=0, l= evData.length; i<l; i++){ evData_Filled[i]= evData_Filled[i] || {};
+			    evData_Filled[i][key]= evData[i][key];
+			    if( i > 0  && (key=="Video1" || key=="Video2"||key=="t1" || key=="t2") 
+			               && (evData_Filled[i][key]==null || evData_Filled[i][key]=='' ) 
+			      ) evData_Filled[i][key]= evData_Filled[i-1][key];
 			  }
 			}
 		}
-		return evs;
+		return evData_Filled;
 	}
 
 
   function LoadPlaylists(){console.log(playlists); //alert(playlists)
+  
+  		fillPlaylistsDict()
+  
   		var pl=[[], []]; // pl[0]=[]; pl[1]=[];
   		for(var i=0, l= playlists.length; i<l; i++) if(playlists[i].YTId > ''){
 	  			var p=playlists[i], t= p.Type-1;
-	  			if(pl[t].indexOf(p.YTId) < 0) { pl[t].push(p.YTId) }
+	  			if(t==0 || t==2) if(pl[0].indexOf(p.YTId) < 0) { pl[0].push(p.YTId) }
+	  			if(t==1 || t==2) if(pl[1].indexOf(p.YTId) < 0) { pl[1].push(p.YTId) }
+	  			//if(pl[t].indexOf(p.YTId) < 0) { pl[t].push(p.YTId) }
 	  		}
   		console.log('pl=', pl);
-	    pp[1].loadPlaylist(pl[0]); setTimeout(function(){pp[1].pauseVideo().seekTo(0)}, 1000);
-		pp[2].loadPlaylist(pl[1]); setTimeout(function(){pp[2].pauseVideo().seekTo(0)}, 1000);
+//	    pp[1].loadPlaylist(pl[0]); setTimeout(function(){pp[1].pauseVideo().seekTo(0)}, 1000);
+//		pp[2].loadPlaylist(pl[1]); setTimeout(function(){pp[2].pauseVideo().seekTo(0)}, 1000);
+  
+	    pp[1].cuePlaylist(pl[0]); 
+		pp[2].cuePlaylist(pl[1]);
+		
+		fillEvs()
   
   		//for(i=0, l= playlists.length; i<l; i++)if(playlists[i].YTId>''){if(playlists[i].Type==1){pp[1].cueVideoById(playlists[i].YTId)} else{pp[2].cueVideoById(playlists[i].YTId)}}
   }
@@ -830,11 +878,17 @@ $('#getG').click(function(){
   function go2SelectedEvent(){currEvent=selection[0]; go2evs(currEvent)}
   	  
    function go2evs(iEvent){  // i = row in table Events
- 	  var e= evs[iEvent];  console.log('go2evs:', iEvent, e); 
-  	  console.log('playlistsDict[e.Video1].YTId:', playlistsDict[e.Video1].YTId); 
-  	  console.log('playlistsDict[e.Video2].YTId:', playlistsDict[e.Video2].YTId); 
-	  pp[1].go1Vid(playlistsDict[e.Video1].YTId, e.t1)
-	  pp[2].go1Vid(playlistsDict[e.Video2].YTId, e.t2)
+ 	  var e= evData_Filled[iEvent];  console.log('go2evs:', iEvent, e); 
+ 	  if(playlistsDict[e.Video1]){
+	  	  console.log('playlistsDict[e.Video1].YTId:', playlistsDict[e.Video1].YTId); 
+		  pp[1].go1Vid(playlistsDict[e.Video1].YTId, e.t1)
+ 	  } else {alert('playlistsDict [' + e.Video1 + '] does not exists')}
+ 	  
+ 	  if(playlistsDict[e.Video2]){
+	  	  console.log('playlistsDict[e.Video2].YTId:', playlistsDict[e.Video2].YTId); 
+		  pp[2].go1Vid(playlistsDict[e.Video2].YTId, e.t2)
+ 	  } else {alert('playlistsDict [' + e.Video2 + '] does not exists')}
+ 	  
 	  $('#inpCurrPoint').val(iEvent+1)
 	  $('#taSS').val(e.SSI)
 	  $('#taBM').val(e.BM)
