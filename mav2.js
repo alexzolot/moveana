@@ -136,12 +136,13 @@ var vm = new Vue({
 			 
 			
 			// nOK ? 
-			 function seek(){
-				 if(pla.getPlayerState()!=YT.PlayerState.PAUSED){
-					 pla.pauseVideo().seekTo(t); 
-				     setTimeout(seek, 1000)}
-			 }
-
+//			 function seek(){
+//				 if(pla.getPlayerState()!=YT.PlayerState.PAUSED){
+//					 pla.pauseVideo().seekTo(t) //; 
+//				     setTimeout(seek, 1000)}
+//			 }
+//			 seek()
+			 
 			 //while(player.getPlayerState()==YT.PlayerState.PLAYING)
 			 
 			 
@@ -536,7 +537,7 @@ if(test=0){ render_YT_URL('https://www.youtube.com/watch?v=d1IXMk6uSAU', functio
 
 	  
   playlistsHT = new Handsontable($("#tbPlaylistsH")[0], {
-		data: playlists,
+		data: dbPL().get(), //playlists,
 		minSpareRows: 1,
 		height: 296,
 		//colHeaders: 'Id YTId Type Info Comment'.split(" "),
@@ -631,7 +632,7 @@ if(test=0){ render_YT_URL('https://www.youtube.com/watch?v=d1IXMk6uSAU', functio
 	  });  
   
   evsHT = new Handsontable($("#tbEventsH")[0], {
-		data: evData,
+		data: dbEv().get(), //evData,
 		minSpareRows: 1,
 		height: 196,
 		//colHeaders: 'Index Video1 t1 Video2 t2 Phase SSI BM TD img'.split(" "),
