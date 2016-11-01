@@ -242,7 +242,7 @@ var vm = new Vue({
 //   {Id:"SKIIN", 	YTId:"7tyY8A8hobc", 	Type:1, 	Info:"SKIING LEVEL 4 BASI ISTD, by admirallimos admirallimos", 	Comment:""}, 
 //   {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}]; 
   
-   var playlistsDict={}, playlistsDictY={}, plt={1:[], 2:[]};
+   var playlistsDict={}, playlistsDictY={}, plt={1:[], 2:[]}; // by Id; by YTId; by player type
    
    function fillPlaylistsDict(){
 	     playlistsDict={}; playlistsDictY={}; plt= {1:[], 2:[]};
@@ -362,7 +362,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
     escaped = strip_tags(escaped, '<em><b><strong><a><big>'); //be sure you only allow certain HTML tags to avoid XSS threats (you should also remove unwanted HTML attributes)
     
    // var yid= escaped.replace(/.*v=|.*youtu.be\/|&.*/g, ''), url= "http://www.youtube.com/watch?v="+ yid;
-    var yid= escaped.replace(/.*v=([0-9a-zA-Z\-]+).*/g, '$1'), url= "http://www.youtube.com/watch?v="+ yid;
+    var yid= escaped.replace(/.*v=([_0-9a-zA-Z\-]+).*/g, '$1'), url= "http://www.youtube.com/watch?v="+ yid;
     console.log('render_YT_URL: value,  yid, url=', value, yid, url)
 
     var hlink= '<a href="%s" target="_blank">%s</a>'.sf(url, yid)

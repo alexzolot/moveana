@@ -116,7 +116,7 @@
             <li><a href="https://chrome.google.com/webstore/detail/adblock-for-youtube/cmedhionkhpnakcndndgjdbohmhepckk" target="_blank">Adblock for Youtube</a></li>
 			
 			
-			<!-- </br>-->  Video: 
+			<!-- <br/>-->  Video: 
 			<li><a href="http://www.psia-nw.org/video-galleries/alpine-level-iii-tasks/" target="_blank">PSIA-NW Level 3</a></li>
 			<li><a href="http://www.psia-rm.org/education/alpine/alpine-demonstration-videos/level-iii-skiing" target="_blank">PSIA-RM Level 3</a></li>
 			
@@ -133,8 +133,11 @@
 			</ol>    
       </div>        
       <div class="col-md-4 vid"> 
-	      <a href="img/help1.jpg" target="_blank">Help 1</a>   </br> 
-	      <a href="img/help2.jpg" target="_blank">Help 2</a>    
+<!--           <a href="img/help1.jpg" target="_blank">Help 1</a>   <br/>  -->
+<!--           <a href="img/help2.jpg" target="_blank">Help 2</a>   <br/>   -->
+          <a href="help.htm" target="_blank">Help</a>   <br/>  
+          Contact author: <a href="mailto:alex.zolot@gmail.com?Subject=MA+tool" target="_top">alex.zolot@gmail.com</a>   <br/> 
+<!--           <a href="javascript:void(0);" onclick="javascript:window.location.href='mailto:alex.zolot@gmail.com?Subject=MA+tool'; return false;">Contact author</a> -->
       </div>
   </div row>
   
@@ -145,28 +148,21 @@
         <button id="getG" >load from GDoc</button>
 
   <div class="col-md-11 vid">    
-	     <h4>Playlists:
-
-<!--             (<input type="checkbox" title="Use html in Note? -uncheck before copy-paste to Excel or Google Sheets"  -->
-<!--             id="chri" checked onchange="playlistsHT.loadData(playlists)"> -->
-<!-- 			Rich Info? ) </input> -->
-
-         </h4>
-
+	     <h4>Playlists:</h4>
 	           <div id="tbPlaylistsH" title='Playlists'></div>
-            <h4>Points for MA:</h4>
-                <div id="tbEventsH" title='DblClk set event'></div>
-                
+
+         <h4>Points for MA:</h4>
+               <div id="tbEventsH" title='DblClk set event'></div>
+             
 	            <table id="tbSheetrock" class="table table-condensed table-striped"></table>
 	              <button onclick="LoadPlaylists()">Load Playlists</button> 
                   <button onclick="go2SelectedEvent()">Go to Selected Point</button> 
                   <input id="inpCurrPoint" title="current Point"  onchange="
-                        if(value> evData.length)value= 1;
-                      go2evs(value-1); 
-	                  evsHT.scrollViewportTo(value-1, 0); 
-	                  evsHT.selectCell(value-1, 0)" 
-	                  type="number" step = "1" value="1">
-                  </input> 
+                          if(value> evData.length) value= 1;
+	                      go2evs(value-1); 
+		                  evsHT.scrollViewportTo(value-1, 0); 
+		                  evsHT.selectCell(value-1, 0)" 
+	                  type="number" step = "1" value="1"/>
         </div>
    </div>
 
@@ -220,8 +216,8 @@
 
 <h3> for Developers</h3>
   
- API: <a href="https://developers.google.com/sheets/samples/reading">Google Sheets API </a></br>
-<a href="https://developers.google.com/youtube/js_api_reference">YouTube JavaScript Player API Reference</a></br>
+ API: <a href="https://developers.google.com/sheets/samples/reading">Google Sheets API </a><br/>
+<a href="https://developers.google.com/youtube/js_api_reference">YouTube JavaScript Player API Reference</a><br/>
 <a href="http://demo.tutorialzine.com/2015/08/how-to-control-youtubes-video-player-with-javascript">Tutorial how-to-control-youtubes-video-player-with-javascript</a>
 </div>
 
@@ -242,3 +238,7 @@
     <script src="mav.js"></script>         <!-- AZ -->
 </body>
 </html>
+
+<!-- 
+TODO:  match by phase, e.g.: bL 6oc,  [b]{LSBP} \d?\doc, 12-6 clockwise (CW), 7-11 conterclockwise (CCW)
+ -->
