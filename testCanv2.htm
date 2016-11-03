@@ -9,6 +9,9 @@
     <script src="http://intridea.github.io/sketch.js/lib/sketch.js"></script>
     <script src="lib/zCanvas.js"></script>
     
+<!--     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script> -->
+<!--     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/> -->
+    
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
@@ -67,15 +70,15 @@
 <div id="app">
 
 <template id="vPlayer-template">
-    <div class="col-md-6 vid"> 
+    <div id="vcont{{ip}}">  <!--  Video - Container -->
         <div id="v{{ip}}" class="pp" >  v-on:ready="clkB" v-on:attached="clkB" </div>
     </div>    
 </template>
 
 
 <template id="vPlayerControls-template">    
-       <div class="col-md-4 vid"> 
-              
+       <div id='vpcontr-contain{{ip}}'> 
+       <div id='vpcontr{{ip}}' class='vpcontr'> 
               Step:   <button onclick="pshift(pp[{{ip}}], -.1,'#t1')" ondblclick="pshift(pp[{{ip}}], -.3,'#t1')" title="Back 0.1 or 0.3 sec">.<</button> 
               <button onclick="pshift(pp[{{ip}}], .1,'#t1')" ondblclick="pshift(pp[{{ip}}], .3,'#t1')" title="Forward 0.1 or 0.3 sec">>.</button>
 &nbsp;&nbsp; Play/Pause:
@@ -85,7 +88,15 @@
               <button onclick="plays(pp[{{ip}}], 1.5)" style="font-size:110%" title="Play Speed 1.5 or Pause">></button>
               <button onclick="plays(pp[{{ip}}], 2)" style="font-size:119%" title="Play Speed 2 or Pause">></button>
               <input id="t{{ip}}"  onchange="pp[{{ip}}].seekTo(value)" type="number" step = ".3"></input>
-</div>
+              <button id="fullscr{{ip}}" onclick="fullScreen({{ip}});"  title="FS2v">FS</button>
+	</div>
+	</div>
+<!--     <script> $(function(){/// $('#vpcontr{{ip}}').draggable() -->
+//     	 $('#vpcontr1').draggable()
+//          $('#vpcontr2').draggable()
+<!--     });</script> -->
+    }
+    
 </template>
  
 <template id="note-template">
@@ -112,12 +123,12 @@
  <div id='vplayers' class="row">
     <div id="divcanvas"  width="100%" height="100%" ></div>
 <!--     <canvas id="canvas"  width="2000px" height="540px" >Your browser does not support HTML5 Canvas.</canvas> -->
-    <vplayer ip="1"></vplayer>
-   <div id="vp2">   <vplayer ip="2"></vplayer></div>
+   <div id="vp1"  class="col-md-6 vid">  <vplayer ip="1"></vplayer> </div>
+   <div id="vp2"  class="col-md-6 vid">  <vplayer ip="2"></vplayer> </div>
 </div>
 
 <div class="row">
-    <vplayercontrols ip="1"></vplayercontrols>
+    <vplayercontrols ip="1"  class="col-md-4 vid"></vplayercontrols>
 
 <div class="col-md-4 vid"> 
      Both:      
@@ -126,27 +137,16 @@
                <button onclick="plays(pp[1], .25); plays(pp[2], .25)" title="Play Both speed 1/4 or Pause">></button>&nbsp;&nbsp;
 
                <button id="erase" onclick="clearCanv();" title="Erase all Lines">Erase</button>
-               <button id="fullscr" onclick="$('#vplayers').css({'position': 'absolute', 'top': '0', 'left': '0', 'width': '100%', 'height': '100%'});" title="FS">FS</button>
-               <button id="fullscr" onclick="$('#vplayers').css({'position': 'absolute', 'top': '0', 'left': '0', 'right': '0', 'bottom': '0'});" title="FS">FS</button>
-<!--                <button id="fullscr" onclick="$('vplayer[ip=\'1\']').css({'position': 'absolute', 'top': '0', 'left': '0', 'width': '100%', 'height': '100%'});" title="FS">FS</button> -->
-               <button id="fullscr" onclick="$('.pp#v1').css({'position': 'absolute', 'top': '0', 'left': '0', 'width': '100%', 'height': '100%'});" title="FS1">FS1</button>
-               <button id="fullscr" onclick="$('#v2').css({'position': 'absolute', 'top': '0', 'left': '0', 'width': '100%', 'height': '100%'});" title="FS2">FS2</button>
-               <button id="fullscr" onclick="$('#vp2').css({'position': 'absolute', 'top': '0', 'left': '0', 'width': '100%', 'height': '100%', 'right': '0', 'bottom': '0'});" title="FS2">FS2</button>
-               <button id="fullscr" onclick="$('#vp2').css({position: 'absolute',width: $(window).width(),height: $(window).height()});" title="FS2">FS2</button>
-              <button id="fullscr" onclick="$('#vp2').css({position: 'absolute','width': '100vw',height:'100vh'});" title="FS2v">FS2</button>
-              <button id="fullscr" onclick="$('#vp2').detach().appendTo('#divcanvas').css({position: 'absolute','width': '200vw','height':'200vh'});" title="FS2v">FSa</button>
-               
-<!--                <button id="save">Save</button> -->
                
 </div>
 
-    <vplayercontrols ip="2"></vplayercontrols>
+    <vplayercontrols ip="2"  class="col-md-4 vid"></vplayercontrols>
 </div>
 </div>
 
  
     <script src="http://cdn.jsdelivr.net/vue/1.0.16/vue.min.js"></script>
-    <script src="mav.js"></script>         AZ
+    <script src="mav2.js"></script>         AZ
 </body>
 </html>
 

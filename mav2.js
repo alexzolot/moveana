@@ -47,6 +47,10 @@ Vue.component('vplayercontrols',{
             type: String,
             required: true
         }}
+	, methods: {
+//		mounted: function(){$('.vpcontr').draggable()}
+	}
+	
     })
 	
 Vue.component('vplayer',{
@@ -144,7 +148,8 @@ var vm = new Vue({
     	
     	initYTP=  function(ip){ return new YT.Player('v' + ip, {
 		            width: '100%', height: "100%",
-		            playerVars: {'autoplay': 0, playlist: plt[ip].join()},
+		            //playerVars: {'autoplay': 0, playlist: plt[ip].join(),origin:'file:///M:/99_family/43_ski/out/www.vue/testCanv2.htm'},
+		            playerVars: {'autoplay': 0, playlist: plt[ip].join(), origin: 'null'}, //???
 		            events: {
 		             'onReady': onplaReady(ip), 
 		             'onStateChange': onplaStateChange(ip) 
@@ -261,10 +266,57 @@ var vm = new Vue({
   var evs, selection, currEvent=0;
   var infoRich= true;
 
+//function fullScreen(ip){
+//	   $('#vp' + ip + ' iframe').detach().appendTo('body').css({position: 'absolute','top':0,'left':0, 'width': '100%','height':'100%','z-index':'120'});
+//	   $('#vpcontr' + ip).detach().appendTo('body').css({position: 'absolute','top':0,'left':'30%', 'width': '30%','height':'50px','z-index':'140'});
+//};
+  
+  //var scrcss= getComputedStyle($('#vp1 iframe')[0]), wi= scrcss.width, he= wi.replace('px','') * 9/16;
+
+   
+  function fullScreen(ip){
+	  var wi= $('#vp1').width(), he= wi * 9/16;  console.log('fullScreen() ip=', ip, "  wi,he=", wi, he)
+	  console.log("$('#fullscr'+ip).text()=", $('#fullscr'+ip).text())
+	  
+      var vp= $('#vp' + ip + ' iframe')
+   
+		if($('#fullscr'+ip).text()=='FS'){
+
+		 
+		  vp.detach().appendTo('body')
+                 .css({position: 'absolute'
+			           , top: $(document).scrollTop()
+			           , left: 0, 'width': '100%','height':'100%','z-index':'120'});
+		 
+		  
+		   $('#vpcontr' + ip ).detach().appendTo('body').css({position: 'absolute'
+		      , 'top': vp.offset().top + vp.height() - 35  //'96%' // $('body iframe').height()	
+		      , 'left': '30%'
+		      , 'width': '30%','height':'50px','z-index':'99999'});
+
+		   $('#fullscr'+ip).text('fs')
+		} else{
+			   var vp= $('body > iframe').detach().appendTo($('#vp' + ip)).css({'top':0,'left':0
+				   , 'width': wi, 'height': he, 'z-index': 8});
+			   
+			  // var vp= $('#vp' + ip);
+			  // $('#vpcontr' + ip ).detach().appendTo($('#vp' + ip)).css({position: 'absolute'
+			   $('#vpcontr' + ip ).detach().appendTo($('#vpcontr-contain' + ip)).css({position: 'absolute'
+				    //, top: vp.height() +50, 'left':0 +ip * 60, 'width': '60%','height':'50px','z-index': 12
+				    , top: 0, 'left':0, width: '100%', height:'50px'
+					});
+			  
+			   $('#fullscr'+ip).text('FS')
+		}
+	};
+
   
   $().ready(function(){ ////////////////////////////////////////////////////////////////////////////////
+	  
+//	  $('#vpcontr1').draggable();
+//	  $('#vpcontr2').draggable();
 
-	  positionCanvas= function (info){
+	function positionCanvas(info) {
 		   setTimeout(function(){
 			   var vof= $("#vplayers").offset(); //.position()
 				console.log('positionCanvas '+ info +',  vof=', vof);
@@ -282,37 +334,14 @@ var vm = new Vue({
 				
 				//$("#canvas_sketch").offset({top: vof.top+40, left:vof.left+3});
 		   }, 50);
-		}
+	}
 	  
 	function  createCanvas(){
-	  
-//	  $('#divcanvas').append('<canvas id="canvas"  width="' + $("#vplayers").width()-8 +
-//			  '" height="' + $("#vplayers").height() -100 + 
-//			  '" >Your browser does not support HTML5 Canvas.</canvas>'+
-//			  ' <script>runCanvas(); positionCanvas("$().ready")</script>');
-	  
-//	  setTimeout(function(){runCanvas()}, 1000);
-//	  setTimeout(function(){positionCanvas('$().ready') }, 2000);
-	  //positionCanvas('$().ready');  // afterrender HT
-	  
-	    ///  http://jsfiddle.net/2Lr5h/
-//	    var canvas = $('<canvas width="' + $("#vplayers").width()-8 +
-//	            '" height="' + $("#vplayers").height() -100 + 
-//	            '" />').attr({
 	   var canvas = $('<canvas />').attr({
 		        id: "canvas"
 		        , Width: $("#vplayers").width()-8,
 		          Height: $("#vplayers").height() -100
 		   })
-//		   .prop({ width: $("#vplayers").width()-8) , height:$("#vplayers").height() -100) });
-	    
-	    //var ctx = $(canvas)[0].getContext('2d');
-	    
-	    
-// 	    $.each(['#f00', '#00f'], function() {
-// 		      $('#erase').before("<a class='brush' href='#canvas' style='width: 10px; height: 10px; background: " + 
-// 			          this + ";' onclick='setColor(\""+ this +"\")'  ondblclick='setLwd(9-lwd)'    ></a> ");
-// 			});	
 	    
 	    $.each(['#f00', '#00f'], function() {
 		      $('#erase').before("<button class='brush' style='width: 10px; height: 10px; background: " + 
@@ -734,8 +763,23 @@ $('#getG').click(function(){
 	
 })
 
+
+
+
+
+// function fullScreen(ip){
+//	   $('#vp2 iframe').detach().appendTo('body').css({position: 'absolute','top':0,'left':0, 'width': '100%','height':'100%','z-index':'120'});
+//	   $('#vpcontr2').detach().appendTo('body').css({position: 'absolute','top':0,'left':'30%', 'width': '30%','height':'50px','z-index':'140'});
+//};
+
   
   })  /// on doc ready  ===================================================================================
+  
+// function fullScreen(ip){
+//	   $('#vp2 iframe').detach().appendTo('body').css({position: 'absolute','top':0,'left':0, 'width': '100%','height':'100%','z-index':'120'});
+//	   $('#vpcontr2').detach().appendTo('body').css({position: 'absolute','top':0,'left':'30%', 'width': '30%','height':'50px','z-index':'140'});
+//};
+  
   
   	    function x(result){alert('o.x')
 	    	console.log('o.result=', result)
@@ -798,6 +842,8 @@ $('#getG').click(function(){
 		}
 		return evs;
 	}
+	
+	
 
 
   function LoadPlaylists(){console.log(playlists); //alert(playlists)
@@ -870,6 +916,9 @@ $('#getG').click(function(){
 		$.getJSON("http://spreadsheets.google.com/feeds/list/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/od6/public/values?alt=json-in-script&callback=x")
 
   }
+  
+
+   
   
 
   
