@@ -3,6 +3,10 @@ function round(x, n){return Math.round(x*n)/n || x}
 function r100(x) {return round(x, 100)};
 function v100(x) {return r100($(x).val())};
 
+var fJ= JSON.parse, tJ= JSON.stringify;
+//String.prototype.fJ= function() {return JSON.parse(this)} 
+//Object.prototype.tJ= function() {return JSON.stringify(this)} 
+
 // http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format
 String.prototype.sf0= function() {  //format 
     var newStr = this, i = 0;
@@ -114,19 +118,41 @@ var vm = new Vue({
 			 //var iOld= pla.getPlaylistIndex(), pll= pla.getPlaylist(), iNew=0;
              if(!pla.getPlaylist) return;
           
-			 var iOld= pla.getPlaylistIndex(), pll= pla.getPlaylist(), iNew=0;
-    			 for(iNew=0, l=pll.length; iNew<l; iNew++){if(pll[iNew]==vidId){break}}
-    			 var d= iNew - iOld;
-    			 
-    			 if(d>0){for(var i=0; i <  d; i++){ pla= pla.nextVideo()     }}
-    			 if(d<0){for(var i=0; i < -d; i++){ pla= pla.previousVideo() }}
-    			 
-    			 pla.seekTo(t);  
-    			 //if (pla.getState() == YT.PlayerState.PLAYING) setTimeout(function(){pla.pauseVideo()}, 1000);  
-    			 setTimeout(function(){pla.pauseVideo().seekTo(t);}, 2000); 
-             	 // $('#t' + ip).val(r100(t))
-    			 
-    			 return pla;
+			 var pll= pla.getPlaylist()  // ,iOld= pla.getPlaylistIndex(),  iNew=0;
+//			 for(iNew=0, l=pll.length; iNew<l; iNew++){if(pll[iNew]==vidId){break}}
+//			 var d= iNew - iOld;
+
+//			 if(d>0){for(var i=0; i <  d; i++){ pla= pla.nextVideo()     }}
+//			 if(d<0){for(var i=0; i < -d; i++){ pla= pla.previousVideo() }}
+//			 pla.seekTo(t);  
+//			 setTimeout(function(){pla.pauseVideo().seekTo(t);}, 2000); 
+			 
+			// iNew= pll.indexOf(vidId)
+			 pla= pla.playVideoAt( pll.indexOf(vidId) ).seekTo(t- .3) //.pauseVideo()
+             setTimeout(function(){pla.pauseVideo().seekTo(t);}, 2000);
+			 
+			 //if (pla.getState() == YT.PlayerState.PLAYING) setTimeout(function(){pla.pauseVideo()}, 1000);  
+			 
+			 
+//			 var timer= setInterval(function() {pla.pauseVideo().seekTo(t);
+//			   if(player.getPlayerState()==YT.PlayerState.PAUSED) clearInterval(timer)
+//			 }, 1000);
+			 
+			
+			// nOK ? 
+//			 function seek(){
+//				 if(pla.getPlayerState()!=YT.PlayerState.PAUSED){
+//					 pla.pauseVideo().seekTo(t) //; 
+//				     setTimeout(seek, 1000)}
+//			 }
+//			 seek()
+			 
+			 //while(player.getPlayerState()==YT.PlayerState.PLAYING)
+			 
+			 
+			 // $('#t' + ip).val(r100(t))
+
+			 return pla;
       }
     	
         
@@ -148,7 +174,7 @@ var vm = new Vue({
     	
     	initYTP=  function(ip){ return new YT.Player('v' + ip, {
 		            width: '100%', height: "100%",
-		            playerVars: {'autoplay': 0, playlist: plt[ip].join()},
+		            playerVars: {'autoplay': 0, playlist: plt[ip].join()}, // origin: 'null' ??
 		            events: {
 		             'onReady': onplaReady(ip), 
 		             'onStateChange': onplaStateChange(ip) 
@@ -203,24 +229,24 @@ var vm = new Vue({
 
  /// Handsontable Events 
   var evsHT, evsHT2, playlistsHT; 
-  var evData=[//{Index:0, 	Video1:"R", 	t1:4.31, 	Video2:"R", 	t2:4.89, 	Info:"R, apex", 	SSI:"small edge angle", 	BM:"banking	  outside arm too high and back", 	TD:"outside arm to knee after initiation" 	},
-              {Index:1, 	Video1:"AZ1", 	t1:4.31, 	Video2:"PSIANW", 	t2:4.89, 	Note:"", 	SSI:"small edge angle", 	BM:"banking", 	TD:"outside arm too high and back" 	},
-              {Index:2, 	Video1:"", 	t1:5.94, 	Video2:"", 	t2:5.82, 	Note:"", 	SSI:"", 	BM:"outs arm low", 	TD:"poll in arms, parallel to ground" 	},
-              {Index:3, 	Video1:"", 	t1:7.8, 	Video2:"", 	t2:6.75, 	Note:"", 	SSI:"small edge angle", 	BM:"hips too high", 	TD:"more ang before apex; look at dir of travel" 	},
-              {Index:4, 	Video1:"", 	t1:8.75, 	Video2:"", 	t2:8.08, 	Note:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Index:5, 	Video1:"", 	t1:4.49, 	Video2:"Reilly", 	t2:63.61, 	Note:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Index:6, 	Video1:"AZ2", 	t1:50.7, 	Video2:"", 	t2:69.74, 	Note:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Index:7, 	Video1:"", 	t1:50.7, 	Video2:"Berger", 	t2:413.83, 	Note:"", 	SSI:"", 	BM:"", 	TD:"" 	}]
-//              {Index:8, 	Video1:"", 	t1:50.7, 	Video2:"BASI", 	t2:65.14, 	Note:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Index:9, 	Video1:"BASIL", 	t1:83.25, 	Video2:"JBa", 	t2:2.65, 	Note:"Long - Med turns", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Index:10, 	Video1:"BASIL", 	t1:93.29, 	Video2:"JBa", 	t2:4.84, 	Note:"Long - Med turns. 9oc", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Index:11, 	Video1:"BASIL", 	t1:94.03, 	Video2:"JBa", 	t2:5.24, 	Note:"Long - Med turns. trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Index:12, 	Video1:"BASIL", 	t1:94.9, 	Video2:"JBa", 	t2:5.77, 	Note:"Long - Med turns. 3 oc", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Index:13, 	Video1:"BASIL", 	t1:96.07, 	Video2:"JBa", 	t2:6.54, 	Note:"Long - Med turns. trans to left", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Index:14, 	Video1:"BASIL", 	t1:129.26, 	Video2:"ReMog", 	t2:1.39, 	Note:"Bumps, trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Index:15, 	Video1:"BASIL", 	t1:129.78, 	Video2:"ReMog", 	t2:2.19, 	Note:"Bumps, trans to L", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Index:16, 	Video1:"BASIL", 	t1:28.3, 	Video2:"Reilly", 	t2:18.6, 	Note:"Short", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Index:17, 	Video1:"BASIL", 	t1:31.29, 	Video2:"Reilly", 	t2:18.7, 	Note:"Short, 8 oc", 	SSI:"", 	BM:"", 	TD:"" 	}]; 
+  var evData=[//{	Video1:"R", 	t1:4.31, 	Video2:"R", 	t2:4.89, 	Info:"R, apex", 	SSI:"small edge angle", 	BM:"banking	  outside arm too high and back", 	TD:"outside arm to knee after initiation" 	},
+              {Video1:"AZ1", 	t1:4.31, 	Video2:"PSIANW", 	t2:4.89, 	Phase:"", 	SSI:"small edge angle", 	BM:"banking", 	TD:"outside arm too high and back" 	},
+              {Video1:"", 	t1:5.94, 	Video2:"", 	t2:5.82, 	Phase:"", 	SSI:"", 	BM:"outs arm low", 	TD:"poll in arms, parallel to ground" 	},
+              {Video1:"", 	t1:7.8, 	Video2:"", 	t2:6.75, 	Phase:"", 	SSI:"small edge angle", 	BM:"hips too high", 	TD:"more ang before apex; look at dir of travel" 	},
+              {Video1:"", 	t1:8.75, 	Video2:"", 	t2:8.08, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
+              {Video1:"", 	t1:4.49, 	Video2:"Reilly", 	t2:63.61, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
+              {Video1:"AZ2", 	t1:50.7, 	Video2:"", 	t2:69.74, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
+              {Video1:"", 	t1:50.7, 	Video2:"Berger", 	t2:413.83, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	}]
+//              {Video1:"", 	t1:50.7, 	Video2:"BASI", 	t2:65.14, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Video1:"BASIL", 	t1:83.25, 	Video2:"JBa", 	t2:2.65, 	Phase:"Long - Med turns", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Video1:"BASIL", 	t1:93.29, 	Video2:"JBa", 	t2:4.84, 	Phase:"Long - Med turns. 9oc", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Video1:"BASIL", 	t1:94.03, 	Video2:"JBa", 	t2:5.24, 	Phase:"Long - Med turns. trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Video1:"BASIL", 	t1:94.9, 	Video2:"JBa", 	t2:5.77, 	Phase:"Long - Med turns. 3 oc", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Video1:"BASIL", 	t1:96.07, 	Video2:"JBa", 	t2:6.54, 	Phase:"Long - Med turns. trans to left", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Video1:"BASIL", 	t1:129.26, 	Video2:"ReMog", 	t2:1.39, 	Phase:"Bumps, trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Video1:"BASIL", 	t1:129.78, 	Video2:"ReMog", 	t2:2.19, 	Phase:"Bumps, trans to L", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Video1:"BASIL", 	t1:28.3, 	Video2:"Reilly", 	t2:18.6, 	Phase:"Short", 	SSI:"", 	BM:"", 	TD:"" 	},
+//              {Video1:"BASIL", 	t1:31.29, 	Video2:"Reilly", 	t2:18.7, 	Phase:"Short, 8 oc", 	SSI:"", 	BM:"", 	TD:"" 	}]; 
 
   var playlists= [//{Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:1, 	Info:"med", 	Comment:""}, 
                //    {Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:2, 	Info:"med", 	Comment:""}, 
@@ -231,7 +257,7 @@ var vm = new Vue({
                    {Id:"Berger", 	YTId:"5SZqiCggJN8", 	Type:2, 	Info:"Imagination Richard Berger, by Dnalor Elraes", 	Comment:""}, 
                    {Id:"BASI", 	YTId:"SgrO7Dprl6g", 	Type:2, 	Info:"BASI level 4 interpretation by Jon Ahlsén, by Jon Ahlsén", 	Comment:"22-short back, 33-med,71-bumps,114-med"}, 
                    {Id:"CSIA", 	YTId:"aiSzmN82I4A", 	Type:2, 	Info:"Training demos for the level 4 CSIA 2013, by Javier Fuentes", 	Comment:""}, 
-                   {Id:"PSIANW", 	YTId:"HrCfQR3qwi0", 	Type:2, 	Info:"LEVEL III - MEDIUM RADIUS TURNS, by BaileyPSIANW", 	Comment:""}] 
+                   {Id:"PSIANW", 	YTId:"HrCfQR3qwi0", 	Type:2, 	Info:"LEVEL III - MEDIUM RADIUS TURNS, by BaileyPSIANW", 	Comment:""} 
 //                   {Id:"JfB29", 	YTId:"r07Ea0TYkaA", 	Type:2, 	Info:"Jf Beaulieu: Video 29, by Jf Beaulieu", 	Comment:"1. Carving -"}, 
 //                   {Id:"Landes", 	YTId:"ZoRsJYRmD5k", 	Type:2, 	Info:"Landes 1 Mogul Training Ski Instructor Academy 2013, by SIA Austria", 	Comment:"2. Bumps -"}, 
 //                   {Id:"ReMog", 	YTId:"cIMfJKslkyo", 	Type:2, 	Info:"Reilly McGlashan Spring Mogul Skiing Niseko Japan 2016, by Reilly McGlashan", 	Comment:"3. Bumps -"}, 
@@ -244,13 +270,14 @@ var vm = new Vue({
 //                   {Id:"CPow", 	YTId:"fdaudGMBaO0", 	Type:2, 	Info:"Tips Up – How To Steer Your Skis Through Powder, by Canadian Ski Council", 	Comment:"Powder"},  
 //   {Id:"BASIA", 	YTId:"YsIvjr1uH-4", 	Type:1, 	Info:"BASI Alpine  Level 4 Bumps.mpg, by OfficialBASI", 	Comment:""}, 
 //   {Id:"SKIIN", 	YTId:"7tyY8A8hobc", 	Type:1, 	Info:"SKIING LEVEL 4 BASI ISTD, by admirallimos admirallimos", 	Comment:""}, 
-//   {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}]; 
-  
+//   {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}
+                   ]; 
 
 
   var dbPL = TAFFY(playlists); console.log('dbPL = ', dbPL().get());
   var dbEv = TAFFY(evData); console.log('dbEv = ', dbEv().get());
   var dbVid = TAFFY(); dbVid.store("dbVid"); console.log('dbVid = ', dbVid().get()); // localStorage.dbVid
+  var dbPhases = TAFFY(); dbPhases.store("dbPhases"); console.log('dbPhases = ', dbPhases().get()); // localStorage.dbVid
 //  dbPL().remove()
 //  dbVid().remove() ; localStorage.clear()
   
@@ -318,7 +345,8 @@ var vm = new Vue({
 	};
 
   
-  $().ready(function(){ ////////////////////////////////////////////////////////////////////////////////
+//  $().ready(function(){ ////////////////////////////////////////////////////////////////////////////////
+$(function(){ ////////////////////////////////////////////////////////////////////////////////////////////
 	  
 //	  $('#vpcontr1').draggable();
 //	  $('#vpcontr2').draggable();
@@ -344,34 +372,12 @@ var vm = new Vue({
 		}
 	  
 	function  createCanvas(){
-	  
-//	  $('#divcanvas').append('<canvas id="canvas"  width="' + $("#vplayers").width()-8 +
-//			  '" height="' + $("#vplayers").height() -100 + 
-//			  '" >Your browser does not support HTML5 Canvas.</canvas>'+
-//			  ' <script>runCanvas(); positionCanvas("$().ready")</script>');
-	  
-//	  setTimeout(function(){runCanvas()}, 1000);
-//	  setTimeout(function(){positionCanvas('$().ready') }, 2000);
-	  //positionCanvas('$().ready');  // afterrender HT
-	  
-	    ///  http://jsfiddle.net/2Lr5h/
-//	    var canvas = $('<canvas width="' + $("#vplayers").width()-8 +
-//	            '" height="' + $("#vplayers").height() -100 + 
-//	            '" />').attr({
+
 	   var canvas = $('<canvas />').attr({
 		        id: "canvas"
 		        , Width: $("#vplayers").width()-8,
 		          Height: $("#vplayers").height() -100
 		   })
-//		   .prop({ width: $("#vplayers").width()-8) , height:$("#vplayers").height() -100) });
-	    
-	    //var ctx = $(canvas)[0].getContext('2d');
-	    
-	    
-// 	    $.each(['#f00', '#00f'], function() {
-// 		      $('#erase').before("<a class='brush' href='#canvas' style='width: 10px; height: 10px; background: " + 
-// 			          this + ";' onclick='setColor(\""+ this +"\")'  ondblclick='setLwd(9-lwd)'    ></a> ");
-// 			});	
 	    
 	    $.each(['#f00', '#00f'], function() {
 		      $('#erase').before("<button class='brush' style='width: 10px; height: 10px; background: " + 
@@ -382,7 +388,10 @@ var vm = new Vue({
 	    
 	    setTimeout(function(){positionCanvas('$().ready'); runCanvas()}, 1000)
 	    
-	} //createCanvas    
+	} //createCanvas
+	
+	setTimeout(createCanvas, 3000);
+	
 	
 	var isCanv= true
 	toggleCanv= function(){
@@ -395,7 +404,6 @@ var vm = new Vue({
 	
 
 	
-	setTimeout(createCanvas, 3000);
 	
 
 	  evData_Filled= fillEvs();
@@ -428,7 +436,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
     console.log('render_YT_URL: value,  yid, url=', value, yid, url)
     
     
-    // need this block?
+    // TODO: fix this block
     /*
     if( dbVid({yid:yid}).count() ){
     	rj= dbVid({yid}).get() ; cl('render_YT_URL: '+ yid +' found in dbVid'); 
@@ -443,6 +451,10 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
     var hlink= '<a href="%s" target="_blank">%s</a>'.sf(url, yid)
     
     cl('to ajax ', yid)
+    
+    // ??
+    //    if( dbVid({yid:yid}).select('status') == 'sent2Ajax') {return;}
+    //    if( dbVid({yid:yid}).select('status') == 'gotAjax') {return;}
     if( dbVid({yid:yid}).select('status') == 'sent2Ajax') {return;}
     
     dbVid({yid:yid}).update({status: 'sent2Ajax'});
@@ -458,7 +470,13 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
     		  var res= result.query.results;
     		  if(res==null) return;
     		  
-    		  var rj=res.json, tit= rj.title; rj.yid=yid; rj.tlink= '<a href="%s" target="_blank">%s</a>'.sf(url, tit)
+    		  var rj=res.json, tit= rj.title
+              rj.yid=yid; 
+              rj.tlink= '<a href="%s" target="_blank">%s</a>'.sf(url, tit)
+
+              if(dbVid({yid:yid}).count()==0) dbVid.insert(rj);
+    		  //dbVid({yid:yid}).update({status: 'gotAjax'});
+    		  dbVid({yid:yid}).update(function(){this.status= 'gotAjax'; return this});
     		  
     		// {"thumbnail_url": "https:\/\/i.ytimg.com\/vi\/iTc9QclQ_l0\/hqdefault.jpg"
 //    			, "title": "[FUN]CARVING Passo Tonale 2012"
@@ -468,7 +486,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
     	if(0){	  var w=  window.open("", "", "width=800,height=400");
                w.document.write('<html> %s, by <a href="%s">%s</a> <img src="%s" width="200px" heignt="100px"/> %s</html>'.sf(rj.title, rj.author_url, rj.author_name, rj.thumbnail_url, rj.html))	
     	}	  
-    		  console.log('ajax: rj=', rj, ', tit=', tit);
+    		//  console.log('ajax: rj=', rj, ', tit=', tit);
     		  callback(rj);
     	    }
        });
@@ -478,31 +496,35 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 	
 	if(test=0){ render_YT_URL('https://www.youtube.com/watch?v=d1IXMk6uSAU', function(){alert(tit)})}
 	
+ //function hashId(title){ return title.replace(/\s+ /g, '').substr(0,5)}	
+ function hashId(title){ return title.replace(/\s*/g, '').substr(0,3)+ title.substr(3,99).replace(/[^A-Z0-9]/g, '')}	
 	
 
-	 function YTId_Renderer(instance, td, row, col, prop, value, cellProperties) {
-	    console.log('YTId_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
-		
-	    var ro=row, th= this;
-	    var yid= render_YT_URL(value, function(rj){
-			//alert(tit)
-	    	// infoRich= $('#chri').prop('checked')
-	    	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) : 
-	    		                 ' %s, by %s'.sf(rj.title, rj.author_name)
-	    	    			                         
-	    	//var note= '<html> %s, by <a href="%s">%s</a>  </html>'.sf(rj.tlink, rj.author_url, rj.author_name);
-			console.log('note=', note)
-			playlists[ro].Info= note;
-			if(!playlists[ro].Id) {
-				playlists[ro].Id= rj.title.replace(/\s+/g, '').substr(0,5);
-				playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
-				playlists[ro].YTId= rj.yid;
-			}
-			//if(!playlists[ro].Comment && value.test('http')) {playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
-//			if(!playlists[ro].Comment && value.test('http')){playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
-	//?		playlists[ro].YTId= yid;
-//			th.setDataAtCell(ro, 4, note); // hlink);
-//			if(th.getDataAtCell(ro, 1)=='') {th.setDataAtCell(ro, 1, note.replace(/ /g, '').substr(0,5))}
+ function YTId_Renderer(instance, td, row, col, prop, value, cellProperties) {
+    // console.log('YTId_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
+	
+    var ro= row, th= this;
+    var yid= render_YT_URL(value, function(rj){
+		//alert(tit)
+    	// infoRich= $('#chri').prop('checked')
+    	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) :
+    					     ' %s, by %s'.sf(rj.title, rj.author_name)
+    	    			                         
+    	//var note= '<html> %s, by <a href="%s">%s</a>  </html>'.sf(rj.tlink, rj.author_url, rj.author_name);
+		// console.log('note=', note)
+		playlists[ro].Info= note;
+		if(!playlists[ro].Id) {
+			playlists[ro].Id= hashId(rj.title);  //.replace(/\s+ /g, '').substr(0,5);
+			playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
+			playlists[ro].YTId= rj.yid;
+			//dbPL({YTId:rj.yid}).update(playlists[ro])
+			dbPL({YTId:rj.yid}).update(function(){this.pl= playlists[ro]; return this})
+		}
+		//if(!playlists[ro].Comment && value.test('http')) {playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
+//		if(!playlists[ro].Comment && value.test('http')){playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
+//?		playlists[ro].YTId= yid;
+//		th.setDataAtCell(ro, 4, note); // hlink);
+//		if(th.getDataAtCell(ro, 1)=='') {th.setDataAtCell(ro, 1, note.replace(/ /g, '').substr(0,5))}
 
 			})
 		
@@ -512,7 +534,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 	 
 	 
 	 function PL_Id_Renderer(instance, td, row, col, prop, value, cellProperties) {
-		    console.log('PL_Id_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
+		    // console.log('PL_Id_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
 		    
 		    if(value==null){ td.innerHTML= ""; return td;}
 		    if(value.length < 10){ td.innerHTML= value; return td;}
@@ -524,10 +546,10 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		    	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) : ' %s, by %s'.sf(rj.title, rj.author_name)
 		    	    			                         
 		    	//var note= '<html> %s, by <a href="%s">%s</a>  </html>'.sf(rj.tlink, rj.author_url, rj.author_name);
-				console.log('note=', note)
+				// console.log('note=', note)
 				playlists[ro].Info= note;
 				if(!playlists[ro].YTId) {
-					playlists[ro].Id= rj.title.replace(/\s+/g, '').substr(0,5);
+					playlists[ro].Id= hashId(rj.title);   //rj.title.replace(/\s+/g, '').substr(0,5);
 					playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
 					playlists[ro].YTId= rj.yid;
 		         //   td.innerHTML= rj.title.replace(/ /g, '').substr(0,5);
@@ -542,11 +564,12 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		  }  /// YTId_Renderer	
 
 	 function Video_Renderer1(instance, td, row, col, prop, value, cellProperties) {
-		    console.log('Video_Renderer1: instance, td, row, col, prop, value, cellProperties:'
-		    		, instance, td, row, col, prop, value, cellProperties)
+//		    console.log('Video_Renderer1: instance, td, row, col, prop, value, cellProperties:'
+//		    		, instance, td, row, col, prop, value, cellProperties)
 			
 		    if(value==null){ td.innerHTML= ""; return td;}
-		    if(value.length < 10){ td.innerHTML= value; return td;}
+		    //if(value.length < 10){ td.innerHTML= value; return td;}
+		    if(! /http/.test(value)){ td.innerHTML= value; return td;}
 		    
 		    var ro=row, th= this;
 		    var yid= render_YT_URL(value, function(rj){
@@ -558,15 +581,15 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 
 		    	var pl_YTId= playlists.map(function(p){return p.YTId}), ro= pl_YTId.indexOf(yid), type= col <2 ? 1: 2;
 
-                evData[row].Index= evData.length; 
+                //evData[row].Index= evData.length; 
                 evData[row]['yid'+type]= yid, 
-		    	evData[row]['t'+type]=3 //sec
-		    	evData[row].Note=""
+		    	evData[row]['t'+type]=  evData[row]['t'+type] || 3 //sec
+		    	evData[row].Phase= evData[row].Phase || ""
 		    		
 		    	if(ro<0) { ///  new video
-		    		evData[row]['Video'+type]=  rj.title.replace(/\s+/g, '').substr(0,5)
+		    		evData[row]['Video'+type]=  hashId(rj.title);  //rj.title.replace(/\s+/g, '').substr(0,5)
 		    		playlists.push({ // new video
-							    		Id: rj.title.replace(/\s+/g, '').substr(0,5),
+							    		Id: hashId(rj.title), //rj.title.replace(/\s+/g, '').substr(0,5),
 										YTId: yid,
 										Comment:value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' '),
 										Type: type
@@ -581,7 +604,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 
 	  
   playlistsHT = new Handsontable($("#tbPlaylistsH")[0], {
-		data: playlists,
+		data: dbPL().get(), //playlists,
 		minSpareRows: 1,
 		height: 296,
 		//colHeaders: 'Id YTId Type Info Comment'.split(" "),
@@ -602,9 +625,10 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		//className: "htCenter htMiddle",
 		readOnly: false,
 		columns: [
-		  {data: 'Id' , type: 'text', renderer: PL_Id_Renderer}, // YTId_Renderer
-		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 3}, // 4 },
-		  {data: 'Type' , type: 'numeric', format: '0'}, // renderer: function(instance, td, row, col, prop, value, cellProperties){alert("zzz"); return td}},  //, width: 14
+
+		  {data: 'Id' , type: 'text'}, //? , renderer: PL_Id_Renderer}, // YTId_Renderer
+		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 12  }, // 4 },
+		  {data: 'Type' , type: 'numeric', format: '0'},  //, width: 14
 		  {data: 'Info'  , renderer: "html"},  // , width: 1
 		  {data: 'Comment'  , type: 'text'}
 		] //,     minSpareRows: 1
@@ -618,11 +642,15 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 			, {row: playlists.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
 			, {row: playlists.length, col: 1, comment: 'You can paste youtube Id or links to this cell'}
 		 ]
+	    , afterRender: function(){ fillPlaylistsDict(); evData_Filled= fillEvs(); 
+
+// cl('playlistsHT.afterRender()')
+//	    	dbVid.store('dbVid'); dbPL.store('dbPL'); cl('afterRender: dbVid.store(); dbPL.store()', dbPL()) 
+	    	}
        // , afterRender : createCanvas // function(){positionCanvas('playlistsHT afterRender');  }
 //nOK zzz        , afterRender : evsHT.loadData(evData) //updateSettings()  // // function(){positionCanvas('playlistsHT afterRender');  }
-        , afterRender : function(){fillPlaylistsDict(); evData_Filled= fillEvs(); }  // LoadPlaylists()}
 
-	    , afterChange: function(changes, source) {
+        , afterChange: function(changes, source) {
         	//if(changes) if(1 || source === 'alter'){
             if(changes) if(source === 'alter'){
             	for(var i=0, l= changes.length; i<l; i++){
@@ -672,11 +700,13 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 	  });  
   
   evsHT = new Handsontable($("#tbEventsH")[0], {
-		data: evData,
+		data: dbEv().get(), //evData,
 		minSpareRows: 1,
 		height: 196,
-		//colHeaders: 'Index Video1 t1 Video2 t2 Note SSI BM TD img'.split(" "),
-		colHeaders: 'Video1 t1 Video2 t2 Note SSI BM TD img'.split(" "),
+
+		//colHeaders: 'Index Video1 t1 Video2 t2 Phase SSI BM TD img'.split(" "),
+		colHeaders: 'Video1 t1 Video2 t2 Phase SSI BM TD img'.split(" "),
+
 		rowHeaders: true,
 		stretchH: 'all',
 		columnSorting: true,
@@ -702,7 +732,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 //			  , selectOptions: playlists.filter(function(p){return p.Type==2}) .map(function(i){return i.Id})
 			}, //, width: 20}, 
 		  {data: 't2' , type: 'numeric', format: '0.00'}, //, width: 14},
-		  {data: 'Note'  , type: 'text'},
+		  {data: 'Phase'  , type: 'text'},
 		  {data: 'SSI'  , type: 'text'},
 		  {data: 'BM'  , type: 'text'},
 		  {data: 'TD'  , type: 'text'}
@@ -711,16 +741,10 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		 ] //,     minSpareRows: 1
 		, comments: true,
 		 cell: [
-			, {row: evData.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
+			  {row: evData.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
 			, {row: evData.length, col: 2, comment: 'You can paste youtube Id or links to this cell'}
 		 ]
          , autoWrapRow: true
-         
-		 , comments: true
-		 , cell: [
-				  {row: evData.length, col: 0, comment: 'You can paste youtube links to this cell'}
-				 , {row: evData.length, col: 2, comment: 'You can paste youtube links to this cell'}
-		         ]
          
      //   , afterRender : function(){positionCanvas('evsHT afterRender');  }
          , afterRender : function(){evData_Filled= fillEvs()}
@@ -754,10 +778,6 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
   
   evsHT.updateSettings({
 	  afterSelection: function (e) {selection = evsHT.getSelected(); console.log(selection)}
-//    , afterChange:  function (e) {		 evsHT.cell= [
-//                                  				 {row: evData.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
-//                                  				, {row: evData.length, col: 2, comment: 'You can paste youtube Id or links to this cell'}
-//                                  			 ]}
   })
   
     $('#tbEventsH table tbody').on('dblclick', 'tr', function(evt){
@@ -768,7 +788,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 	}) ;
   
   
-  $('.pp').resizable();  // .draggable()
+//  $('.pp').resizable();  // .draggable()
 
 
 //	  $('#tbSheetrock').sheetrock({
@@ -860,11 +880,16 @@ function getGSpreadsheet2Handst(){
 
 	  getGSheet(spreadsheetID, 4, 50, 11, 15, function(playls){console.log('plls10 =', plls)
 		  playlistsHT.loadData(playls) 
-
 	  });
+	  
     getGSheet(spreadsheetID, 4, 40, 1, 9, function(points){console.log('points =', pts)
   	  evsHT.loadData(points) 
     });
+    
+    
+	  var urlph = 'https://docs.google.com/spreadsheets/d/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/edit#gid=131568998/values?alt=json&min-row='+2 + '&max-row='+12 + '&min-col='+1 + '&max-col='+3 ;
+	  console.log('getGSpreadsheet2Handst: urlc =', urlph)
+	  $.getJSON(urlc, function(res) {console.log('getPh', res)})
 }
 
 //$('#getG').click(getGSpreadsheet2Handst)
@@ -879,6 +904,33 @@ $('#getG').click(function(){
 	  getGSheet(spreadsheetID, 4, 20, 1, 9, function(pts){console.log('points =', pts)
 		  evsHT.loadData(pts) 
 	  });
+	  
+	  
+	  ///  http://damolab.blogspot.com/2011/03/od6-and-finding-other-worksheet-ids.html
+	  
+	  // Get all lists descr: https://spreadsheets.google.com/feeds/worksheets/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/private/full
+	  //  https://spreadsheets.google.com/feeds/cells/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/od6/public/values?alt=json
+	  // dbLog https://spreadsheets.google.com/feeds/list/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/ojacmh6/private/full
+	  // dbPl  https://spreadsheets.google.com/feeds/cells/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/o8ewx2k/public/values?alt=json
+	  // dbPhases https://spreadsheets.google.com/feeds/list/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/o26bz5o/private/full?alt=json
+	  // dbVid https://spreadsheets.google.com/feeds/cells/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/oevm3xw/private/full
+	  
+	 var GSheets={dbLog:'ojacmh6', dbPl:'o8ewx2k', dbPhases:'o26bz5o', dbVid:'oevm3xw', dbEv:'ouj8mhj'} 
+	  
+	// https://spreadsheets.google.com/feeds/list/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/131568998/public/full
+	  //var urlph = 'https://docs.google.com/spreadsheets/d/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/edit#gid=131568998/values?alt=json&min-row='+2 + '&max-row='+12 + '&min-col='+1 + '&max-col='+3 ;
+	  //var urlph = 'https://spreadsheets.google.com/list/'+ spreadsheetID +'/' + GSheets.dbPhases + '/public/values?alt=json' ;
+	 // var urlph = 'https://spreadsheets.google.com/list/'+ spreadsheetID +'/' + GSheets.dbPhases + '/public/values?alt=json' ;
+	  var urlph = 'https://spreadsheets.google.com/feeds/list/'+ spreadsheetID +'/' + GSheets.dbPl + '/public/values?alt=json' ;
+	  console.log('getGSpreadsheet2Handst2: urlph =', urlph)
+	 // $.getJSON(urlph, function(res) {console.log('getPh:', res)})
+	  
+	  $.ajax({
+        url: urlph,
+            //data: { alt: "json" },
+            dataType: "jsonp"            		    //$.get({url: "https://www.youtube.com/watch?v="+ yid + '&format=json&callback=?'
+    	  , success: function(res){console.log('getPh:', res)}
+	  })
 	
 })
 
@@ -995,21 +1047,82 @@ $('#getG').click(function(){
 	  $('#taBM').val(e.BM)
 	  $('#taTD').val(e.TD)
   }
+   
+   
+  $('#btMatch').click(function(){
+	  //dbVid({phases:{has:phase.eq.$('#inpPh').val()}})
+	  //dbPhases().insert({phase:$('#inpPh').val(), yid:vid2, t:$('#t2').val()}) 
+	  
+	  /// remove dups
+	  var un= dbPhases().distinct("phase","t","yid");  // order alphabetic
+	  dbPhases().remove();
+	  un.map(function(u){ if(u[1]*1) dbPhases.insert({phase:u[0], yid:u[2], t:u[1]}) })
+	  
+//	  for (var i=0, l=un.length; i<l;  i++) {u= un[i]; 
+//	  		if(u[1]*1) dbPhases.insert({phase:u[0], yid:u[2], t:u[1]})};  //only numeric t
+//	  
+	  console.log('remove dups: un, dbPhases', un, dbPhases().get())	  
+	  
+	  dbPhases({phase:$('#inpPh').val()}).each(function (p, recordnumber) {
+		  evData.push({Video2:'http://www.youtube.com/watch?v='+p.yid, t2:p.t, Phase:$('#inpPh').val()}) //zz
+		});
+	  
+//      var phs= dbPhases({phase:$('#inpPh').val()}).get()
+//      phs.map(function(p){evData.push({Video2:p.yid, t2:p.t, Phase:$('#inpPh').val()}) })
+	  evsHT.loadData(evData)	
+  }) 
+  
+  function db2GooSheet() {
+      request= $.ajax({
+          url: 'https://script.google.com/macros/s/AKfycbwUv4gQ7KqdZU4xcovE595iUGDWiewTteyuUqgAmll3Mf9iA6M/exec',
+          type: 'post', 
+          data: {dbPhases: tJ(dbPhases().distinct('phase', 't', 'yid'))
+        	   , dbVid: tJ(dbVid().distinct( "author_name","author_url", "status","thumbnail_url", "title", "yid"))
+        	   , dbEv: tJ(dbEv().distinct("BM","Phase","SSI","TD","Video1","Video2","t1","t2"))
+        	   , dbPL: tJ(dbPL().distinct("Comment","Id","Type", "YTId"))  // "Info":"<html><img src=\"https://i.ytimg.com/vi/TSDx6RK15es/hqdefault.jpg\" height=\"36px\"/> <a href=\"http://www.youtube.com/watch?v=TSDx6RK15es\" target=\"_blank\">Med radius turns, at Palmer Field</a>, by <a href=\"https://www.youtube.com/channel/UCOe3pqY-gde3_Ac_u9-a_cA\">Alex  Zolotovitski</a> </html>"
+          }, 
+          success: function(e){console.log('Log to G-Sheets ajax success '+JSON.stringify(e))}, 
+          error: function(e){console.log('Log to G-Sheets ajax fail '+ JSON.stringify(e))}
+       });
+}
 
 
   function LogCurrentPoint(){  // to evsHT
 	  var vid1=pp[1].getVideoData().video_id, vid2=pp[2].getVideoData().video_id;
-  	  evData.push({Index:evData.length+1
-  		, Video1: playlistsDictY[vid1].Id || vid1, 	t1: $('#t1').val()
+  	  evData.push({ //Index:evData.length+1,
+  		 Video1: playlistsDictY[vid1].Id || vid1, 	t1: $('#t1').val()
   		, Video2: playlistsDictY[vid2].Id || vid2, 	t2: $('#t2').val()
-  		, Note:"logged", SSI:$('#taSS').val(), BM:$('#taBM').val(), TD:$('#taTD').val()})
+  		, Phase:$('#inpPh').val(), SSI:$('#taSS').val(), BM:$('#taBM').val(), TD:$('#taTD').val()})
+  		
 	  evsHT.loadData(evData)
-	  evsHT.scrollViewportTo(evsHT.countRows()-1, 5)
-	  evsHT.selectCell(evsHT.countRows()-1, 5)
+	  evsHT.scrollViewportTo(evsHT.countRows()-1, 4)
+	  evsHT.selectCell(evsHT.countRows()-1, 4)
 	  //$('#tbEventsH').handsontable('selectCell', evsHT.countRows()-1, 5, evsHT.countRows()-1, 5, scrollToSelection = true)
 	  
  
-      request= $.ajax({
+ //	  dbVid({yid:vid1}).update(function(){
+//			  this.phases= this.phases ||[];
+//			  this.phases.push({t:$('#t1').val(), phase:$('#inpPh').val()}); return this
+//		  })
+//		  
+//	  dbVid({yid:vid2}).update(function(){
+//			  this.phases= this.phases ||[];
+//			  this.phases.push({t:$('#t2').val(), phase:$('#inpPh').val()}); return this
+//		  })
+		  
+	var u=	{phase:$('#inpPh').val(), yid:vid2, t:$('#t2').val()}  
+	if(dbPhases(u).count()==0) { dbPhases.insert(u) }
+		  
+	  console.log('LogCurrentPoint  dbVid=', dbVid().get())
+	  console.log('LogCurrentPoint  dbPhases=', dbPhases().get())
+	  dbPhases.store("dbPhases")
+	  
+	  //db2GooSheet()
+	  
+	  
+	  // need it?
+	  /*
+       request= $.ajax({
           url: 'https://script.google.com/macros/s/AKfycbwUv4gQ7KqdZU4xcovE595iUGDWiewTteyuUqgAmll3Mf9iA6M/exec',
           type: 'post', // "post",
           //data: 'az=1,3,7&bb=4,5,8sd',
@@ -1023,7 +1136,7 @@ $('#getG').click(function(){
           success: function(e){console.log('Log to G-Sheets ajax success '+JSON.stringify(e))}, 
           error: function(e){console.log('Log to G-Sheets ajax fail '+ JSON.stringify(e))}
        });
-
+	*/
   }
   
   var zz;
