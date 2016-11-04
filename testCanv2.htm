@@ -114,33 +114,66 @@
 
             </h4>
             
+        <button id="getG" >load from GDoc</button>
+            
                <div id="tbPlaylistsH" class="HT" title='Playlists'></div>
             <h4>Points for MA:</h4>
-               <div id="tbEventsH" class="HT" title='DblClk set event'></div>
+                <div id="tbEventsH" title='DblClk set event'></div>
+                
+<!-- 	            <table id="tbSheetrock" class="table table-condensed table-striped"></table> -->
+	              <button onclick="LoadPlaylists()">Load Playlists</button> 
+                  <button onclick="go2SelectedEvent()">Go to Selected Point</button> 
+                  <input id="inpCurrPoint" title="current Point"  onchange="
+                          if(value> evData.length) value= 1;
+	                      go2evs(value-1); 
+		                  evsHT.scrollViewportTo(value-1, 0); 
+		                  evsHT.selectCell(value-1, 0)" 
+	                  type="number" step = "1" value="1">
+                  </input> 
+<!--         </div> -->
+<!--    </div> -->
 
 
 
  <div id='vplayers' class="row">
-    <div id="divcanvas"  width="100%" height="100%" ></div>
+   <div id="divcanvas"  width="100%" height="100%" ></div>
+
 <!--     <canvas id="canvas"  width="2000px" height="540px" >Your browser does not support HTML5 Canvas.</canvas> -->
    <div id="vp1"  class="col-md-6 vid">  <vplayer ip="1"></vplayer> </div>
    <div id="vp2"  class="col-md-6 vid">  <vplayer ip="2"></vplayer> </div>
+
 </div>
 
 <div class="row">
     <vplayercontrols ip="1"  class="col-md-4 vid"></vplayercontrols>
 
-<div class="col-md-4 vid"> 
+<div class="col-md-4 vid"> 	
      Both:      
                <button onclick="pp[1].pauseVideo();pp[2].pauseVideo()">||||</button>
                <button onclick="pshift(pp[1], .1,'#t1'); pshift(pp[2], .1,'#t2')">>.</button>
                <button onclick="plays(pp[1], .25); plays(pp[2], .25)" title="Play Both speed 1/4 or Pause">></button>&nbsp;&nbsp;
 
-               <button id="erase" onclick="clearCanv();" title="Erase all Lines">Erase</button>
-               
+
+         <span id="canv-tools"><button id="erase" onclick="clearCanv();" title="Erase all Lines">Erase</button></span> 
+         <button id="bt-draw" onclick="toggleCanv();" title="toggle drawing">X</button>     
 </div>
 
     <vplayercontrols ip="2"  class="col-md-4 vid"></vplayercontrols>
+</div>
+
+
+<div class="row">
+<div class="col-md-2 vid">	<input type= "text"  id="inpPh"></input><br/>
+		<button id='btMatch'>Match Phase</button>
+</div>
+	<note header="Ski-Snow Interaction" id="taSS"></note>
+	<note header="Body Movements" id="taBM"></note>
+	<note header="Todo" id="taTD"></note>
+
+
+	<div class="col-md-1 vid">
+	  <br/> <button onclick="LogCurrentPoint()" title='Current Point to tabble "Points"'>to Log</button> 
+	</div>
 </div>
 </div>
 

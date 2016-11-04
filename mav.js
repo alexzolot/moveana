@@ -247,16 +247,27 @@ var vm = new Vue({
 //   {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}]; 
   
 
+
   var dbPL = TAFFY(playlists); console.log('dbPL = ', dbPL().get());
   var dbEv = TAFFY(evData); console.log('dbEv = ', dbEv().get());
   var dbVid = TAFFY(); dbVid.store("dbVid"); console.log('dbVid = ', dbVid().get()); // localStorage.dbVid
 //  dbPL().remove()
 //  dbVid().remove() ; localStorage.clear()
   
-  var playlistsDict={}, playlistsDictY={}, plt={1:[], 2:[]};
-  for(i=0, l= playlists.length; i<l; i++){ var p= playlists[i];
-  	if(p.Type>0) plt[p.Type].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
-  }
+
+   var playlistsDict={}, playlistsDictY={}, plt={1:[], 2:[]}; // by Id; by YTId; by player type
+   
+   function fillPlaylistsDict(){
+	     playlistsDict={}; playlistsDictY={}; plt= {1:[], 2:[]};
+	     for(var i=0, l= playlists.length; i<l; i++){ var p= playlists[i];
+		  	//if(p.Type>0) plt[p.Type].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
+		  	if(p.Type==1 || p.Type==3) plt[1].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
+		  	if(p.Type==2 || p.Type==3) plt[2].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
+		  }
+   }
+   
+   fillPlaylistsDict();
+
   
   var cl= console.log;
   var evData_Filled, selection, currEvent=0;
@@ -411,15 +422,23 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
     
     escaped = strip_tags(escaped, '<em><b><strong><a><big>'); //be sure you only allow certain HTML tags to avoid XSS threats (you should also remove unwanted HTML attributes)
     
-    var yid= escaped.replace(/.*v=|.*youtu.be\/|&.*/g, ''), url= "http://www.youtube.com/watch?v="+ yid;
-    console.log('render_YT_URL: value, yid, url=', value, yid, url)
+
+   // var yid= escaped.replace(/.*v=|.*youtu.be\/|&.*/g, ''), url= "http://www.youtube.com/watch?v="+ yid;
+    var yid= escaped.replace(/.*v=([_0-9a-zA-Z\-]+).*/g, '$1'), url= "http://www.youtube.com/watch?v="+ yid;
+    console.log('render_YT_URL: value,  yid, url=', value, yid, url)
     
+    
+    // need this block?
+    /*
     if( dbVid({yid:yid}).count() ){
     	rj= dbVid({yid}).get() ; cl('render_YT_URL: '+ yid +' found in dbVid'); 
 	    console.log('dbVid({yid:yid})=', dbVid({yid:yid}).get())
 	    callback(rj); 
 	    return 
-    }
+    }    
+    */
+    
+
 
     var hlink= '<a href="%s" target="_blank">%s</a>'.sf(url, yid)
     
@@ -584,7 +603,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		readOnly: false,
 		columns: [
 		  {data: 'Id' , type: 'text', renderer: PL_Id_Renderer}, // YTId_Renderer
-		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 12}, // 4 },
+		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 3}, // 4 },
 		  {data: 'Type' , type: 'numeric', format: '0'}, // renderer: function(instance, td, row, col, prop, value, cellProperties){alert("zzz"); return td}},  //, width: 14
 		  {data: 'Info'  , renderer: "html"},  // , width: 1
 		  {data: 'Comment'  , type: 'text'}
@@ -595,8 +614,9 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
          contextMenu: ['row_above', 'row_below', 'remove_row','undo', 'redo','commentsAddEdit'],
 		 comments: true,
 		 cell: [
-		    {row: 0, col: 1, comment: 'You can paste youtube Id or links to this column'}
-		   ,{row: playlists.length, col: 1, comment: 'You can paste youtube Id or links to this cell'}
+		      {row: 0, col: 0, comment: 'You can paste youtube Id or links to this column'}
+			, {row: playlists.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
+			, {row: playlists.length, col: 1, comment: 'You can paste youtube Id or links to this cell'}
 		 ]
        // , afterRender : createCanvas // function(){positionCanvas('playlistsHT afterRender');  }
 //nOK zzz        , afterRender : evsHT.loadData(evData) //updateSettings()  // // function(){positionCanvas('playlistsHT afterRender');  }
@@ -686,8 +706,14 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		  {data: 'SSI'  , type: 'text'},
 		  {data: 'BM'  , type: 'text'},
 		  {data: 'TD'  , type: 'text'}
-		  , {data: 'img'  }  // , renderer: imgRenderer}
-		  ] //,     minSpareRows: 1
+		, {data: 'img'  }  // , renderer: imgRenderer}
+
+		 ] //,     minSpareRows: 1
+		, comments: true,
+		 cell: [
+			, {row: evData.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
+			, {row: evData.length, col: 2, comment: 'You can paste youtube Id or links to this cell'}
+		 ]
          , autoWrapRow: true
          
 		 , comments: true
@@ -728,6 +754,10 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
   
   evsHT.updateSettings({
 	  afterSelection: function (e) {selection = evsHT.getSelected(); console.log(selection)}
+//    , afterChange:  function (e) {		 evsHT.cell= [
+//                                  				 {row: evData.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
+//                                  				, {row: evData.length, col: 2, comment: 'You can paste youtube Id or links to this cell'}
+//                                  			 ]}
   })
   
     $('#tbEventsH table tbody').on('dblclick', 'tr', function(evt){
@@ -939,8 +969,10 @@ $('#getG').click(function(){
 		pp[2].cuePlaylist(pl[1]);
 		
 		fillEvs()
-  
-  		//for(i=0, l= playlists.length; i<l; i++)if(playlists[i].YTId>''){if(playlists[i].Type==1){pp[1].cueVideoById(playlists[i].YTId)} else{pp[2].cueVideoById(playlists[i].YTId)}}
+		
+        evsHT.getCellMeta(evData.length-1, 0).comment= 'You can paste youtube Id or links to this cell';
+        evsHT.getCellMeta(evData.length-1, 2).comment= 'You can paste youtube Id or links to this cell';
+		evsHT.render();
   }
   
   
