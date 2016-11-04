@@ -13,8 +13,8 @@
     <script src="lib/jquery.min.js"></script>
     <script src="http://intridea.github.io/sketch.js/lib/sketch.js"></script>
     
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script>
-    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/>
+<!--     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script> -->
+<!--     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/> -->
     
     <script src="lib/zCanvas.js"></script>
     
@@ -29,23 +29,27 @@
     <script src="lib/pikaday.js"></script>
     
 
-    
+    <script src="lib/taffy.js"></script>
+        
     <style>
-        #tbPlaylistsH  .ht_master tr > td:nth-child(3) {
+
 													      background-color: #efe;
 													    }
     
-    
+
+    #tbPlaylistsH  .ht_master tr > td:nth-child(3) {
+      background-color: #efe;
+    }
     
          input {width: 60px}
-	    .pp {width: 100%; padding-bottom:"56.25%";}
-	    
-	      .currentRow { background-color: #E9E9EB !important;}
+        .pp {width: 100%; padding-bottom:"56.25%";}
+        
+          .currentRow { background-color: #E9E9EB !important;}
           .currentCol { background-color: #E7E8EF !important;}
-	</style>
-	
-	
-	
+    </style>
+    
+    
+
 	<style type='text/css'>
 	
 	   .pp{z-index:10}
@@ -80,15 +84,15 @@
 
 <!-- nOK <template id="vPlayer-template"  v-for= "ip in [1,2]"> -->
 <template id="vPlayer-template">
-	<div class="col-md-6 vid"> 
-	    <div id="v{{ip}}" class="pp" >  v-on:ready="clkB" v-on:attached="clkB" </div>
-	</div>    
+    <div id="vcont{{ip}}">  <!--  Video - Container -->
+        <div id="v{{ip}}" class="pp" >  v-on:ready="clkB" v-on:attached="clkB" </div>
+    </div>    
 </template>
 
 
 <template id="vPlayerControls-template">    
-       <div class="col-md-4 vid"> 
-              
+       <div id='vpcontr-contain{{ip}}'> 
+       <div id='vpcontr{{ip}}' class='vpcontr'> 
               Step:   <button onclick="pshift(pp[{{ip}}], -.1,'#t1')" ondblclick="pshift(pp[{{ip}}], -.3,'#t1')" title="Back 0.1 or 0.3 sec">.<</button> 
               <button onclick="pshift(pp[{{ip}}], .1,'#t1')" ondblclick="pshift(pp[{{ip}}], .3,'#t1')" title="Forward 0.1 or 0.3 sec">>.</button>
 &nbsp;&nbsp; Play/Pause:
@@ -97,9 +101,16 @@
               <button onclick="plays(pp[{{ip}}], 1)" title="Play normal Speed or Pause" style='background:#8f8;'>></button>  <!-- width: 10px; height: 10px; -->
               <button onclick="plays(pp[{{ip}}], 1.5)" style="font-size:110%" title="Play Speed 1.5 or Pause">></button>
               <button onclick="plays(pp[{{ip}}], 2)" style="font-size:119%" title="Play Speed 2 or Pause">></button>
-              <input id="t{{ip}}"  onchange="pp[{{ip}}].seekTo(value)" type="number" step = ".5"></input>
-<!--               <input id="t{{ip}}"  onchange="pp[{{ip}}].seekTo(value)" ></input> -->
-</div>
+              <input id="t{{ip}}"  onchange="pp[{{ip}}].seekTo(value)" type="number" step = ".3"></input>
+              <button id="fullscr{{ip}}" onclick="fullScreen({{ip}});"  title="FS2v">FS</button>
+	</div>
+	</div>
+<!--     <script> $(function(){/// $('#vpcontr{{ip}}').draggable() -->
+//     	 $('#vpcontr1').draggable()
+//          $('#vpcontr2').draggable()
+<!--     });</script> -->
+    }
+    
 </template>
  
 <template id="note-template">
@@ -177,17 +188,15 @@
 
 <!-- http://intridea.github.io/sketch.js/ -->
 
- 
- <div id='vplayers'class="row">
- 
+ <div id='vplayers' class="row">
     <div id="divcanvas"  width="100%" height="100%" ></div>
-    
-    <vplayer ip="1"></vplayer>
-    <vplayer ip="2"></vplayer>
+<!--     <canvas id="canvas"  width="2000px" height="540px" >Your browser does not support HTML5 Canvas.</canvas> -->
+   <div id="vp1"  class="col-md-6 vid">  <vplayer ip="1"></vplayer> </div>
+   <div id="vp2"  class="col-md-6 vid">  <vplayer ip="2"></vplayer> </div>
 </div>
 
 <div class="row">
-    <vplayercontrols ip="1"></vplayercontrols>
+    <vplayercontrols ip="1"  class="col-md-4 vid"></vplayercontrols>
 
 <div class="col-md-4 vid"> 
      Both:      
@@ -201,7 +210,7 @@
   
 </div>
 
-    <vplayercontrols ip="2"></vplayercontrols>
+    <vplayercontrols ip="2"  class="col-md-4 vid"></vplayercontrols>
 </div>
 
 

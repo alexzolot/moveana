@@ -47,6 +47,10 @@ Vue.component('vplayercontrols',{
             type: String,
             required: true
         }}
+	, methods: {
+//		mounted: function(){$('.vpcontr').draggable()}
+	}
+	
     })
 	
 Vue.component('vplayer',{
@@ -242,25 +246,71 @@ var vm = new Vue({
 //   {Id:"SKIIN", 	YTId:"7tyY8A8hobc", 	Type:1, 	Info:"SKIING LEVEL 4 BASI ISTD, by admirallimos admirallimos", 	Comment:""}, 
 //   {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}]; 
   
-   var playlistsDict={}, playlistsDictY={}, plt={1:[], 2:[]};
-   
-   function fillPlaylistsDict(){
-	     playlistsDict={}; playlistsDictY={}; plt= {1:[], 2:[]};
-	     for(var i=0, l= playlists.length; i<l; i++){ var p= playlists[i];
-		  	//if(p.Type>0) plt[p.Type].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
-		  	if(p.Type==1 || p.Type==3) plt[1].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
-		  	if(p.Type==2 || p.Type==3) plt[2].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
-		  }
-   }
-   
-   fillPlaylistsDict();
+
+  var dbPL = TAFFY(playlists); console.log('dbPL = ', dbPL().get());
+  var dbEv = TAFFY(evData); console.log('dbEv = ', dbEv().get());
+  var dbVid = TAFFY(); dbVid.store("dbVid"); console.log('dbVid = ', dbVid().get()); // localStorage.dbVid
+//  dbPL().remove()
+//  dbVid().remove() ; localStorage.clear()
+  
+  var playlistsDict={}, playlistsDictY={}, plt={1:[], 2:[]};
+  for(i=0, l= playlists.length; i<l; i++){ var p= playlists[i];
+  	if(p.Type>0) plt[p.Type].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
+  }
   
   var cl= console.log;
   var evData_Filled, selection, currEvent=0;
   var infoRich= true;
 
+//function fullScreen(ip){
+//	   $('#vp' + ip + ' iframe').detach().appendTo('body').css({position: 'absolute','top':0,'left':0, 'width': '100%','height':'100%','z-index':'120'});
+//	   $('#vpcontr' + ip).detach().appendTo('body').css({position: 'absolute','top':0,'left':'30%', 'width': '30%','height':'50px','z-index':'140'});
+//};
+  
+  //var scrcss= getComputedStyle($('#vp1 iframe')[0]), wi= scrcss.width, he= wi.replace('px','') * 9/16;
+
+   
+  function fullScreen(ip){
+	  var wi= $('#vp1').width(), he= wi * 9/16;  console.log('fullScreen() ip=', ip, "  wi,he=", wi, he)
+	  console.log("$('#fullscr'+ip).text()=", $('#fullscr'+ip).text())
+	  
+      var vp= $('#vp' + ip + ' iframe')
+   
+		if($('#fullscr'+ip).text()=='FS'){
+
+		 
+		  vp.detach().appendTo('body')
+                 .css({position: 'absolute'
+			           , top: $(document).scrollTop()
+			           , left: 0, 'width': '100%','height':'100%','z-index':'120'});
+		 
+		  
+		   $('#vpcontr' + ip ).detach().appendTo('body').css({position: 'absolute'
+		      , 'top': vp.offset().top + vp.height() - 35  //'96%' // $('body iframe').height()	
+		      , 'left': '30%'
+		      , 'width': '30%','height':'50px','z-index':'99999'});
+
+		   $('#fullscr'+ip).text('fs')
+		} else{
+			   var vp= $('body > iframe').detach().appendTo($('#vp' + ip)).css({'top':0,'left':0
+				   , 'width': wi, 'height': he, 'z-index': 8});
+			   
+			  // var vp= $('#vp' + ip);
+			  // $('#vpcontr' + ip ).detach().appendTo($('#vp' + ip)).css({position: 'absolute'
+			   $('#vpcontr' + ip ).detach().appendTo($('#vpcontr-contain' + ip)).css({position: 'absolute'
+				    //, top: vp.height() +50, 'left':0 +ip * 60, 'width': '60%','height':'50px','z-index': 12
+				    , top: 0, 'left':0, width: '100%', height:'50px'
+					});
+			  
+			   $('#fullscr'+ip).text('FS')
+		}
+	};
+
   
   $().ready(function(){ ////////////////////////////////////////////////////////////////////////////////
+	  
+//	  $('#vpcontr1').draggable();
+//	  $('#vpcontr2').draggable();
 
 	  positionCanvas= function (info){
 		   setTimeout(function(){
@@ -361,12 +411,23 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
     
     escaped = strip_tags(escaped, '<em><b><strong><a><big>'); //be sure you only allow certain HTML tags to avoid XSS threats (you should also remove unwanted HTML attributes)
     
-   // var yid= escaped.replace(/.*v=|.*youtu.be\/|&.*/g, ''), url= "http://www.youtube.com/watch?v="+ yid;
-    var yid= escaped.replace(/.*v=([0-9a-zA-Z\-]+).*/g, '$1'), url= "http://www.youtube.com/watch?v="+ yid;
-    console.log('render_YT_URL: value,  yid, url=', value, yid, url)
+    var yid= escaped.replace(/.*v=|.*youtu.be\/|&.*/g, ''), url= "http://www.youtube.com/watch?v="+ yid;
+    console.log('render_YT_URL: value, yid, url=', value, yid, url)
+    
+    if( dbVid({yid:yid}).count() ){
+    	rj= dbVid({yid}).get() ; cl('render_YT_URL: '+ yid +' found in dbVid'); 
+	    console.log('dbVid({yid:yid})=', dbVid({yid:yid}).get())
+	    callback(rj); 
+	    return 
+    }
 
     var hlink= '<a href="%s" target="_blank">%s</a>'.sf(url, yid)
-   
+    
+    cl('to ajax ', yid)
+    if( dbVid({yid:yid}).select('status') == 'sent2Ajax') {return;}
+    
+    dbVid({yid:yid}).update({status: 'sent2Ajax'});
+    
 	$.ajax({
         url: 'http://query.yahooapis.com/v1/public/yql',
             data: {
@@ -502,7 +563,6 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 	  
   playlistsHT = new Handsontable($("#tbPlaylistsH")[0], {
 		data: playlists,
-		//data: playlistsDictY,
 		minSpareRows: 1,
 		height: 296,
 		//colHeaders: 'Id YTId Type Info Comment'.split(" "),

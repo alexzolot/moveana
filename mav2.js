@@ -505,9 +505,9 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		//className: "htCenter htMiddle",
 		readOnly: false,
 		columns: [
-		  {data: 'Id' , type: 'text'}, 
-		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 15  }, //},
-		  {data: 'Type' , type: 'numeric', format: '0'},  //, width: 14
+		  {data: 'Id' , type: 'text', renderer: PL_Id_Renderer}, // YTId_Renderer
+		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 12}, // 4 },
+		  {data: 'Type' , type: 'numeric', format: '0'}, // renderer: function(instance, td, row, col, prop, value, cellProperties){alert("zzz"); return td}},  //, width: 14
 		  {data: 'Info'  , renderer: "html"},  // , width: 1
 		  {data: 'Comment'  , type: 'text'}
 		] //,     minSpareRows: 1
@@ -578,8 +578,9 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		data: evData,
 		minSpareRows: 1,
 		height: 196,
-		colHeaders: 'Index Video1 t1 Video2 t2 Note SSI BM TD img'.split(" "),
-		rowHeaders: false,
+		//colHeaders: 'Index Video1 t1 Video2 t2 Note SSI BM TD img'.split(" "),
+		colHeaders: 'Video1 t1 Video2 t2 Note SSI BM TD img'.split(" "),
+		rowHeaders: true,
 		stretchH: 'all',
 		columnSorting: true,
 		contextMenu: true,
@@ -592,13 +593,14 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		//className: "htCenter htMiddle",
 		readOnly: false,
 		columns: [
-		  {data: 'Index' , type: 'numeric', format: '0'}, // width: 13},
-		  {data: 'Video1' , type: 'text'
+	//	  {data: 'Index' , type: 'numeric', format: '0'}, // width: 13},
+		  {data: 'Video1' , type: 'text' , renderer: Video_Renderer1
 //zzz			  , editor: 'select'
 //			  , selectOptions: playlists.filter(function(p){return p.Type==1}) .map(function(i){return i['Id']})
 			}, //, width: 20}, 
-		  {data: 't1' , type: 'numeric', format: '0.00'}, //, width: 14},
-		  {data: 'Video2' , type: 'text'	  
+		  {data: 't1' , type: 'numeric', format: '0.00'},  // renderer: function(){alert("ttt")}}, //, width: 14},
+//		  {data: 'Video2', renderer: function(){alert("zzz")} //Video_Renderer1   , type: 'text'
+		  {data: 'Video2' , type: 'text', renderer: Video_Renderer1  
 //zzz			  , editor: 'select'
 //			  , selectOptions: playlists.filter(function(p){return p.Type==2}) .map(function(i){return i.Id})
 			}, //, width: 20}, 
