@@ -213,8 +213,8 @@
 
 
 <div class="row">
-    <div class="col-md-2 vid">	<input type= "text"  id="inpPh"></input><br/>
-		<button id='btMatch'>Match Phase</button>
+    <div class="col-md-2 vid">	Phase:<input id="inpPh" type= "text" placeholder='m3'></input><br/>
+		<button id='btMatch' onclick='matchPhase()'>Match Phase</button>
     </div>
 	<note header="Ski-Snow Interaction" id="taSS"></note>
 	<note header="Body Movements" id="taBM"></note>
@@ -232,25 +232,32 @@
 <hr/>
 <hr/>
 
-<h3> for Developers</h3>
-  
- API: <a href="https://developers.google.com/sheets/samples/reading">Google Sheets API </a><br/>
-<a href="https://developers.google.com/youtube/js_api_reference">YouTube JavaScript Player API Reference</a><br/>
-<a href="http://demo.tutorialzine.com/2015/08/how-to-control-youtubes-video-player-with-javascript">Tutorial how-to-control-youtubes-video-player-with-javascript</a>
+<!-- <h3> for Developers</h3> -->
+<button onclick='$("#for-developers").toggle()'> for Developers</button>
+<div id='for-developers'>
+
+    <button onclick='dbPhases2evsHT()'>get_dbPhases2evsHT</button>
+    <button onclick='evsHT2dbPhases()()'>evsHT2dbPhases()</button><br/>
+
+	  
+	 API: <a href="https://developers.google.com/sheets/samples/reading">Google Sheets API </a><br/>
+	<a href="https://developers.google.com/youtube/js_api_reference">YouTube JavaScript Player API Reference</a><br/>
+	<a href="http://demo.tutorialzine.com/2015/08/how-to-control-youtubes-video-player-with-javascript">Tutorial how-to-control-youtubes-video-player-with-javascript</a>
+	
+	
+	            <div class="btn-group" data-toggle="buttons">
+	<!--                 <button class="btn btn-primary" onclick="getSheetrock2Handst()">load from GDoc</button> -->
+	<!--                 <button id="getG.bak" class="btn btn-primary">load from GDoc  onclick="getGSpreadsheet2Handst()"</button> -->
+	<!--                 <button class="btn btn-primary" onclick="saveHandst2GDoc()">save to GDoc</button> -->
+	                &nbsp; &nbsp; <a href="http://bit.ly/alexzolot-ma"> G-doc</a> -> <a href="https://chriszarate.github.io/sheetrock/">sheetrock</a> -> 
+	             <a href="https://handsontable.com/examples.html?headers">handsontable.com</a>   :</h3> 
+	            </div>
+	            
+	            <!-- this on AWS: http://bit.ly/MA-tool = http://moveana.s3-website-us-east-1.amazonaws.com/-->
+	
+	<button id="test">test  onclick="test()"</button> 
+	<div id="testOut"></div>
 </div>
-
-            <div class="btn-group" data-toggle="buttons">
-<!--                 <button class="btn btn-primary" onclick="getSheetrock2Handst()">load from GDoc</button> -->
-<!--                 <button id="getG.bak" class="btn btn-primary">load from GDoc  onclick="getGSpreadsheet2Handst()"</button> -->
-<!--                 <button class="btn btn-primary" onclick="saveHandst2GDoc()">save to GDoc</button> -->
-                &nbsp; &nbsp; <a href="http://bit.ly/alexzolot-ma"> G-doc</a> -> <a href="https://chriszarate.github.io/sheetrock/">sheetrock</a> -> 
-             <a href="https://handsontable.com/examples.html?headers">handsontable.com</a>   :</h3> 
-            </div>
-            
-            <!-- this on AWS: http://bit.ly/MA-tool = http://moveana.s3-website-us-east-1.amazonaws.com/-->
-
-<button id="test">test  onclick="test()"</button> 
-<div id="testOut"></div>
 
     <script src="http://cdn.jsdelivr.net/vue/1.0.16/vue.min.js"></script>
     <script src="mav.js"></script>         <!-- AZ -->

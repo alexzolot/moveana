@@ -236,7 +236,8 @@ var vm = new Vue({
               {Video1:"", 	t1:8.75, 	Video2:"", 	t2:8.08, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
               {Video1:"", 	t1:4.49, 	Video2:"Reilly", 	t2:63.61, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
               {Video1:"AZ2", 	t1:50.7, 	Video2:"", 	t2:69.74, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Video1:"", 	t1:50.7, 	Video2:"Berger", 	t2:413.83, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	}]
+//              {Video1:"", 	t1:50.7, 	Video2:"Berger", 	t2:413.83, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	}
+              ]
 //              {Video1:"", 	t1:50.7, 	Video2:"BASI", 	t2:65.14, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
 //              {Video1:"BASIL", 	t1:83.25, 	Video2:"JBa", 	t2:2.65, 	Phase:"Long - Med turns", 	SSI:"", 	BM:"", 	TD:"" 	},
 //              {Video1:"BASIL", 	t1:93.29, 	Video2:"JBa", 	t2:4.84, 	Phase:"Long - Med turns. 9oc", 	SSI:"", 	BM:"", 	TD:"" 	},
@@ -254,9 +255,9 @@ var vm = new Vue({
                    {Id:"AZ2", 	YTId:"urAXN77X6zU", 	Type:1, 	Info:"3 runs on Outland 87 x 178, by Alex Zolotovitski", 	Comment:""}, 
                    {Id:"==", 	YTId:"", 	Type:"", 	Info:"", 	Comment:""}, 
                    {Id:"Reilly", 	YTId:"t334XENKLFo", 	Type:2, 	Info:"Reilly Ski Training 2012.mov, by Reilly McGlashan", 	Comment:"32-bumps, 75-med back, 87-short, 129=med"}, 
-                   {Id:"Berger", 	YTId:"5SZqiCggJN8", 	Type:2, 	Info:"Imagination Richard Berger, by Dnalor Elraes", 	Comment:""}, 
-                   {Id:"BASI", 	YTId:"SgrO7Dprl6g", 	Type:2, 	Info:"BASI level 4 interpretation by Jon Ahlsén, by Jon Ahlsén", 	Comment:"22-short back, 33-med,71-bumps,114-med"}, 
-                   {Id:"CSIA", 	YTId:"aiSzmN82I4A", 	Type:2, 	Info:"Training demos for the level 4 CSIA 2013, by Javier Fuentes", 	Comment:""}, 
+//                   {Id:"Berger", 	YTId:"5SZqiCggJN8", 	Type:2, 	Info:"Imagination Richard Berger, by Dnalor Elraes", 	Comment:""}, 
+//                   {Id:"BASI", 	YTId:"SgrO7Dprl6g", 	Type:2, 	Info:"BASI level 4 interpretation by Jon Ahlsén, by Jon Ahlsén", 	Comment:"22-short back, 33-med,71-bumps,114-med"}, 
+//                   {Id:"CSIA", 	YTId:"aiSzmN82I4A", 	Type:2, 	Info:"Training demos for the level 4 CSIA 2013, by Javier Fuentes", 	Comment:""}, 
                    {Id:"PSIANW", 	YTId:"HrCfQR3qwi0", 	Type:2, 	Info:"LEVEL III - MEDIUM RADIUS TURNS, by BaileyPSIANW", 	Comment:""} 
 //                   {Id:"JfB29", 	YTId:"r07Ea0TYkaA", 	Type:2, 	Info:"Jf Beaulieu: Video 29, by Jf Beaulieu", 	Comment:"1. Carving -"}, 
 //                   {Id:"Landes", 	YTId:"ZoRsJYRmD5k", 	Type:2, 	Info:"Landes 1 Mogul Training Ski Instructor Academy 2013, by SIA Austria", 	Comment:"2. Bumps -"}, 
@@ -274,10 +275,10 @@ var vm = new Vue({
                    ]; 
 
 
-  var dbPL = TAFFY(playlists); console.log('dbPL = ', dbPL().get());
-  var dbEv = TAFFY(evData); console.log('dbEv = ', dbEv().get());
-  var dbVid = TAFFY(); dbVid.store("dbVid"); console.log('dbVid = ', dbVid().get()); // localStorage.dbVid
-  var dbPhases = TAFFY(); dbPhases.store("dbPhases"); console.log('dbPhases = ', dbPhases().get()); // localStorage.dbVid
+  var dbPL= TAFFY(playlists); console.log('dbPL = ', dbPL().get());
+  var dbEv= TAFFY(evData); console.log('dbEv = ', dbEv().get());
+  var dbVid= TAFFY(); dbVid.store("dbVid"); console.log('dbVid = ', dbVid().get()); // localStorage.dbVid
+  var dbPhases= TAFFY(); dbPhases.store("dbPhases"); console.log('dbPhases = ', dbPhases().get()); // localStorage.dbVid
 //  dbPL().remove()
 //  dbVid().remove() ; localStorage.clear()
   
@@ -568,8 +569,8 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 //		    		, instance, td, row, col, prop, value, cellProperties)
 			
 		    if(value==null){ td.innerHTML= ""; return td;}
-		    //if(value.length < 10){ td.innerHTML= value; return td;}
-		    if(! /http/.test(value)){ td.innerHTML= value; return td;}
+		   // if(value.length != 11){ td.innerHTML= value; return td;}
+		    if(! /http/.test(value) && value.length != 11){ td.innerHTML= value; return td;}
 		    
 		    var ro=row, th= this;
 		    var yid= render_YT_URL(value, function(rj){
@@ -699,8 +700,8 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
         }
 	  });  
   
-  evsHT = new Handsontable($("#tbEventsH")[0], {
-		data: dbEv().get(), //evData,
+  evsHT= new Handsontable($("#tbEventsH")[0], {
+		data: evData,  //dbEv().get(), //
 		minSpareRows: 1,
 		height: 196,
 
@@ -734,7 +735,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		  {data: 't2' , type: 'numeric', format: '0.00'}, //, width: 14},
 		  {data: 'Phase'  , type: 'text'},
 		  {data: 'SSI'  , type: 'text'},
-		  {data: 'BM'  , type: 'text'},
+		  {data: 'BM'  , type: 'text', renderer: "html"}, // renderer: "html" for Phases 
 		  {data: 'TD'  , type: 'text'}
 		, {data: 'img'  }  // , renderer: imgRenderer}
 
@@ -934,10 +935,92 @@ $('#getG').click(function(){
 	
 })
 
+
   
   })  /// on doc ready  ===================================================================================
   
-  	    function x(result){alert('o.x')
+
+
+function evsHT2dbPhases(){
+    var db= TAFFY();
+	
+	for(i=0, l= evData.length; i<l; i++){var e= evData[i];
+	console.log('evsHT2dbPhases: i,e=', i, e)
+
+	 if(e.Phase) db.insert({yid:dbPL({Id:evData[i].Video2}).get()[0].YTId, phase:e.Phase, t:e.t2})
+    }
+	console.log('evsHT2dbPhases: db().get()=', db().get())
+	console.log('evsHT2dbPhases: db().distinct()=', db().distinct("phase","t","yid") )
+}
+
+
+/// $('#btMatch').click(matchPhase)
+
+function matchPhase(ph){
+	  ph= ph || $('#inpPh').val();
+	  //dbVid({phases:{has:phase.eq.$('#inpPh').val()}})
+	  //dbPhases().insert({phase:$('#inpPh').val(), yid:vid2, t:$('#t2').val()}) 
+	  
+	  /// remove dups and phase==''
+	  var un= dbPhases().distinct("phase","t","yid");  // order alphabetic
+	  dbPhases().remove();
+//	  for (var i=0, l=un.length; i<l;  i++) {u= un[i];...} 
+	  un.map(function(u){ if(u[0] && u[1]*1) dbPhases.insert({phase:u[0], yid:u[2], t:u[1]}) })
+
+	  console.log('remove dups: un, dbPhases', un, dbPhases().get())	  
+	  
+	  dbPhases({phase: ph}).each(function (p, recordnumber) {
+		  evData.push({Video2:'http://www.youtube.com/watch?v='+p.yid, t2:p.t, Phase:$('#inpPh').val()}) //zz
+		});
+	  
+//    var phs= dbPhases({phase:$('#inpPh').val()}).get()
+//    phs.map(function(p){evData.push({Video2:p.yid, t2:p.t, Phase:$('#inpPh').val()}) })
+	  evsHT.loadData(evData)	
+}
+
+
+function dbPhases2evsHT(all){
+	//var db= dbPhases().join(dbPL, function (l, r) { return (l.yid === r.YTId); }); //get Id
+	var db= dbPhases(); //get Id
+	if(!all) db= db.join(dbPL, function (l, r) { return (l.yid === r.YTId); }); //get Id
+	var dat= db.order('t').order('Id')//.get()
+	//evData_Filled= dat;  //?? used by go2evs
+	
+	dat.each(function (p, recordnumber) {
+		  //evData.push({Video2:'http://www.youtube.com/watch?v='+p.yid, t2:p.t, Phase:p.phase, SSI:p.yid, BM: d.Info}) //zz
+		  $.extend(evData[recordnumber], {Video2:'http://www.youtube.com/watch?v='+p.yid
+			     , t2:p.t, Phase:p.phase, SSI:p.yid, BM: p.Info}) //zz
+		 // }
+	});
+	
+	if(0){
+		for(i=0,l= dat.length; i<l; i++){ var d= dat[i];
+			evData[i].Video2= 'http://www.youtube.com/watch?v='+d.yid  // dat[i].Id; 
+			evData[i].t2= d.t;
+			evData[i].Phase= d.phase;
+			evData[i].SSI= d.yid;
+			evData[i].BM= d.Info;
+		}
+	}
+
+evsHT.loadData(evData)
+		
+//	console.log('get_dbPhases2evsHT: db.get()=', db.get())
+//	console.log('get_dbPhases2evsHT: dat=', dat)
+//
+//	evsHT.updateSettings({
+//		//data: dbPhases().order('t').order('yid').get()
+//		data: dat
+//		//colHeaders: 'Video1 t1 Video2 t2 Phase SSI BM TD img'.split(" "),
+//
+//		//, colHeaders: 'yid phase t'.split(" ")
+//		, columns: [{data:'Id'},{data:'t'}, {data:'Id'},{data:'t'},{data:'phase'},{data:'yid'},{data:'Info', renderer: "html"}]
+//	})
+//	evsHT.loadData(dat)
+}
+
+
+  function x(result){alert('o.x')
 	    	console.log('o.result=', result)
 //	        $.each(result, function(i, field){
 //	            $("#testOut").append(field + " ");
@@ -1032,7 +1115,7 @@ $('#getG').click(function(){
   	  
    function go2evs(iEvent){  // i = row in table Events
  	  var e= evData_Filled[iEvent];  console.log('go2evs:', iEvent, e); 
- 	  if(playlistsDict[e.Video1]){
+ 	  if(	[e.Video1]){
 	  	  console.log('playlistsDict[e.Video1].YTId:', playlistsDict[e.Video1].YTId); 
 		  pp[1].go1Vid(playlistsDict[e.Video1].YTId, e.t1)
  	  } else {alert('playlistsDict [' + e.Video1 + '] does not exists')}
@@ -1048,30 +1131,7 @@ $('#getG').click(function(){
 	  $('#taTD').val(e.TD)
   }
    
-   
-  $('#btMatch').click(function(){
-	  //dbVid({phases:{has:phase.eq.$('#inpPh').val()}})
-	  //dbPhases().insert({phase:$('#inpPh').val(), yid:vid2, t:$('#t2').val()}) 
-	  
-	  /// remove dups
-	  var un= dbPhases().distinct("phase","t","yid");  // order alphabetic
-	  dbPhases().remove();
-	  un.map(function(u){ if(u[1]*1) dbPhases.insert({phase:u[0], yid:u[2], t:u[1]}) })
-	  
-//	  for (var i=0, l=un.length; i<l;  i++) {u= un[i]; 
-//	  		if(u[1]*1) dbPhases.insert({phase:u[0], yid:u[2], t:u[1]})};  //only numeric t
-//	  
-	  console.log('remove dups: un, dbPhases', un, dbPhases().get())	  
-	  
-	  dbPhases({phase:$('#inpPh').val()}).each(function (p, recordnumber) {
-		  evData.push({Video2:'http://www.youtube.com/watch?v='+p.yid, t2:p.t, Phase:$('#inpPh').val()}) //zz
-		});
-	  
-//      var phs= dbPhases({phase:$('#inpPh').val()}).get()
-//      phs.map(function(p){evData.push({Video2:p.yid, t2:p.t, Phase:$('#inpPh').val()}) })
-	  evsHT.loadData(evData)	
-  }) 
-  
+
   function db2GooSheet() {
       request= $.ajax({
           url: 'https://script.google.com/macros/s/AKfycbwUv4gQ7KqdZU4xcovE595iUGDWiewTteyuUqgAmll3Mf9iA6M/exec',
