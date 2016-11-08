@@ -105,8 +105,11 @@ var vm = new Vue({
     //    after the API code downloads.
     var time_update_interval, t1=0, t2=0, pp= {}; // pp - players
     
-    plays= function(pla, speed) {if(pla.getPlayerState()==1) {pla.pauseVideo()
-    							 } else {pla.setPlaybackRate(speed).playVideo(); clearCanv()}};
+    plays= function(pla, speed) {
+		    	if(pla.getPlayerState()==YT.PlayerState.PLAYING) {
+		    		pla.pauseVideo()
+		    	} else {pla.setPlaybackRate(speed).playVideo(); clearCanv()
+	    	}};
     
     pshift= function(pla, dt, el) {pla.pauseVideo(); t=pla.getCurrentTime()+ dt; pla.seekTo(t); $(el).val(r100(t))}
     
@@ -192,7 +195,7 @@ var vm = new Vue({
     function onplaReady(i){ return function(event) {var pla= event.target;  //, i= pla.a.id.substr(1); // i  in 1:2
     	pla.setPlaybackQuality('medium');
     	pla.mute();
-    	go2evs(0); 
+    	go2ev(0); 
 
         // Clear any old interval.
         if (time_update_interval != undefined) clearInterval(time_update_interval);
@@ -324,7 +327,8 @@ var vm = new Vue({
  	  console.log("wi=", wi)
  	  console.log("vp.width()=", vp.width())
   
-	  if($('#fullscr'+ip).text()=='FS'){
+	  
+	  if($('#fullscr'+ ip)[0].classList.value.indexOf("glyphicon-fullscreen")>=0){  //if($('#fullscr'+ip).text()=='FS'){
 		   vp.appendTo('body')  // .detach()
                  .css({position: 'absolute'
 			           , top: $(document).scrollTop()
@@ -334,14 +338,14 @@ var vm = new Vue({
 		      , left: '30%'
 		      , width: '30%', height:'50px','z-index':'99999'});
 
-		   $('#fullscr'+ip).text('fs')
+		   $('#fullscr'+ip).toggleClass('glyphicon-fullscreen glyphicon-resize-small') //$('#fullscr'+ip).text('fs')
 	  } else{
 			   var vp= $('body > iframe').appendTo($('#vp' + ip)).css({top:0
 				   , left:0, width: wi, height: he, 'z-index': 8});
 			   $('#vpcontr' + ip ).appendTo($('#vpcontr-contain' + ip)).css({position: 'absolute'
 				    , top: 0, left:0, width: '100%', height:'50px'
 					});
-			   $('#fullscr'+ip).text('FS')
+			   $('#fullscr'+ip).toggleClass('glyphicon-resize-small glyphicon-fullscreen') //$('#fullscr'+ip).text('FS')
 		}
 	  
  	 setTimeout(function(){	
@@ -386,7 +390,7 @@ var vm = new Vue({
 		   })
 	    
 	    $.each(['#f00', '#00f'], function() {
-		      $('#erase').before("<button class='brush' style='width: 10px; height: 10px; background: " + 
+		      $('#erase').before("<button class='brush' style='width: 10px; height: 8px; background: " + 
 			          this + ";' onclick='setColor(\""+ this +"\")'  ondblclick='setLwd(11-lwd)' ></button> ");
 			});	
 	   
@@ -403,9 +407,10 @@ var vm = new Vue({
 	toggleCanv= function(){
 				isCanv= !isCanv; 
 				$('#canv-tools').toggle(); 
-				//$('#canvas').css('z-index', 15- $('#canvas').css('z-index'))
 				$('#canvas').css('z-index', isCanv ? 15 : 0)
-				$('#bt-draw').html(isCanv ? "X" :"Draw")
+				//$('#bt-draw').html(isCanv ? "X" :"Draw")
+				$('#bt-draw').toggleClass('glyphicon-pencil glyphicon-remove-circle') //$('#fullscr'+ip).text('fs')
+
 		}
 	
 
@@ -790,7 +795,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
     	//var index= $($(this).find('td')[0]).text();
     	var index= $($(this).find('.rowHeader')[0]).text();
     	console.log('#tbEventsH table tbody index=', index)
-    	go2evs(index-1)
+    	go2ev(index-1)
 	}) ;
   
   
@@ -811,7 +816,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 //		  fetchSize:99676984390
 //		});
   
-  //v go2evs(0)
+  //v go2ev(0)
   
   $("#test0").click(function(){alert('$("#test").click')
 	    $.getJSON("http://spreadsheets.google.com/feeds/list/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/od6/public/values?alt=json-in-script&callback=x"
@@ -1030,7 +1035,7 @@ function dbPhases2evsHT(all){
 	var db= dbPhases(); //get Id
 	if(!all) db= db.join(dbPL, function (l, r) { return (l.yid === r.YTId); }); //get Id
 	var dat= db.order('t').order('Id')//.get()
-	//evData_Filled= dat;  //?? used by go2evs
+	//evData_Filled= dat;  //?? used by go2ev
 	
 	dat.each(function (p, recordnumber) {
 		  //evData.push({Video2:'http://www.youtube.com/watch?v='+p.yid, t2:p.t, Phase:p.phase, SSI:p.yid, BM: d.Info}) //zz
@@ -1154,13 +1159,14 @@ function dbPhases2evsHT(all){
         evsHT.getCellMeta(evData.length-1, 0).comment= 'You can paste youtube Id or links to this cell';
         evsHT.getCellMeta(evData.length-1, 2).comment= 'You can paste youtube Id or links to this cell';
 		evsHT.render();
+		go2ev(0)
   }
   
   
-  function go2SelectedEvent(){currEvent=selection[0]; go2evs(currEvent)}
-  	  
-   function go2evs(iEvent){  // i = row in table Events
- 	  var e= evData_Filled[iEvent];  console.log('go2evs:', iEvent, e); 
+   function go2ev(iEvent){  // i = row in table Events
+	  iEvent= iEvent != undefined ? iEvent : selection == undefined ? 0: selection[0] 
+	  
+ 	  var e= evData_Filled[iEvent];  console.log('go2ev:', iEvent, e); 
  	  if(	[e.Video1]){
 	  	  console.log('playlistsDict[e.Video1].YTId:', playlistsDict[e.Video1].YTId); 
 		  pp[1].go1Vid(playlistsDict[e.Video1].YTId, e.t1)
@@ -1170,6 +1176,9 @@ function dbPhases2evsHT(all){
 	  	  console.log('playlistsDict[e.Video2].YTId:', playlistsDict[e.Video2].YTId); 
 		  pp[2].go1Vid(playlistsDict[e.Video2].YTId, e.t2)
  	  } else {alert('playlistsDict [' + e.Video2 + '] does not exists')}
+ 	  
+      evsHT.selectCell(iEvent, 0) 
+
  	  
 	  $('#inpCurrPoint').val(iEvent+1)
 	  $('#taSS').val(e.SSI)
@@ -1270,7 +1279,13 @@ function dbPhases2evsHT(all){
 
   }
   
-
+function toggleDev() {
+	$("#for-developers").toggle(); 
+	setTimeout(function(){$("html, body").animate({scrollTop: $(document).height()-$(window).height()}
+		                                   , 500)
+		       }
+	, 100)
+}
   
 var	x= function(data) {
 		  //first row "title" column
