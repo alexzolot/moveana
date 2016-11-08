@@ -314,36 +314,40 @@ var vm = new Vue({
 	  var wi= $('#vp1').width(), he= wi * 9/16;  console.log('fullScreen() ip=', ip, "  wi,he=", wi, he)
 	  console.log("$('#fullscr'+ip).text()=", $('#fullscr'+ip).text())
 	  
-      var vp= $('#vp' + ip + ' iframe')
-   
-		if($('#fullscr'+ip).text()=='FS'){
+	  var p= pp[ip];
+ 	  console.log("fullScreen: p=", p)
 
-		 
-		  vp.detach().appendTo('body')
+	  var state= {i: p.getPlaylistIndex(), t: p.getCurrentTime()}  
+ 	  
+      // var vp= $('#vp' + ip + ' iframe')
+      var vp= $('#v' + ip)
+ 	  console.log("wi=", wi)
+ 	  console.log("vp.width()=", vp.width())
+  
+	  if($('#fullscr'+ip).text()=='FS'){
+		   vp.appendTo('body')  // .detach()
                  .css({position: 'absolute'
 			           , top: $(document).scrollTop()
 			           , left: 0, 'width': '100%','height':'100%','z-index':'120'});
-		 
-		  
-		   $('#vpcontr' + ip ).detach().appendTo('body').css({position: 'absolute'
-		      , 'top': vp.offset().top + vp.height() - 35  //'96%' // $('body iframe').height()	
-		      , 'left': '30%'
-		      , 'width': '30%','height':'50px','z-index':'99999'});
+		   $('#vpcontr' + ip ).appendTo('body').css({position: 'absolute'
+		      , top: vp.offset().top + vp.height() - 35  //'96%' // $('body iframe').height()	
+		      , left: '30%'
+		      , width: '30%', height:'50px','z-index':'99999'});
 
 		   $('#fullscr'+ip).text('fs')
-		} else{
-			   var vp= $('body > iframe').detach().appendTo($('#vp' + ip)).css({'top':0,'left':0
-				   , 'width': wi, 'height': he, 'z-index': 8});
-			   
-			  // var vp= $('#vp' + ip);
-			  // $('#vpcontr' + ip ).detach().appendTo($('#vp' + ip)).css({position: 'absolute'
-			   $('#vpcontr' + ip ).detach().appendTo($('#vpcontr-contain' + ip)).css({position: 'absolute'
-				    //, top: vp.height() +50, 'left':0 +ip * 60, 'width': '60%','height':'50px','z-index': 12
-				    , top: 0, 'left':0, width: '100%', height:'50px'
+	  } else{
+			   var vp= $('body > iframe').appendTo($('#vp' + ip)).css({top:0
+				   , left:0, width: wi, height: he, 'z-index': 8});
+			   $('#vpcontr' + ip ).appendTo($('#vpcontr-contain' + ip)).css({position: 'absolute'
+				    , top: 0, left:0, width: '100%', height:'50px'
 					});
-			  
 			   $('#fullscr'+ip).text('FS')
 		}
+	  
+ 	 setTimeout(function(){	
+		   p.playVideoAt(state.i).seekTo(state.t)
+		   setTimeout(function(){p.seekTo(state.t)}, 2000)	 
+	 }, 1000)	  
 	};
 
   
