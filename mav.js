@@ -158,7 +158,8 @@ var vm = new Vue({
         
     	YTpp.loadNpause= function(vidId, t){var p=this, currV=p.getVideoData().video_id;
     // 	   if(null !=currV) {if(currV != vidId){
-     		   this.loadVideoById(vidId); this.mute(); setTimeout(function(){p.goPause(t)}, 1000)
+     		   this.loadVideoById({videoId:vidId, suggestedQuality: 'large'}); 
+     		   this.mute(); setTimeout(function(){p.goPause(t)}, 1000)
     // 	   }} else {p.goPause(t)}
      	} /// pp[2].loadNpause("5SZqiCggJN8", 8.88); pp[2].loadNpause("SgrO7Dprl6g", 11.11)
         
@@ -237,8 +238,8 @@ var vm = new Vue({
               {Video1:"", 	t1:4.49, 	Video2:"Reilly", 	t2:63.61, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
               {Video1:"AZ2", 	t1:50.7, 	Video2:"", 	t2:69.74, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
 //              {Video1:"", 	t1:50.7, 	Video2:"Berger", 	t2:413.83, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	}
+              {Video1:"", 	t1:50.7, 	Video2:"BASI", 	t2:65.14, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
               ]
-//              {Video1:"", 	t1:50.7, 	Video2:"BASI", 	t2:65.14, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
 //              {Video1:"BASIL", 	t1:83.25, 	Video2:"JBa", 	t2:2.65, 	Phase:"Long - Med turns", 	SSI:"", 	BM:"", 	TD:"" 	},
 //              {Video1:"BASIL", 	t1:93.29, 	Video2:"JBa", 	t2:4.84, 	Phase:"Long - Med turns. 9oc", 	SSI:"", 	BM:"", 	TD:"" 	},
 //              {Video1:"BASIL", 	t1:94.03, 	Video2:"JBa", 	t2:5.24, 	Phase:"Long - Med turns. trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
@@ -256,7 +257,7 @@ var vm = new Vue({
                    {Id:"==", 	YTId:"", 	Type:"", 	Info:"", 	Comment:""}, 
                    {Id:"Reilly", 	YTId:"t334XENKLFo", 	Type:2, 	Info:"Reilly Ski Training 2012.mov, by Reilly McGlashan", 	Comment:"32-bumps, 75-med back, 87-short, 129=med"}, 
 //                   {Id:"Berger", 	YTId:"5SZqiCggJN8", 	Type:2, 	Info:"Imagination Richard Berger, by Dnalor Elraes", 	Comment:""}, 
-//                   {Id:"BASI", 	YTId:"SgrO7Dprl6g", 	Type:2, 	Info:"BASI level 4 interpretation by Jon Ahlsén, by Jon Ahlsén", 	Comment:"22-short back, 33-med,71-bumps,114-med"}, 
+                   {Id:"BASI", 	YTId:"SgrO7Dprl6g", 	Type:2, 	Info:"BASI level 4 interpretation by Jon Ahlsén, by Jon Ahlsén", 	Comment:"22-short back, 33-med,71-bumps,114-med"}, 
 //                   {Id:"CSIA", 	YTId:"aiSzmN82I4A", 	Type:2, 	Info:"Training demos for the level 4 CSIA 2013, by Javier Fuentes", 	Comment:""}, 
                    {Id:"PSIANW", 	YTId:"HrCfQR3qwi0", 	Type:2, 	Info:"LEVEL III - MEDIUM RADIUS TURNS, by BaileyPSIANW", 	Comment:""} 
 //                   {Id:"JfB29", 	YTId:"r07Ea0TYkaA", 	Type:2, 	Info:"Jf Beaulieu: Video 29, by Jf Beaulieu", 	Comment:"1. Carving -"}, 
@@ -347,7 +348,7 @@ var vm = new Vue({
 
   
 //  $().ready(function(){ ////////////////////////////////////////////////////////////////////////////////
-$(function(){ ////////////////////////////////////////////////////////////////////////////////////////////
+// $(function(){ ////////////////////////////////////////////////////////////////////////////////////////////
 	  
 //	  $('#vpcontr1').draggable();
 //	  $('#vpcontr2').draggable();
@@ -605,7 +606,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 
 	  
   playlistsHT = new Handsontable($("#tbPlaylistsH")[0], {
-		data: dbPL().get(), //playlists,
+		data: playlists,  //dbPL().get(), //
 		minSpareRows: 1,
 		height: 296,
 		//colHeaders: 'Id YTId Type Info Comment'.split(" "),
@@ -844,22 +845,29 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
   })
   
   
-function getGSheet(spreadsheetID, r1, r2, c1, c2, cbfun){
-	  var urlc = "https://spreadsheets.google.com/feeds/cells/" + spreadsheetID + '/od6/public/values?alt=json&min-row='+r1 + '&max-row='+r2 + '&min-col='+c1 + '&max-col='+c2 ;
-	  console.log('getGSheet(spreadsheetID, r1, r2, c1, c2, cbfun): urlc =', urlc)
-	  $.getJSON(urlc, gcellsToArr(cbfun))
-}			 
+function GSheetRange2_HTcells(spreadsheetID, r1, r2, c1, c2, cbfun, db){
+    spreadsheetID= spreadsheetID || '170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'
+    db= db || 'MA'
+
+    var GSheets= {MA:'od6', dbLog:'ojacmh6', dbPl:'o8ewx2k', dbPhases:'o26bz5o', dbVid:'oevm3xw', dbEv:'ouj8mhj'} 
+
+    var urlc= "https://spreadsheets.google.com/feeds/cells/" + spreadsheetID +'/'  + GSheets[db]
+              + '/public/values?alt=json&min-row='+r1 + '&max-row='+r2 + '&min-col='+c1 + '&max-col='+c2 ;
+    console.log('GSheetRange2_HTcells(spreadsheetID, r1, r2, c1, c2, cbfun): urlc =', urlc)
+    $.getJSON(urlc, gcellsToArr(cbfun))
+} 
+			 
 		  
 function gcellsToArr(cbfun){ return function(data){ 
-		   var entryc = data.feed.entry, res=[], header=[], rOld=-2;
-		   console.log('entryc =', entryc )
+		   var entryc= data.feed.entry, res=[], header=[], rOld=-2;
+		   console.log('gcellsToArr: entryc=', entryc )
 		   
 		   r1= parseInt(entryc[0].gs$cell.row);
 		   c1= parseInt(entryc[0].gs$cell.col);
 		   
 		   for(i=0, l= entryc.length; i<l; i++){
 			  var e= entryc[i].gs$cell, r= parseInt(e.row) - r1 - 1, c= parseInt(e.col)-c1;
-			  console.log('i, r1, rOld, r, c, e.$t =', i, r1, rOld, r, c, e.$t )
+			  console.log('gcellsToArr: i, r1, rOld, r, c, e.$t =', i, r1, rOld, r, c, e.$t )
 		      if(r> rOld+1) {break}; rOld= r;
 
 			  if(r== -1) {header[c]= e.$t} else {
@@ -875,34 +883,34 @@ function gcellsToArr(cbfun){ return function(data){
 }}	
   
 
-function getGSpreadsheet2Handst(){
-	alert('getGSpreadsheet2Handst()')
+function GSheet2_HT(){
+	alert('GSheet2_HT()')
 	  var spreadsheetID = "170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI";
 
-	  getGSheet(spreadsheetID, 4, 50, 11, 15, function(playls){console.log('plls10 =', plls)
+	  GSheetRange2_HTcells(spreadsheetID, 4, 50, 11, 15, function(playls){console.log('plls10 =', plls)
 		  playlistsHT.loadData(playls) 
 	  });
 	  
-    getGSheet(spreadsheetID, 4, 40, 1, 9, function(points){console.log('points =', pts)
+    GSheetRange2_HTcells(spreadsheetID, 4, 40, 1, 9, function(points){console.log('points =', pts)
   	  evsHT.loadData(points) 
     });
     
     
 	  var urlph = 'https://docs.google.com/spreadsheets/d/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/edit#gid=131568998/values?alt=json&min-row='+2 + '&max-row='+12 + '&min-col='+1 + '&max-col='+3 ;
-	  console.log('getGSpreadsheet2Handst: urlc =', urlph)
+	  console.log('GSheet2_HT: urlc =', urlph)
 	  $.getJSON(urlc, function(res) {console.log('getPh', res)})
 }
 
-//$('#getG').click(getGSpreadsheet2Handst)
+//$('#getG').click(GSheet2_HT)
 $('#getG').click(function(){
-	  alert('getGSpreadsheet2Handst()')
+	  alert('GSheet2_HT()')
 	  var spreadsheetID = "170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI";
 
-	  getGSheet(spreadsheetID, 4, 20, 11, 15, function(plls){console.log('plls10 =', plls)
+	  GSheetRange2_HTcells(spreadsheetID, 4, 20, 11, 15, function(plls){console.log('plls10 =', plls)
 		  playlistsHT.loadData(plls) 
 
 	  });
-	  getGSheet(spreadsheetID, 4, 20, 1, 9, function(pts){console.log('points =', pts)
+	  GSheetRange2_HTcells(spreadsheetID, 4, 20, 1, 9, function(pts){console.log('points =', pts)
 		  evsHT.loadData(pts) 
 	  });
 	  
@@ -932,14 +940,48 @@ $('#getG').click(function(){
             dataType: "jsonp"            		    //$.get({url: "https://www.youtube.com/watch?v="+ yid + '&format=json&callback=?'
     	  , success: function(res){console.log('getPh:', res)}
 	  })
-	
 })
 
 
+
+
   
-  })  /// on doc ready  ===================================================================================
+//  })  /// on doc ready  ===================================================================================
   
 
+function GSheetPh2dbHT(){
+//	GSheet2db(0, "dbPhases", function(res){
+//						dbPhases=TAFFY(res); dbPhases2evsHT(1)
+//						//gcellsToArr(cbfun)
+//		})
+		
+	GSheetRange2_HTcells(0, 1, 2, 5, 5, function(res){console.log('GSheetPh2dbHT: res =', res)
+		    //playlistsHT.loadData(playls) 
+			cl('GSheetPh2dbHT: fJ(res[0].dbPhases)', fJ(res[0].dbPhases))
+				
+			var dd= fJ(res[0].dbPhases), pp=[];
+			dd.map(function(d){ pp.push({phase:d[0], t:d[1], yid:d[2]}) })
+			dbPhases= TAFFY(pp); dbPhases2evsHT(1)
+		  }, 'dbLog')
+}
+
+  
+function GSheet2db(spreadsheetID, db, callback){
+	spreadsheetID= spreadsheetID || '170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'
+	db= db || 'dbPl'
+	var GSheets= {MA:'od6', dbLog:'ojacmh6', dbPl:'o8ewx2k', dbPhases:'o26bz5o', dbVid:'oevm3xw', dbEv:'ouj8mhj'} 
+
+	$.ajax({
+        url: 'https://spreadsheets.google.com/feeds/list/'+ spreadsheetID +'/' 
+              + GSheets[db] + '/public/values?alt=json' 
+        , dataType: "jsonp"            		    //$.get({url: "https://www.youtube.com/watch?v="+ yid + '&format=json&callback=?'
+    	, success: function(res){	console.log('Gdoc2db: ', db, res)
+			    		callback(res)
+					}
+    	, error: function(xhr, status, err){console.log('Gdoc2db: Err ', xhr, status, err)}
+	})
+}
+// test: GDoc2db(0, dbPhases, 0)
 
 function evsHT2dbPhases(){
     var db= TAFFY();
@@ -967,7 +1009,7 @@ function matchPhase(ph){
 //	  for (var i=0, l=un.length; i<l;  i++) {u= un[i];...} 
 	  un.map(function(u){ if(u[0] && u[1]*1) dbPhases.insert({phase:u[0], yid:u[2], t:u[1]}) })
 
-	  console.log('remove dups: un, dbPhases', un, dbPhases().get())	  
+	  console.log('matchPhase: remove dups: un, dbPhases', un, dbPhases().get())	  
 	  
 	  dbPhases({phase: ph}).each(function (p, recordnumber) {
 		  evData.push({Video2:'http://www.youtube.com/watch?v='+p.yid, t2:p.t, Phase:$('#inpPh').val()}) //zz
@@ -994,7 +1036,7 @@ function dbPhases2evsHT(all){
 	});
 	
 	if(0){
-		for(i=0,l= dat.length; i<l; i++){ var d= dat[i];
+		for(i=0, l= dat.length; i<l; i++){ var d= dat[i];
 			evData[i].Video2= 'http://www.youtube.com/watch?v='+d.yid  // dat[i].Id; 
 			evData[i].t2= d.t;
 			evData[i].Phase= d.phase;
@@ -1003,7 +1045,7 @@ function dbPhases2evsHT(all){
 		}
 	}
 
-evsHT.loadData(evData)
+	evsHT.loadData(evData)
 		
 //	console.log('get_dbPhases2evsHT: db.get()=', db.get())
 //	console.log('get_dbPhases2evsHT: dat=', dat)
@@ -1132,7 +1174,7 @@ evsHT.loadData(evData)
   }
    
 
-  function db2GooSheet() {
+  function db2GSheet() {
       request= $.ajax({
           url: 'https://script.google.com/macros/s/AKfycbwUv4gQ7KqdZU4xcovE595iUGDWiewTteyuUqgAmll3Mf9iA6M/exec',
           type: 'post', 
@@ -1171,11 +1213,13 @@ evsHT.loadData(evData)
 //		  })
 		  
 	var u=	{phase:$('#inpPh').val(), yid:vid2, t:$('#t2').val()}  
-	if(dbPhases(u).count()==0) { dbPhases.insert(u) }
+	if(dbPhases(u).count()==0) { dbPhases.insert(u) 
+		dbPhases.store("dbPhases")
+	}
 		  
 	  console.log('LogCurrentPoint  dbVid=', dbVid().get())
 	  console.log('LogCurrentPoint  dbPhases=', dbPhases().get())
-	  dbPhases.store("dbPhases")
+	  
 	  
 	  //db2GooSheet()
 	  
@@ -1197,6 +1241,21 @@ evsHT.loadData(evData)
           error: function(e){console.log('Log to G-Sheets ajax fail '+ JSON.stringify(e))}
        });
 	*/
+  }
+  
+  
+  function all_dbVid2PL() {
+	  
+	  dbVid().each(function (p, recordnumber) {
+  		playlists.push({ // new video
+    		Id: hashId(p.title), //rj.title.replace(/\s+/g, '').substr(0,5),
+			YTId: p.yid,
+			Comment:p.title,
+			Type: 3
+    	}) 
+		  
+	  })
+	  playlistsHT.loadData(playlists)
   }
   
   var zz;

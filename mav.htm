@@ -8,33 +8,9 @@
    <title>MA tool</title>
    
    
-   <!-- Include jQuery & Bootstrap-->
 
-    <script src="lib/jquery.min.js"></script>
-    <script src="http://intridea.github.io/sketch.js/lib/sketch.js"></script>
-    
-<!--     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script> -->
-<!--     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/> -->
-    
-    <script src="lib/zCanvas.js"></script>
-    
-<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sheetrock/1.1.0/dist/sheetrock.min.js"></script> -->
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-    <link href="lib/handsontable.full.min.css" rel="stylesheet">
-    <script src="lib/handsontable.full.min.js"></script>
-    <script src="lib/moment.min.js"></script>
-    <script src="lib/pikaday.js"></script>
-    
-
-    <script src="lib/taffy.js"></script>
         
-    <style>
-
-
-
+<style>
     #tbPlaylistsH  .ht_master tr > td:nth-child(3) {
       background-color: #efe;
     }
@@ -100,7 +76,7 @@
               <button onclick="plays(pp[{{ip}}], 1.5)" style="font-size:110%" title="Play Speed 1.5 or Pause">></button>
               <button onclick="plays(pp[{{ip}}], 2)" style="font-size:119%" title="Play Speed 2 or Pause">></button>
               <input id="t{{ip}}"  onchange="pp[{{ip}}].seekTo(value)" type="number" step = ".3"></input>
-              <button id="fullscr{{ip}}" onclick="fullScreen({{ip}});"  title="FS2v">FS</button>
+              <button id="fullscr{{ip}}" onclick="fullScreen({{ip}});"  title="toggle Full Screen">FS</button>
 	</div>
 	</div>
 <!--  <script> $(function(){/// $('#vpcontr{{ip}}').draggable() 
@@ -232,13 +208,19 @@
 <hr/>
 <hr/>
 
-<!-- <h3> for Developers</h3> -->
+<!-- <h3> for Developers</h3> ----------------------------------------------------------------->
 <button onclick='$("#for-developers").toggle()'> for Developers</button>
-<div id='for-developers'>
+<div id='for-developers' style='display:none'>
 
-    <button onclick='dbPhases2evsHT()'>get_dbPhases2evsHT</button>
-    <button onclick='evsHT2dbPhases()()'>evsHT2dbPhases()</button><br/>
+    <button onclick='dbPhases2evsHT()'>dbPhases2evsHT()</button>
+    <button onclick='evsHT2dbPhases()'>evsHT2dbPhases()</button>
+    <button onclick='GSheet2db()'>GSheet2db()</button>
+    <button onclick='GSheetPh2dbHT()'>GSheetPh2dbHT()</button>
+    <button onclick='db2GSheet()'>db2GSheet()</button>
+    <button onclick='all_dbVid2PL()'>all_dbVid2PL()</button><br/>
+    
 
+<!--   --->
 	  
 	 API: <a href="https://developers.google.com/sheets/samples/reading">Google Sheets API </a><br/>
 	<a href="https://developers.google.com/youtube/js_api_reference">YouTube JavaScript Player API Reference</a><br/>
@@ -247,7 +229,7 @@
 	
 	            <div class="btn-group" data-toggle="buttons">
 	<!--                 <button class="btn btn-primary" onclick="getSheetrock2Handst()">load from GDoc</button> -->
-	<!--                 <button id="getG.bak" class="btn btn-primary">load from GDoc  onclick="getGSpreadsheet2Handst()"</button> -->
+	<!--                 <button id="getG.bak" class="btn btn-primary">load from GDoc  onclick="GSheet2_HT()"</button> -->
 	<!--                 <button class="btn btn-primary" onclick="saveHandst2GDoc()">save to GDoc</button> -->
 	                &nbsp; &nbsp; <a href="http://bit.ly/alexzolot-ma"> G-doc</a> -> <a href="https://chriszarate.github.io/sheetrock/">sheetrock</a> -> 
 	             <a href="https://handsontable.com/examples.html?headers">handsontable.com</a>   :</h3> 
@@ -258,6 +240,30 @@
 	<button id="test">test  onclick="test()"</button> 
 	<div id="testOut"></div>
 </div>
+
+
+   <!-- Include jQuery & Bootstrap-->
+
+    <script src="lib/jquery.min.js"></script>
+    <script src="http://intridea.github.io/sketch.js/lib/sketch.js"></script>
+    
+<!--     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script> -->
+<!--     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/> -->
+    
+    <script src="lib/zCanvas.js"></script>
+    
+<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sheetrock/1.1.0/dist/sheetrock.min.js"></script> -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <link href="lib/handsontable.full.min.css" rel="stylesheet">
+    <script src="lib/handsontable.full.min.js"></script>
+    <script src="lib/moment.min.js"></script>
+    <script src="lib/pikaday.js"></script>
+    
+
+    <script src="lib/taffy.js"></script>
 
     <script src="http://cdn.jsdelivr.net/vue/1.0.16/vue.min.js"></script>
     <script src="mav.js"></script>         <!-- AZ -->
