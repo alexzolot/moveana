@@ -1270,7 +1270,9 @@ function dbPhases2evsHT(all){
 		  
 	  })
 	  playlistsHT.loadData(playlists)
-  }
+	  $("html, body").animate({scrollTop: $('#tbPlaylistsH').offset().top-40} , 300)
+
+}
   
   var zz;
   
