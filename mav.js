@@ -1036,7 +1036,9 @@ function dbPhases2evsHT(all){
 	var db= dbPhases(); //get Id
 	if(!all) db= db.join(dbPL, function (l, r) { return (l.yid === r.YTId); }); //get Id
 	var dat= db.order('t').order('Id')//.get()
+
 	//evData_Filled= dat;  //?? used by go2ev
+
 	
 	dat.each(function (p, recordnumber) {
 		  //evData.push({Video2:'http://www.youtube.com/watch?v='+p.yid, t2:p.t, Phase:p.phase, SSI:p.yid, BM: d.Info}) //zz
@@ -1168,6 +1170,7 @@ function dbPhases2evsHT(all){
 	  iEvent= iEvent != undefined ? iEvent : selection == undefined ? 0: selection[0] 
 	  
  	  var e= evData_Filled[iEvent];  console.log('go2ev:', iEvent, e); 
+
  	  if(	[e.Video1]){
 	  	  console.log('playlistsDict[e.Video1].YTId:', playlistsDict[e.Video1].YTId); 
 		  pp[1].go1Vid(playlistsDict[e.Video1].YTId, e.t1)
@@ -1273,6 +1276,7 @@ function dbPhases2evsHT(all){
 	  $("html, body").animate({scrollTop: $('#tbPlaylistsH').offset().top-40} , 300)
 
 }
+
   
   var zz;
   

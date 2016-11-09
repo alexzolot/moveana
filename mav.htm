@@ -82,8 +82,10 @@
               <button onclick="plays(pp[{{ip}}], 2)"   style='border:1px; background:#fbb; padding:2px; font-size:100%' title="Play Speed 2 or Pause" class='fa fa-play'></button> &nbsp;
 </div>
               <input id="t{{ip}}"  onchange="pp[{{ip}}].seekTo(value)" type="number" step = ".3"></input>
+
               <button id="fullscr{{ip}}" onclick="fullScreen({{ip}});"  title="toggle Full Screen" class='glyphicon glyphicon-fullscreen'/> 
-<!--               FS</button> -->
+
+
 	</div>
 	</div>
 <!--  <script> $(function(){/// $('#vpcontr{{ip}}').draggable() 
@@ -200,6 +202,7 @@
 <div class="row">
     <div class="col-md-2 vid">	Phase:<input id="inpPh" type= "text" placeholder='m3'></input>
 		<button id='btMatch' onclick='matchPhase()' class= 'fa fa-exchange' title='Match Phase'> Match</button>
+
     </div>
 	<note header="Ski-Snow Interaction" id="taSS"></note>
 	<note header="Body Movements" id="taBM"></note>
@@ -218,6 +221,7 @@
 <hr/>
 
 <!-- <h3> for Developers</h3> ----------------------------------------------------------------->
+
 <button onclick= 'toggleDev()' class="fa fa-wrench" aria-hidden="true" title='for Developers'></button>  <br/>
 
 <div id='for-developers' style='display:none'>
