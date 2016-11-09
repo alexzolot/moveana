@@ -8,33 +8,9 @@
    <title>MA tool</title>
    
    
-   <!-- Include jQuery & Bootstrap-->
 
-    <script src="lib/jquery.min.js"></script>
-    <script src="http://intridea.github.io/sketch.js/lib/sketch.js"></script>
-    
-<!--     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script> -->
-<!--     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/> -->
-    
-    <script src="lib/zCanvas.js"></script>
-    
-<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sheetrock/1.1.0/dist/sheetrock.min.js"></script> -->
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-    <link href="lib/handsontable.full.min.css" rel="stylesheet">
-    <script src="lib/handsontable.full.min.js"></script>
-    <script src="lib/moment.min.js"></script>
-    <script src="lib/pikaday.js"></script>
-    
-
-    <script src="lib/taffy.js"></script>
         
-    <style>
-
-
-
+<style>
     #tbPlaylistsH  .ht_master tr > td:nth-child(3) {
       background-color: #efe;
     }
@@ -66,7 +42,7 @@
 */
     #divcanvas,  .tools { margin-bottom: 10px; }
    .brush,  #divcanvas a, .canvtools, .tools {
-        border: 1px solid black; height: 30px; line-height: 30px; 
+        border: 1px solid black; height: 20px; line-height: 20px; 
 /*         padding: 0 10px; vertical-align: middle; text-align: center;  */
         padding: 10px 0; vertical-align: middle; text-align: center; 
         text-decoration: none; display: inline-block; color: black; font-weight: bold;
@@ -90,17 +66,24 @@
 
 <template id="vPlayerControls-template">    
        <div id='vpcontr-contain{{ip}}'> 
-       <div id='vpcontr{{ip}}' class='vpcontr'> 
-              Step:   <button onclick="pshift(pp[{{ip}}], -.1,'#t1')" ondblclick="pshift(pp[{{ip}}], -.3,'#t1')" title="Back 0.1 or 0.3 sec">.<</button> 
-              <button onclick="pshift(pp[{{ip}}], .1,'#t1')" ondblclick="pshift(pp[{{ip}}], .3,'#t1')" title="Forward 0.1 or 0.3 sec">>.</button>
-&nbsp;&nbsp; Play/Pause:
-              <button onclick="plays(pp[{{ip}}], .25)" style="font-size:60%" title="Play Speed 1/4 or Pause">></button>
-              <button onclick="plays(pp[{{ip}}], .5)" style="font-size:80%" title="Play Speed 1/2 or Pause">></button>
-              <button onclick="plays(pp[{{ip}}], 1)" title="Play normal Speed or Pause" style='background:#8f8;'>></button>  <!-- width: 10px; height: 10px; -->
-              <button onclick="plays(pp[{{ip}}], 1.5)" style="font-size:110%" title="Play Speed 1.5 or Pause">></button>
-              <button onclick="plays(pp[{{ip}}], 2)" style="font-size:119%" title="Play Speed 2 or Pause">></button>
+       <div id='vpcontr{{ip}}' class='vpcontr'>
+        
+       <div class="btn-group">
+<!--               Step:    -->
+              <button onclick="pshift(pp[{{ip}}], -.1,'#t1')" style='width:20px; padding:2px' ondblclick="pshift(pp[{{ip}}], -.3,'#t1')" title="Step Back 0.1 or 0.3 sec" class='fa fa-step-backward'/> 
+              <button onclick="pshift(pp[{{ip}}], .1,'#t1')" style='width:20px; padding:2px' ondblclick="pshift(pp[{{ip}}], .3,'#t1')" title="Step Forward 0.1 or 0.3 sec" class='fa fa-step-forward'></button>
+</div>
+&nbsp;&nbsp; <!--  Play/Pause: -->
+<div class="btn-group">
+              <button onclick="plays(pp[{{ip}}], .25)" style='border:1px; background:#bbf; width:20px; padding:2px; font-size:99%' title="Play Speed 1/4 or Pause" class='fa fa-play'/>
+              <button onclick="plays(pp[{{ip}}], .5)"  style='border:1px; background:#ddf; width:20px; padding:2px; font-size:99%' title="Play Speed 1/2 or Pause" class='fa fa-play'/>
+              <button onclick="plays(pp[{{ip}}], 1)"   style='border:1px;  width:20px; padding:2px;' title="Play normal Speed or Pause"  class='fa fa-play'/>  <!-- width: 10px; height: 10px; -->
+              <button onclick="plays(pp[{{ip}}], 1.5)" style='border:1px; background:#fdd; padding:2px; font-size:100%' title="Play Speed 1.5 or Pause" class='fa fa-play'/> 
+              <button onclick="plays(pp[{{ip}}], 2)"   style='border:1px; background:#fbb; padding:2px; font-size:100%' title="Play Speed 2 or Pause" class='fa fa-play'></button> &nbsp;
+</div>
               <input id="t{{ip}}"  onchange="pp[{{ip}}].seekTo(value)" type="number" step = ".3"></input>
-              <button id="fullscr{{ip}}" onclick="fullScreen({{ip}});"  title="FS2v">FS</button>
+              <button id="fullscr{{ip}}" onclick="fullScreen({{ip}});"  title="toggle Full Screen" class='glyphicon glyphicon-fullscreen'/> 
+<!--               FS</button> -->
 	</div>
 	</div>
 <!--  <script> $(function(){/// $('#vpcontr{{ip}}').draggable() 
@@ -160,7 +143,7 @@
         <!--  https://handsontable.com/examples.html#fndtn-advanced  --> 
        <a href="http://bit.ly/alexzolot-ma" target="_blank">  G-sheet (to copy-paste the data) </a>
 
-        <button id="getG" >load from GDoc</button>
+        <button id="getG" class='fa fa-cloud-download'  title='Load data from GDoc to Tables'> load from GDoc</button>
 
   <div class="col-md-11 vid">    
 	     <h4>Playlists:</h4>
@@ -170,11 +153,11 @@
                <div id="tbEventsH" title='DblClk set event'></div>
              
 <!-- 	            <table id="tbSheetrock" class="table table-condensed table-striped"></table> -->
-	              <button onclick="LoadPlaylists()">Load Playlists</button> 
-                  <button onclick="go2SelectedEvent()">Go to Selected Point</button> 
+	              <button onclick="LoadPlaylists()"  class='glyphicon glyphicon-import' title='Load Playlists from Table to Players'> Load Playlists</button> 
+                  <button onclick="go2ev()" class='fa fa-arrow-down'>Current Point:</button> 
                   <input id="inpCurrPoint" title="current Point"  onchange="
                           if(value> evData.length) value= 1;
-	                      go2evs(value-1); 
+	                      go2ev(value-1); 
 		                  evsHT.scrollViewportTo(value-1, 0); 
 		                  evsHT.selectCell(value-1, 0)" 
 	                  type="number" step = "1" value="1" />
@@ -195,14 +178,16 @@
     <vplayercontrols ip="1"  class="col-md-4 vid"></vplayercontrols>
 
 <div class="col-md-4 vid"> 
-     Both:      
-               <button onclick="pp[1].pauseVideo();pp[2].pauseVideo()">||||</button>
-               <button onclick="pshift(pp[1], .1,'#t1'); pshift(pp[2], .1,'#t2')">>.</button>
-               <button onclick="plays(pp[1], .25); plays(pp[2], .25)" title="Play Both speed 1/4 or Pause">></button>&nbsp;&nbsp;
+     Both: <div class="btn-group">
+               <button onclick="pp[1].pauseVideo();pp[2].pauseVideo()" class='fa fa-pause'/>
+               <button onclick="pshift(pp[1], .1,'#t1'); pshift(pp[2], .1,'#t2')" class='fa fa-step-forward' />
+               <button onclick="plays(pp[1], .25); plays(pp[2], .25)" title="Play Both speed 1/4 or Pause" class='fa fa-play'/>
+     </div>
+               &nbsp;&nbsp;
 
 
-         <span id="canv-tools"><button id="erase" onclick="clearCanv();" title="Erase all Lines">Erase</button></span> 
-         <button id="bt-draw" onclick="toggleCanv();" title="toggle drawing">X</button>
+         <div class="btn-group" id="canv-tools"><button id="erase" onclick="clearCanv();" title="Erase all Lines"  class='glyphicon glyphicon-erase'/></div> 
+         <button id="bt-draw" onclick="toggleCanv();" title="toggle drawing" class='glyphicon glyphicon-remove-circle'></button>
               
 
   
@@ -211,10 +196,10 @@
     <vplayercontrols ip="2"  class="col-md-4 vid"></vplayercontrols>
 </div>
 
-
+<br/>
 <div class="row">
-    <div class="col-md-2 vid">	<input type= "text"  id="inpPh"></input><br/>
-		<button id='btMatch'>Match Phase</button>
+    <div class="col-md-2 vid">	Phase:<input id="inpPh" type= "text" placeholder='m3'></input>
+		<button id='btMatch' onclick='matchPhase()' class= 'fa fa-exchange' title='Match Phase'> Match</button>
     </div>
 	<note header="Ski-Snow Interaction" id="taSS"></note>
 	<note header="Body Movements" id="taBM"></note>
@@ -222,7 +207,7 @@
 
 
 	<div class="col-md-1 vid">
-	  <br/> <button onclick="LogCurrentPoint()" title='Current Point to tabble "Points"'>to Log</button> 
+	  <br/> <button onclick="LogCurrentPoint()" title='Current Point to tabble "Points"' class='fa fa-export'>to Log</button> 
 	</div>
 </div>
 </div app>
@@ -232,27 +217,78 @@
 <hr/>
 <hr/>
 
-<h3> for Developers</h3>
-  
- API: <a href="https://developers.google.com/sheets/samples/reading">Google Sheets API </a><br/>
-<a href="https://developers.google.com/youtube/js_api_reference">YouTube JavaScript Player API Reference</a><br/>
-<a href="http://demo.tutorialzine.com/2015/08/how-to-control-youtubes-video-player-with-javascript">Tutorial how-to-control-youtubes-video-player-with-javascript</a>
+<!-- <h3> for Developers</h3> ----------------------------------------------------------------->
+<button onclick= 'toggleDev()' class="fa fa-wrench" aria-hidden="true" title='for Developers'></button>  <br/>
+
+<div id='for-developers' style='display:none'>
+
+    <button onclick= 'toggleDev()' class="fa fa-cog" aria-hidden="true" title='for Developers'>Settings</button>  <br/>
+
+    <button onclick='dbPhases2evsHT()'>dbPhases2evsHT()</button>
+    <button onclick='evsHT2dbPhases()'>evsHT2dbPhases()</button>
+    <button onclick='GSheet2db()'>GSheet2db()</button>
+    <button onclick='GSheetPh2dbHT()'>GSheetPh2dbHT()</button>
+    <button onclick='db2GSheet()'>db2GSheet()</button>
+    <button onclick='all_dbVid2PL()'>all_dbVid2PL()</button><br/>
+    
+
+<!--   --->
+	  
+	 API: <a href="https://developers.google.com/sheets/samples/reading">Google Sheets API </a><br/>
+	<a href="https://developers.google.com/youtube/js_api_reference">YouTube JavaScript Player API Reference</a><br/>
+    <a href="http://demo.tutorialzine.com/2015/08/how-to-control-youtubes-video-player-with-javascript">Tutorial how-to-control-youtubes-video-player-with-javascript</a><br/>
+    <a href="http://fontawesome.io/icons/#web-application">fontawesome icons</a><br/>
+    <a href="http://getbootstrap.com/components/#glyphicons">bootstrap icons</a><br/>
+    <a href="https://console.aws.amazon.com/s3/home?region=us-west-2#&bucket=moveana&prefix=lib/">AWS S3 console</a><br/>
+	
+	
+	            <div class="btn-group" data-toggle="buttons">
+	<!--                 <button class="btn btn-primary" onclick="getSheetrock2Handst()">load from GDoc</button> -->
+	<!--                 <button id="getG.bak" class="btn btn-primary">load from GDoc  onclick="GSheet2_HT()"</button> -->
+	<!--                 <button class="btn btn-primary" onclick="saveHandst2GDoc()">save to GDoc</button> -->
+                    &nbsp; &nbsp; <a href="http://bit.ly/alexzolot-ma"> bit.ly/alexzolot-ma (GSheet)</a><br/>
+                    &nbsp; &nbsp; <a href="http://bit.ly/MA-tool"> bit.ly/MA-tool</a><br/>
+<!--    <a href="https://chriszarate.github.io/sheetrock/">sheetrock</a> --> 
+	             <a href="https://handsontable.com/examples.html?headers">handsontable.com</a> <br/>
+	            </div>
+	            
+	            <!-- this on AWS: http://bit.ly/MA-tool = http://moveana.s3-website-us-east-1.amazonaws.com/
+	            https://console.aws.amazon.com/s3/home?region=us-west-2#&bucket=moveana&prefix=
+	            -->
+	
+	<button id="test">test  onclick="test()"</button> 
+	<div id="testOut"></div>
 </div>
 
-            <div class="btn-group" data-toggle="buttons">
-<!--                 <button class="btn btn-primary" onclick="getSheetrock2Handst()">load from GDoc</button> -->
-<!--                 <button id="getG.bak" class="btn btn-primary">load from GDoc  onclick="getGSpreadsheet2Handst()"</button> -->
-<!--                 <button class="btn btn-primary" onclick="saveHandst2GDoc()">save to GDoc</button> -->
-                &nbsp; &nbsp; <a href="http://bit.ly/alexzolot-ma"> G-doc</a> -> <a href="https://chriszarate.github.io/sheetrock/">sheetrock</a> -> 
-             <a href="https://handsontable.com/examples.html?headers">handsontable.com</a>   :</h3> 
-            </div>
-            
-            <!-- this on AWS: http://bit.ly/MA-tool = http://moveana.s3-website-us-east-1.amazonaws.com/-->
 
-<button id="test">test  onclick="test()"</button> 
-<div id="testOut"></div>
+
+   <!-- Include jQuery & Bootstrap-->
+
+    <script src="lib/jquery.min.js"></script>
+    <script src="http://intridea.github.io/sketch.js/lib/sketch.js"></script>
+    
+<!--     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.js"></script> -->
+<!--     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/themes/base/jquery-ui.css"/> -->
+    
+    <script src="lib/zCanvas.js"></script>
+    
+<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sheetrock/1.1.0/dist/sheetrock.min.js"></script> -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <link href="lib/handsontable.full.min.css" rel="stylesheet">
+    <script src="lib/handsontable.full.min.js"></script>
+    <script src="lib/moment.min.js"></script>
+    <script src="lib/pikaday.js"></script>
+    
+
+    <script src="lib/taffy.js"></script>
 
     <script src="http://cdn.jsdelivr.net/vue/1.0.16/vue.min.js"></script>
+    
+    <link rel="stylesheet" href="lib/font-awesome-4.7.0/css/font-awesome.min.css">
+    
     <script src="mav.js"></script>         <!-- AZ -->
 </body>
 </html>
@@ -261,7 +297,6 @@
 TODO:  match by phase, e.g.: bL 6oc,  [b]{LSBP} \d?\doc, 12-6 clockwise (CW), 7-11 conterclockwise (CCW)
  - play -2 +1
 - render tbPoints
-- full screen
 - persistense
  
  -->
