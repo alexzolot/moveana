@@ -396,7 +396,9 @@ var vm = new Vue({
 	   
 	    $('#divcanvas').append( canvas );
 	    
-	    setTimeout(function(){positionCanvas('$().ready'); runCanvas()}, 1000)
+	    setTimeout(function(){positionCanvas('$().ready'); runCanvas()
+	    		toggleCanv()
+	    }, 1000)
 	    
 	} //createCanvas
 	
@@ -405,17 +407,16 @@ var vm = new Vue({
 	
 	var isCanv= true
 	toggleCanv= function(){
-				isCanv= !isCanv; 
-				$('#canv-tools').toggle(); 
-				$('#canvas').css('z-index', isCanv ? 15 : 0)
-				//$('#bt-draw').html(isCanv ? "X" :"Draw")
-				$('#bt-draw').toggleClass('glyphicon-pencil glyphicon-remove-circle') //$('#fullscr'+ip).text('fs')
-
-		}
+					isCanv= !isCanv; 
+					$('#canv-tools').toggle(); 
+					$('#canvas').css('z-index', isCanv ? 15 : 0)
+					//$('#bt-draw').html(isCanv ? "X" :"Draw")
+					$('#bt-draw').toggleClass('glyphicon-pencil glyphicon-remove-circle') //$('#fullscr'+ip).text('fs')
+				}
 	
 
 	
-	
+	//setTimeout(toggleCanv, 4000);
 
 	  evData_Filled= fillEvs();
 	  
