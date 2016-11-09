@@ -509,8 +509,18 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 	if(test=0){ render_YT_URL('https://www.youtube.com/watch?v=d1IXMk6uSAU', function(){alert(tit)})}
 	
  //function hashId(title){ return title.replace(/\s+ /g, '').substr(0,5)}	
- function hashId(title){ return title.replace(/\s*/g, '').substr(0,3)+ title.substr(3,99).replace(/[^A-Z0-9]/g, '')}	
-	
+ //function hashId(title){ return title.replace(/\s*/g, '').substr(0,3)+ title.substr(3,99).replace(/[^A-Z0-9]/g, '')}	
+  var ids= dbPL().select('Id')
+  
+ function hashId(title){ 
+	 var  h0= title.replace(/\s*/g, '').substr(0,2)
+	 
+	 for(var i=0; i<40; i++){s= '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.substr(i, 1); if(s=='0'){ s= ''};
+		 var h= h0 + s;
+		 if(ids.indexOf(h)==-1){ids.push(h); return h}
+	 }
+ }
+
 
  function YTId_Renderer(instance, td, row, col, prop, value, cellProperties) {
     // console.log('YTId_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)

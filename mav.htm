@@ -156,7 +156,7 @@
              
 <!-- 	            <table id="tbSheetrock" class="table table-condensed table-striped"></table> -->
 	              <button onclick="LoadPlaylists()"  class='glyphicon glyphicon-import' title='Load Playlists from Table to Players'> Load Playlists</button> 
-                  <button onclick="go2ev()" class='fa fa-arrow-down'>Current Point:</button> 
+                  <button onclick="go2ev()" class='fa fa-arrow-down'  title='set video to current row of the Points Table'>Current Point:</button> 
                   <input id="inpCurrPoint" title="current Point"  onchange="
                           if(value> evData.length) value= 1;
 	                      go2ev(value-1); 
@@ -263,7 +263,8 @@
 	<button id="test">test  onclick="test()"</button> 
 	<div id="testOut"></div>
 </div>
-
+</div app>
+<br/>
 
 
    <!-- Include jQuery & Bootstrap-->
