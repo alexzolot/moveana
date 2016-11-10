@@ -233,30 +233,11 @@ var vm = new Vue({
 
  /// Handsontable Events 
   var evsHT, evsHT2, playlistsHT; 
-  var evData=[//{	Video1:"R", 	t1:4.31, 	Video2:"R", 	t2:4.89, 	Info:"R, apex", 	SSI:"small edge angle", 	BM:"banking	  outside arm too high and back", 	TD:"outside arm to knee after initiation" 	},
-              {Video1:"AZ1", 	t1:4.31, 	Video2:"PSIANW", 	t2:4.89, 	Phase:"", 	SSI:"small edge angle", 	BM:"banking", 	TD:"outside arm too high and back" 	},
-              {Video1:"", 	t1:5.94, 	Video2:"", 	t2:5.82, 	Phase:"", 	SSI:"", 	BM:"outs arm low", 	TD:"poll in arms, parallel to ground" 	},
-              {Video1:"", 	t1:7.8, 	Video2:"", 	t2:6.75, 	Phase:"", 	SSI:"small edge angle", 	BM:"hips too high", 	TD:"more ang before apex; look at dir of travel" 	},
-              {Video1:"", 	t1:8.75, 	Video2:"", 	t2:8.08, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Video1:"", 	t1:4.49, 	Video2:"Reilly", 	t2:63.61, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Video1:"AZ2", 	t1:50.7, 	Video2:"", 	t2:69.74, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"", 	t1:50.7, 	Video2:"Berger", 	t2:413.83, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	}
-              {Video1:"", 	t1:50.7, 	Video2:"BASI", 	t2:65.14, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-              ]
-//              {Video1:"BASIL", 	t1:83.25, 	Video2:"JBa", 	t2:2.65, 	Phase:"Long - Med turns", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"BASIL", 	t1:93.29, 	Video2:"JBa", 	t2:4.84, 	Phase:"Long - Med turns. 9oc", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"BASIL", 	t1:94.03, 	Video2:"JBa", 	t2:5.24, 	Phase:"Long - Med turns. trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"BASIL", 	t1:94.9, 	Video2:"JBa", 	t2:5.77, 	Phase:"Long - Med turns. 3 oc", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"BASIL", 	t1:96.07, 	Video2:"JBa", 	t2:6.54, 	Phase:"Long - Med turns. trans to left", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"BASIL", 	t1:129.26, 	Video2:"ReMog", 	t2:1.39, 	Phase:"Bumps, trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"BASIL", 	t1:129.78, 	Video2:"ReMog", 	t2:2.19, 	Phase:"Bumps, trans to L", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"BASIL", 	t1:28.3, 	Video2:"Reilly", 	t2:18.6, 	Phase:"Short", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"BASIL", 	t1:31.29, 	Video2:"Reilly", 	t2:18.7, 	Phase:"Short, 8 oc", 	SSI:"", 	BM:"", 	TD:"" 	}]; 
-
-  var playlists= [//{Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:1, 	Info:"med", 	Comment:""}, 
-               //    {Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:2, 	Info:"med", 	Comment:""}, 
+  var playlists= [{Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:3, 	Info:"R", 	Comment:""}, 
+	  {Id:"Z", 	YTId:"4oiPmaBlJNA", 	Type:3, 	Info:"Zep", 	Comment:""}, 
+          //    {Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:2, 	Info:"med", 	Comment:""}, 
                    {Id:"AZ1", 	YTId:"TSDx6RK15es", 	Type:1, 	Info:"Med radius turns, at Palmer Field, by Alex Zolotovitski", 	Comment:""}, 
-                   {Id:"AZ2", 	YTId:"urAXN77X6zU", 	Type:1, 	Info:"3 runs on Outland 87 x 178, by Alex Zolotovitski", 	Comment:""}, 
+//                   {Id:"AZ2", 	YTId:"urAXN77X6zU", 	Type:1, 	Info:"3 runs on Outland 87 x 178, by Alex Zolotovitski", 	Comment:""}, 
                    {Id:"==", 	YTId:"", 	Type:"", 	Info:"", 	Comment:""}, 
                    {Id:"Reilly", 	YTId:"t334XENKLFo", 	Type:2, 	Info:"Reilly Ski Training 2012.mov, by Reilly McGlashan", 	Comment:"32-bumps, 75-med back, 87-short, 129=med"}, 
 //                   {Id:"Berger", 	YTId:"5SZqiCggJN8", 	Type:2, 	Info:"Imagination Richard Berger, by Dnalor Elraes", 	Comment:""}, 
@@ -277,6 +258,28 @@ var vm = new Vue({
 //   {Id:"SKIIN", 	YTId:"7tyY8A8hobc", 	Type:1, 	Info:"SKIING LEVEL 4 BASI ISTD, by admirallimos admirallimos", 	Comment:""}, 
 //   {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}
                    ]; 
+
+  var evData=[{	Video1:"R", 	t1:4.31, 	Video2:"Z", 	t2:4.89, 	Info:"R, apex", 	SSI:"small edge angle", 	BM:"banking	  outside arm too high and back", 	TD:"outside arm to knee after initiation" 	},
+	  {	Video1:"Z", 	t1:4.31, 	Video2:"R", 	t2:4.89, 	Info:"R, apex", 	SSI:"small edge angle", 	BM:"banking	  outside arm too high and back", 	TD:"outside arm to knee after initiation" 	},
+	      {Video1:"AZ1", 	t1:4.31, 	Video2:"PSIANW", 	t2:4.89, 	Phase:"", 	SSI:"small edge angle", 	BM:"banking", 	TD:"outside arm too high and back" 	},
+//      {Video1:"", 	t1:5.94, 	Video2:"", 	t2:5.82, 	Phase:"", 	SSI:"", 	BM:"outs arm low", 	TD:"poll in arms, parallel to ground" 	},
+//      {Video1:"", 	t1:7.8, 	Video2:"", 	t2:6.75, 	Phase:"", 	SSI:"small edge angle", 	BM:"hips too high", 	TD:"more ang before apex; look at dir of travel" 	},
+//      {Video1:"", 	t1:8.75, 	Video2:"", 	t2:8.08, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"", 	t1:4.49, 	Video2:"Reilly", 	t2:63.61, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"AZ2", 	t1:50.7, 	Video2:"", 	t2:69.74, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
+////      {Video1:"", 	t1:50.7, 	Video2:"Berger", 	t2:413.83, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	}
+//      {Video1:"", 	t1:50.7, 	Video2:"BASI", 	t2:65.14, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
+      ]
+//      {Video1:"BASIL", 	t1:83.25, 	Video2:"JBa", 	t2:2.65, 	Phase:"Long - Med turns", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"BASIL", 	t1:93.29, 	Video2:"JBa", 	t2:4.84, 	Phase:"Long - Med turns. 9oc", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"BASIL", 	t1:94.03, 	Video2:"JBa", 	t2:5.24, 	Phase:"Long - Med turns. trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"BASIL", 	t1:94.9, 	Video2:"JBa", 	t2:5.77, 	Phase:"Long - Med turns. 3 oc", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"BASIL", 	t1:96.07, 	Video2:"JBa", 	t2:6.54, 	Phase:"Long - Med turns. trans to left", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"BASIL", 	t1:129.26, 	Video2:"ReMog", 	t2:1.39, 	Phase:"Bumps, trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"BASIL", 	t1:129.78, 	Video2:"ReMog", 	t2:2.19, 	Phase:"Bumps, trans to L", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"BASIL", 	t1:28.3, 	Video2:"Reilly", 	t2:18.6, 	Phase:"Short", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"BASIL", 	t1:31.29, 	Video2:"Reilly", 	t2:18.7, 	Phase:"Short, 8 oc", 	SSI:"", 	BM:"", 	TD:"" 	}]; 
+
 
 
   var dbPL= TAFFY(playlists); console.log('dbPL = ', dbPL().get());
@@ -366,18 +369,11 @@ var vm = new Vue({
 			   var vof= $("#vplayers").offset(); //.position()
 				console.log('positionCanvas '+ info +',  vof=', vof);
 				$("#canvas").offset({top: vof.top + 50, left: vof.left +9});
-//				$("#canvas").width($("#vplayers").width() -8);
-//				$("#canvas").height($("#vplayers").height() -100);
 				
 				canvasOffset = $("#canvas").offset();
 				offsetX = canvasOffset.left;
 				offsetY = canvasOffset.top;
 				
-			//	$("#canvas").css({width:$("#vplayers").width(), height:$("#vplayers").height()})
-				
-				//ctx.scale(.9, 1.1);
-				
-				//$("#canvas_sketch").offset({top: vof.top+40, left:vof.left+3});
 		   }, 50);
 		}
 	  
@@ -437,29 +433,47 @@ var vm = new Vue({
   }  
 	  
 
-function render_YT_URL(value, callback) {  // value is YT_Id or url
+function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
+  //?  if(value=== undefined || value==null || !value){return ''};
+    
     var escaped = Handsontable.helper.stringify(value);
     
     escaped = strip_tags(escaped, '<em><b><strong><a><big>'); //be sure you only allow certain HTML tags to avoid XSS threats (you should also remove unwanted HTML attributes)
     
 
    // var yid= escaped.replace(/.*v=|.*youtu.be\/|&.*/g, ''), url= "http://www.youtube.com/watch?v="+ yid;
-    var yid= escaped.replace(/.*v=([_0-9a-zA-Z\-]+).*/g, '$1'), url= "http://www.youtube.com/watch?v="+ yid;
-    console.log('render_YT_URL: value,  yid, url=', value, yid, url)
+    var yid= escaped.replace(/.*v=([_0-9a-zA-Z\-]+).*/g, '$1')
+      , url= "http://www.youtube.com/watch?v="+ yid;
+    console.log('render_YT_URL: value=', value ,  'yid, url=', yid, url)
     
     
     // TODO: fix this block
-    /*
-    if( dbVid({yid:yid}).count() ){
-    	rj= dbVid({yid}).get() ; cl('render_YT_URL: '+ yid +' found in dbVid'); 
-	    console.log('dbVid({yid:yid})=', dbVid({yid:yid}).get())
-	    callback(rj); 
-	    return 
-    }    
-    */
+
+    // checky yid in dbPL
+    var rj= dbPL({YTId:yid}).get()[0]
+    if( rj){ 
+    	cl('render_YT_URL: YT id '+ yid + ' is dup in dbPL: '+ tJ(rj))  // is dup?
+
+    	//    	return ''
+//??	    	callback(ro, rj, value);
+//	    	return yid
+    }
     
 
+	// not dup in dbPL; check in dbVid
+    rj= dbVid({yid:yid}).get()[0]
+    if(rj != undefined && rj.status == 'gotAjax'){  // ready to use != 'sent2Ajax'
+    	cl('render_YT_URL: '+ yid +' found in dbVid'); 
+	    console.log('dbVid({yid:yid})=', rj)
+	    
+		if(1){	    //??
+			callback(rj); 
+			//callback(ro, rj, value); 
+			    return yid
+		}	    
+    }    
 
+    /// not in db
     var hlink= '<a href="%s" target="_blank">%s</a>'.sf(url, yid)
     
     cl('to ajax ', yid)
@@ -469,24 +483,37 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
     //    if( dbVid({yid:yid}).select('status') == 'gotAjax') {return;}
     if( dbVid({yid:yid}).select('status') == 'sent2Ajax') {return;}
     
+    /// not in db, not sent2Ajax
     dbVid({yid:yid}).update({status: 'sent2Ajax'});
     
 	$.ajax({
-        url: 'http://query.yahooapis.com/v1/public/yql',
-            data: {
-                q: "select * from json where url ='http://www.youtube.com/oembed?url="+ url + "&format=json'",
-                format: "json"
-            },
-            dataType: "jsonp"            		    //$.get({url: "https://www.youtube.com/watch?v="+ yid + '&format=json&callback=?'
-    	  , success: function(result){
+        url: 'http://query.yahooapis.com/v1/public/yql'
+      , data: {
+            q: "select * from json where url ='http://www.youtube.com/oembed?url="+ url + "&format=json'",
+            format: "json"
+        }
+      , dataType: "jsonp"            		    //$.get({url: "https://www.youtube.com/watch?v="+ yid + '&format=json&callback=?'
+	  , success: function(result){  
     		  var res= result.query.results;
     		  if(res==null) return;
     		  
     		  var rj=res.json, tit= rj.title
               rj.yid=yid; 
               rj.tlink= '<a href="%s" target="_blank">%s</a>'.sf(url, tit)
+              
+              cl('render_YT_URL: ajax success rj=', rj)
 
               if(dbVid({yid:yid}).count()==0) dbVid.insert(rj);
+         /*??     
+              if(dbPL({YTId:yid}).count()==0){
+            	 var e= {Id:hashId(tit), YTId:yid
+                         , Type:2, Info: fNote(rj), Comment:''}
+            	 dbPL.insert(e);
+	             // in treatRj    playlists.push(e)
+	      	  }
+          */    
+              
+      
     		  //dbVid({yid:yid}).update({status: 'gotAjax'});
     		  dbVid({yid:yid}).update(function(){this.status= 'gotAjax'; return this});
     		  
@@ -496,27 +523,39 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 //    			, "author_name": "Luk\u00e1\u0161 Mar\u0161\u00edk"
 //    			, "html": "\u003ciframe width=\"480\" height=\"270\" src=\"https:\/\/www.youtube.com\/embed\/iTc9QclQ_l0?feature=oembed\" frameborder=\"0\" allowfullscreen\u003e\u003c\/iframe\u003e"
     	if(0){	  var w=  window.open("", "", "width=800,height=400");
-               w.document.write('<html> %s, by <a href="%s">%s</a> <img src="%s" width="200px" heignt="100px"/> %s</html>'.sf(rj.title, rj.author_url, rj.author_name, rj.thumbnail_url, rj.html))	
+               w.document.write('<html> %s, by <a href="%s">%s</a> <img src="%s" width="200px" heignt="100px"/> %s</html>'
+            		            .sf(rj.title, rj.author_url, rj.author_name, rj.thumbnail_url, rj.html))	
     	}	  
-    		//  console.log('ajax: rj=', rj, ', tit=', tit);
+    		//  console.log('ajax success: rj=', rj, ', tit=', tit);
     		  callback(rj);
+			//	callback(ro, rj, value); 
+
     	    }
        });
     
     return yid;
   }  /// YTId_Renderer	
 	
-	if(test=0){ render_YT_URL('https://www.youtube.com/watch?v=d1IXMk6uSAU', function(){alert(tit)})}
+	if(test=0){ render_YT_URL(0, 'https://www.youtube.com/watch?v=d1IXMk6uSAU', function(){alert(tit)})}
 	
  //function hashId(title){ return title.replace(/\s+ /g, '').substr(0,5)}	
- function hashId(title){ return title.replace(/\s*/g, '').substr(0,3)+ title.substr(3,99).replace(/[^A-Z0-9]/g, '')}	
-	
+ //function hashId(title){ return title.replace(/\s*/g, '').substr(0,3)+ title.substr(3,99).replace(/[^A-Z0-9]/g, '')}	
+
+function hashId(title){ 
+	title= title || ''
+	var ids= dbPL().select('Id')  // ids in PL
+	 var h0= title.replace(/\s*/g, '').substr(0,2), h= h0, ss= '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''); ss[0]='';
+	 for(var i=0; i<40;  h= h0 + ss[i++]){ 
+		 if(ids.indexOf(h)==-1){ids.push(h); return h}
+	 }
+}
+ 	
 
  function YTId_Renderer(instance, td, row, col, prop, value, cellProperties) {
     // console.log('YTId_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
 	
     var ro= row, th= this;
-    var yid= render_YT_URL(value, function(rj){
+    var yid= render_YT_URL(ro, value, function(rj){
 		//alert(tit)
     	// infoRich= $('#chri').prop('checked')
     	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) :
@@ -552,7 +591,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		    if(value.length < 10){ td.innerHTML= value; return td;}
 		    
 		    var ro=row, th= this;
-		    var yid= render_YT_URL(value, function(rj){
+		    var yid= render_YT_URL(ro, value, function(rj){
 				//alert(tit)
 		    	// infoRich= $('#chri').prop('checked')
 		    	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) : ' %s, by %s'.sf(rj.title, rj.author_name)
@@ -584,7 +623,7 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		    if(! /http/.test(value) && value.length != 11){ td.innerHTML= value; return td;}
 		    
 		    var ro=row, th= this;
-		    var yid= render_YT_URL(value, function(rj){
+		    var yid= render_YT_URL(ro, value, function(rj){
 				//alert(tit)s
 		    	// infoRich= $('#chri').prop('checked')
 		    	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) : ' %s, by %s'.sf(rj.title, rj.author_name)
@@ -613,22 +652,16 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		  }  /// Video_Renderer1	
 
 
-
+	 function toggleRich() {infoRich= !infoRich;  playlistsHT.loadData(playlists)
+	 }
 	  
   playlistsHT = new Handsontable($("#tbPlaylistsH")[0], {
 		data: playlists,  //dbPL().get(), //
 		minSpareRows: 1,
 		height: 296,
-		//colHeaders: 'Id YTId Type Info Comment'.split(" "),
-	    colHeaders: function (col) {
-	        switch (col) {
-            case 0:	                return 'Id';
-            case 1:	                return 'YTId';
-	            case 2:	                return '<span title="1 for Left video Player, 2 for right">Type<span>';
-	            case 3:	                return 'Info &nbsp;&nbsp;<button onclick="infoRich= !infoRich; playlistsHT.loadData(playlists)" title="toggle Info to Plain Text before copy the table Ctrl-A,Ctrl-C">Toggle Rich</button>'; //http://jsfiddle.net/vECgN/15/   https://github.com/handsontable/handsontable/issues/1540
-	            case 4:	                return 'Comment'
-	            default:	            return '';
-	        }
+	    colHeaders: function(j) {
+	    			  return j==3 ? 'Info &nbsp;&nbsp;<button onclick="toggleRich() " title="toggle Info to Plain Text before copy the table Ctrl-A,Ctrl-C">Toggle Rich</button>'
+            		              : 'Id YTId Type Info Comment'.split(" ")[j]
 	    },
 		rowHeaders: true,
 		stretchH: 'all',
@@ -1178,7 +1211,8 @@ function dbPhases2evsHT(all){
 		  pp[2].go1Vid(playlistsDict[e.Video2].YTId, e.t2)
  	  } else {alert('playlistsDict [' + e.Video2 + '] does not exists')}
  	  
-      evsHT.selectCell(iEvent, 0) 
+      //evsHT.selectCell(iEvent, 0) 
+      evsHT.selectCell(iEvent, 0, iEvent, evsHT.countCols()-1) 
 
  	  
 	  $('#inpCurrPoint').val(iEvent+1)
@@ -1273,6 +1307,7 @@ function dbPhases2evsHT(all){
 	  $("html, body").animate({scrollTop: $('#tbPlaylistsH').offset().top-40} , 300)
 
 }
+
   
   var zz;
   

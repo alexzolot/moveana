@@ -154,7 +154,7 @@
              
 <!-- 	            <table id="tbSheetrock" class="table table-condensed table-striped"></table> -->
 	              <button onclick="LoadPlaylists()"  class='glyphicon glyphicon-import' title='Load Playlists from Table to Players'> Load Playlists</button> 
-                  <button onclick="go2ev()" class='fa fa-arrow-down'>Current Point:</button> 
+                  <button onclick="go2ev()" class='fa fa-arrow-down'  title='set video to current row of the Points Table'>Current Point:</button> 
                   <input id="inpCurrPoint" title="current Point"  onchange="
                           if(value> evData.length) value= 1;
 	                      go2ev(value-1); 
@@ -218,6 +218,7 @@
 <hr/>
 
 <!-- <h3> for Developers</h3> ----------------------------------------------------------------->
+
 <button onclick= 'toggleDev()' class="fa fa-wrench" aria-hidden="true" title='for Developers'></button>  <br/>
 
 <div id='for-developers' style='display:none'>
@@ -236,20 +237,20 @@
 	  
 	 API: <a href="https://developers.google.com/sheets/samples/reading">Google Sheets API </a><br/>
 	<a href="https://developers.google.com/youtube/js_api_reference">YouTube JavaScript Player API Reference</a><br/>
+    <a href="https://handsontable.com/examples.html?headers">handsontable.com</a> <br/>
     <a href="http://demo.tutorialzine.com/2015/08/how-to-control-youtubes-video-player-with-javascript">Tutorial how-to-control-youtubes-video-player-with-javascript</a><br/>
     <a href="http://fontawesome.io/icons/#web-application">fontawesome icons</a><br/>
     <a href="http://getbootstrap.com/components/#glyphicons">bootstrap icons</a><br/>
+	
+	<h4>My</h4>
     <a href="https://console.aws.amazon.com/s3/home?region=us-west-2#&bucket=moveana&prefix=lib/">AWS S3 console</a><br/>
-	
-	
 	            <div class="btn-group" data-toggle="buttons">
 	<!--                 <button class="btn btn-primary" onclick="getSheetrock2Handst()">load from GDoc</button> -->
 	<!--                 <button id="getG.bak" class="btn btn-primary">load from GDoc  onclick="GSheet2_HT()"</button> -->
 	<!--                 <button class="btn btn-primary" onclick="saveHandst2GDoc()">save to GDoc</button> -->
                     &nbsp; &nbsp; <a href="http://bit.ly/alexzolot-ma"> bit.ly/alexzolot-ma (GSheet)</a><br/>
-                    &nbsp; &nbsp; <a href="http://bit.ly/MA-tool"> bit.ly/MA-tool</a><br/>
+                    &nbsp; &nbsp; <a href="http://bit.ly/MA-tool/"> bit.ly/MA-tool</a><br/>
 <!--    <a href="https://chriszarate.github.io/sheetrock/">sheetrock</a> --> 
-	             <a href="https://handsontable.com/examples.html?headers">handsontable.com</a> <br/>
 	            </div>
 	            
 	            <!-- this on AWS: http://bit.ly/MA-tool = http://moveana.s3-website-us-east-1.amazonaws.com/
@@ -259,10 +260,11 @@
 	<button id="test">test  onclick="test()"</button> 
 	<div id="testOut"></div>
 </div>
+</div app>
+<br/>
 
 
-
-   <!-- Include jQuery & Bootstrap-->
+   <!-- Include jQuery & Bootstrap ---------------------------------->
 
     <script src="lib/jquery.min.js"></script>
     <script src="http://intridea.github.io/sketch.js/lib/sketch.js"></script>
@@ -297,6 +299,8 @@
 TODO:  match by phase, e.g.: bL 6oc,  [b]{LSBP} \d?\doc, 12-6 clockwise (CW), 7-11 conterclockwise (CCW)
  - play -2 +1
 - render tbPoints
-- persistense
+- persistents
+- addr line REST= get
+- 5 speeds -> 3 + dblclks
  
  -->
