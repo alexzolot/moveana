@@ -233,34 +233,14 @@ var vm = new Vue({
 
  /// Handsontable Events 
   var evsHT, evsHT2, playlistsHT; 
-  var evData=[//{	Video1:"R", 	t1:4.31, 	Video2:"R", 	t2:4.89, 	Info:"R, apex", 	SSI:"small edge angle", 	BM:"banking	  outside arm too high and back", 	TD:"outside arm to knee after initiation" 	},
-              {Video1:"AZ1", 	t1:4.31, 	Video2:"PSIANW", 	t2:4.89, 	Phase:"", 	SSI:"small edge angle", 	BM:"banking", 	TD:"outside arm too high and back" 	},
-              {Video1:"", 	t1:5.94, 	Video2:"", 	t2:5.82, 	Phase:"", 	SSI:"", 	BM:"outs arm low", 	TD:"poll in arms, parallel to ground" 	},
-              {Video1:"", 	t1:7.8, 	Video2:"", 	t2:6.75, 	Phase:"", 	SSI:"small edge angle", 	BM:"hips too high", 	TD:"more ang before apex; look at dir of travel" 	},
-              {Video1:"", 	t1:8.75, 	Video2:"", 	t2:8.08, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Video1:"", 	t1:4.49, 	Video2:"Reilly", 	t2:63.61, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-              {Video1:"AZ2", 	t1:50.7, 	Video2:"", 	t2:69.74, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"", 	t1:50.7, 	Video2:"Berger", 	t2:413.83, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	}
-              {Video1:"", 	t1:50.7, 	Video2:"BASI", 	t2:65.14, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-              ]
-//              {Video1:"BASIL", 	t1:83.25, 	Video2:"JBa", 	t2:2.65, 	Phase:"Long - Med turns", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"BASIL", 	t1:93.29, 	Video2:"JBa", 	t2:4.84, 	Phase:"Long - Med turns. 9oc", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"BASIL", 	t1:94.03, 	Video2:"JBa", 	t2:5.24, 	Phase:"Long - Med turns. trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"BASIL", 	t1:94.9, 	Video2:"JBa", 	t2:5.77, 	Phase:"Long - Med turns. 3 oc", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"BASIL", 	t1:96.07, 	Video2:"JBa", 	t2:6.54, 	Phase:"Long - Med turns. trans to left", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"BASIL", 	t1:129.26, 	Video2:"ReMog", 	t2:1.39, 	Phase:"Bumps, trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"BASIL", 	t1:129.78, 	Video2:"ReMog", 	t2:2.19, 	Phase:"Bumps, trans to L", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"BASIL", 	t1:28.3, 	Video2:"Reilly", 	t2:18.6, 	Phase:"Short", 	SSI:"", 	BM:"", 	TD:"" 	},
-//              {Video1:"BASIL", 	t1:31.29, 	Video2:"Reilly", 	t2:18.7, 	Phase:"Short, 8 oc", 	SSI:"", 	BM:"", 	TD:"" 	}]; 
-
   var playlists= [//{Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:1, 	Info:"med", 	Comment:""}, 
                //    {Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:2, 	Info:"med", 	Comment:""}, 
                    {Id:"AZ1", 	YTId:"TSDx6RK15es", 	Type:1, 	Info:"Med radius turns, at Palmer Field, by Alex Zolotovitski", 	Comment:""}, 
-                   {Id:"AZ2", 	YTId:"urAXN77X6zU", 	Type:1, 	Info:"3 runs on Outland 87 x 178, by Alex Zolotovitski", 	Comment:""}, 
+//                   {Id:"AZ2", 	YTId:"urAXN77X6zU", 	Type:1, 	Info:"3 runs on Outland 87 x 178, by Alex Zolotovitski", 	Comment:""}, 
                    {Id:"==", 	YTId:"", 	Type:"", 	Info:"", 	Comment:""}, 
-                   {Id:"Reilly", 	YTId:"t334XENKLFo", 	Type:2, 	Info:"Reilly Ski Training 2012.mov, by Reilly McGlashan", 	Comment:"32-bumps, 75-med back, 87-short, 129=med"}, 
-//                   {Id:"Berger", 	YTId:"5SZqiCggJN8", 	Type:2, 	Info:"Imagination Richard Berger, by Dnalor Elraes", 	Comment:""}, 
-                   {Id:"BASI", 	YTId:"SgrO7Dprl6g", 	Type:2, 	Info:"BASI level 4 interpretation by Jon Ahlsén, by Jon Ahlsén", 	Comment:"22-short back, 33-med,71-bumps,114-med"}, 
+//                   {Id:"Reilly", 	YTId:"t334XENKLFo", 	Type:2, 	Info:"Reilly Ski Training 2012.mov, by Reilly McGlashan", 	Comment:"32-bumps, 75-med back, 87-short, 129=med"}, 
+////                   {Id:"Berger", 	YTId:"5SZqiCggJN8", 	Type:2, 	Info:"Imagination Richard Berger, by Dnalor Elraes", 	Comment:""}, 
+//                   {Id:"BASI", 	YTId:"SgrO7Dprl6g", 	Type:2, 	Info:"BASI level 4 interpretation by Jon Ahlsén, by Jon Ahlsén", 	Comment:"22-short back, 33-med,71-bumps,114-med"}, 
 //                   {Id:"CSIA", 	YTId:"aiSzmN82I4A", 	Type:2, 	Info:"Training demos for the level 4 CSIA 2013, by Javier Fuentes", 	Comment:""}, 
                    {Id:"PSIANW", 	YTId:"HrCfQR3qwi0", 	Type:2, 	Info:"LEVEL III - MEDIUM RADIUS TURNS, by BaileyPSIANW", 	Comment:""} 
 //                   {Id:"JfB29", 	YTId:"r07Ea0TYkaA", 	Type:2, 	Info:"Jf Beaulieu: Video 29, by Jf Beaulieu", 	Comment:"1. Carving -"}, 
@@ -277,6 +257,27 @@ var vm = new Vue({
 //   {Id:"SKIIN", 	YTId:"7tyY8A8hobc", 	Type:1, 	Info:"SKIING LEVEL 4 BASI ISTD, by admirallimos admirallimos", 	Comment:""}, 
 //   {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}
                    ]; 
+
+  var evData=[//{	Video1:"R", 	t1:4.31, 	Video2:"R", 	t2:4.89, 	Info:"R, apex", 	SSI:"small edge angle", 	BM:"banking	  outside arm too high and back", 	TD:"outside arm to knee after initiation" 	},
+      {Video1:"AZ1", 	t1:4.31, 	Video2:"PSIANW", 	t2:4.89, 	Phase:"", 	SSI:"small edge angle", 	BM:"banking", 	TD:"outside arm too high and back" 	},
+//      {Video1:"", 	t1:5.94, 	Video2:"", 	t2:5.82, 	Phase:"", 	SSI:"", 	BM:"outs arm low", 	TD:"poll in arms, parallel to ground" 	},
+//      {Video1:"", 	t1:7.8, 	Video2:"", 	t2:6.75, 	Phase:"", 	SSI:"small edge angle", 	BM:"hips too high", 	TD:"more ang before apex; look at dir of travel" 	},
+//      {Video1:"", 	t1:8.75, 	Video2:"", 	t2:8.08, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"", 	t1:4.49, 	Video2:"Reilly", 	t2:63.61, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"AZ2", 	t1:50.7, 	Video2:"", 	t2:69.74, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
+////      {Video1:"", 	t1:50.7, 	Video2:"Berger", 	t2:413.83, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	}
+//      {Video1:"", 	t1:50.7, 	Video2:"BASI", 	t2:65.14, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
+      ]
+//      {Video1:"BASIL", 	t1:83.25, 	Video2:"JBa", 	t2:2.65, 	Phase:"Long - Med turns", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"BASIL", 	t1:93.29, 	Video2:"JBa", 	t2:4.84, 	Phase:"Long - Med turns. 9oc", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"BASIL", 	t1:94.03, 	Video2:"JBa", 	t2:5.24, 	Phase:"Long - Med turns. trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"BASIL", 	t1:94.9, 	Video2:"JBa", 	t2:5.77, 	Phase:"Long - Med turns. 3 oc", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"BASIL", 	t1:96.07, 	Video2:"JBa", 	t2:6.54, 	Phase:"Long - Med turns. trans to left", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"BASIL", 	t1:129.26, 	Video2:"ReMog", 	t2:1.39, 	Phase:"Bumps, trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"BASIL", 	t1:129.78, 	Video2:"ReMog", 	t2:2.19, 	Phase:"Bumps, trans to L", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"BASIL", 	t1:28.3, 	Video2:"Reilly", 	t2:18.6, 	Phase:"Short", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"BASIL", 	t1:31.29, 	Video2:"Reilly", 	t2:18.7, 	Phase:"Short, 8 oc", 	SSI:"", 	BM:"", 	TD:"" 	}]; 
+
 
 
   var dbPL= TAFFY(playlists); console.log('dbPL = ', dbPL().get());
@@ -366,18 +367,11 @@ var vm = new Vue({
 			   var vof= $("#vplayers").offset(); //.position()
 				console.log('positionCanvas '+ info +',  vof=', vof);
 				$("#canvas").offset({top: vof.top + 50, left: vof.left +9});
-//				$("#canvas").width($("#vplayers").width() -8);
-//				$("#canvas").height($("#vplayers").height() -100);
 				
 				canvasOffset = $("#canvas").offset();
 				offsetX = canvasOffset.left;
 				offsetY = canvasOffset.top;
 				
-			//	$("#canvas").css({width:$("#vplayers").width(), height:$("#vplayers").height()})
-				
-				//ctx.scale(.9, 1.1);
-				
-				//$("#canvas_sketch").offset({top: vof.top+40, left:vof.left+3});
 		   }, 50);
 		}
 	  
@@ -437,29 +431,42 @@ var vm = new Vue({
   }  
 	  
 
-function render_YT_URL(value, callback) {  // value is YT_Id or url
+function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
+    if(value=== undefined || value==null || !value){return ''};
+    
     var escaped = Handsontable.helper.stringify(value);
     
     escaped = strip_tags(escaped, '<em><b><strong><a><big>'); //be sure you only allow certain HTML tags to avoid XSS threats (you should also remove unwanted HTML attributes)
     
 
    // var yid= escaped.replace(/.*v=|.*youtu.be\/|&.*/g, ''), url= "http://www.youtube.com/watch?v="+ yid;
-    var yid= escaped.replace(/.*v=([_0-9a-zA-Z\-]+).*/g, '$1'), url= "http://www.youtube.com/watch?v="+ yid;
-    console.log('render_YT_URL: value,  yid, url=', value, yid, url)
+    var yid= escaped.replace(/.*v=([_0-9a-zA-Z\-]+).*/g, '$1')
+      , url= "http://www.youtube.com/watch?v="+ yid;
+    console.log('render_YT_URL: value=', value ,  'yid, url=', yid, url)
     
     
     // TODO: fix this block
-    /*
-    if( dbVid({yid:yid}).count() ){
-    	rj= dbVid({yid}).get() ; cl('render_YT_URL: '+ yid +' found in dbVid'); 
-	    console.log('dbVid({yid:yid})=', dbVid({yid:yid}).get())
-	    callback(rj); 
-	    return 
-    }    
-    */
     
+    // checky yid in dbPL
+    var rj= dbPL({YTId:yid}).get()[0]
+    if( rj){ 
+//    	alert('YT id '+ yid+' is dup in dbPL: '+ tJ(rj))  // is dup?
+//    	return ''
+	    	callback(ro, rj, value);
+	    	return yid
+    }
+    
+    // not dup in dbPL; check in dbVid
+    rj= dbVid({yid:yid}).get()[0]
+    if(rj != undefined && rj.status == 'gotAjax'){  // ready to use != 'sent2Ajax'
+    	cl('render_YT_URL: '+ yid +' found in dbVid'); 
+	    console.log('dbVid({yid:yid})=', rj)
+	    
+	    callback(ro, rj, value); 
+	    return yid
+    }    
 
-
+    /// not in db
     var hlink= '<a href="%s" target="_blank">%s</a>'.sf(url, yid)
     
     cl('to ajax ', yid)
@@ -467,18 +474,19 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
     // ??
     //    if( dbVid({yid:yid}).select('status') == 'sent2Ajax') {return;}
     //    if( dbVid({yid:yid}).select('status') == 'gotAjax') {return;}
-    if( dbVid({yid:yid}).select('status') == 'sent2Ajax') {return;}
+    if( dbVid({yid:yid}).select('status') == 'sent2Ajax') {return yid}
     
+    /// not in db, not sent2Ajax
     dbVid({yid:yid}).update({status: 'sent2Ajax'});
     
 	$.ajax({
-        url: 'http://query.yahooapis.com/v1/public/yql',
-            data: {
-                q: "select * from json where url ='http://www.youtube.com/oembed?url="+ url + "&format=json'",
-                format: "json"
-            },
-            dataType: "jsonp"            		    //$.get({url: "https://www.youtube.com/watch?v="+ yid + '&format=json&callback=?'
-    	  , success: function(result){
+        url: 'http://query.yahooapis.com/v1/public/yql'
+      , data: {
+            q: "select * from json where url ='http://www.youtube.com/oembed?url="+ url + "&format=json'",
+            format: "json"
+        }
+      , dataType: "jsonp"            		    //$.get({url: "https://www.youtube.com/watch?v="+ yid + '&format=json&callback=?'
+	  , success: function(result){
     		  var res= result.query.results;
     		  if(res==null) return;
     		  
@@ -487,6 +495,15 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
               rj.tlink= '<a href="%s" target="_blank">%s</a>'.sf(url, tit)
 
               if(dbVid({yid:yid}).count()==0) dbVid.insert(rj);
+              if(dbPL({YTId:yid}).count()==0){
+            	 var e= {Id:hashId(tit), YTId:yid
+                         , Type:2, Info: fNote(rj), Comment:''}
+            	 dbPL.insert(e);
+	             // in treatRj    playlists.push(e)
+	      	  }
+              
+              
+      
     		  //dbVid({yid:yid}).update({status: 'gotAjax'});
     		  dbVid({yid:yid}).update(function(){this.status= 'gotAjax'; return this});
     		  
@@ -496,96 +513,103 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 //    			, "author_name": "Luk\u00e1\u0161 Mar\u0161\u00edk"
 //    			, "html": "\u003ciframe width=\"480\" height=\"270\" src=\"https:\/\/www.youtube.com\/embed\/iTc9QclQ_l0?feature=oembed\" frameborder=\"0\" allowfullscreen\u003e\u003c\/iframe\u003e"
     	if(0){	  var w=  window.open("", "", "width=800,height=400");
-               w.document.write('<html> %s, by <a href="%s">%s</a> <img src="%s" width="200px" heignt="100px"/> %s</html>'.sf(rj.title, rj.author_url, rj.author_name, rj.thumbnail_url, rj.html))	
+               w.document.write('<html> %s, by <a href="%s">%s</a> <img src="%s" width="200px" heignt="100px"/> %s</html>'
+            		            .sf(rj.title, rj.author_url, rj.author_name, rj.thumbnail_url, rj.html))	
     	}	  
-    		//  console.log('ajax: rj=', rj, ', tit=', tit);
+    		//  console.log('ajax success: rj=', rj, ', tit=', tit);
     		  callback(rj);
     	    }
        });
     
     return yid;
-  }  /// YTId_Renderer	
+  }  /// render_YT_URL	
 	
-	if(test=0){ render_YT_URL('https://www.youtube.com/watch?v=d1IXMk6uSAU', function(){alert(tit)})}
+  if(test=0){ render_YT_URL('https://www.youtube.com/watch?v=d1IXMk6uSAU', function(){alert(tit)})}
 	
  //function hashId(title){ return title.replace(/\s+ /g, '').substr(0,5)}	
  //function hashId(title){ return title.replace(/\s*/g, '').substr(0,3)+ title.substr(3,99).replace(/[^A-Z0-9]/g, '')}	
-  var ids= dbPL().select('Id')
+
   
- function hashId(title){ 
-	 var  h0= title.replace(/\s*/g, '').substr(0,2)
-	 
-	 for(var i=0; i<40; i++){s= '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.substr(i, 1); if(s=='0'){ s= ''};
-		 var h= h0 + s;
+function hashId(title){ 
+	title= title || ''
+	var ids= dbPL().select('Id')  // ids in PL
+	 var h0= title.replace(/\s*/g, '').substr(0,2), h= h0, ss= '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''); ss[0]='';
+	 for(var i=0; i<40;  h= h0 + ss[i++]){ 
 		 if(ids.indexOf(h)==-1){ids.push(h); return h}
 	 }
- }
+}
+  
+function fNote(rj) {return infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'
+               .sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) 
+		   : ' %s, by %s'.sf(rj.title, rj.author_name)
+}
 
 
- function YTId_Renderer(instance, td, row, col, prop, value, cellProperties) {
-    // console.log('YTId_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
-	
-    var ro= row, th= this;
-    var yid= render_YT_URL(value, function(rj){
-		//alert(tit)
-    	// infoRich= $('#chri').prop('checked')
-    	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) :
-    					     ' %s, by %s'.sf(rj.title, rj.author_name)
-    	    			                         
-    	//var note= '<html> %s, by <a href="%s">%s</a>  </html>'.sf(rj.tlink, rj.author_url, rj.author_name);
-		// console.log('note=', note)
-		playlists[ro].Info= note;
-		if(!playlists[ro].Id) {
-			playlists[ro].Id= hashId(rj.title);  //.replace(/\s+ /g, '').substr(0,5);
-			playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
-			playlists[ro].YTId= rj.yid;
-			//dbPL({YTId:rj.yid}).update(playlists[ro])
-			dbPL({YTId:rj.yid}).update(function(){this.pl= playlists[ro]; return this})
-		}
-		//if(!playlists[ro].Comment && value.test('http')) {playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
-//		if(!playlists[ro].Comment && value.test('http')){playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
-//?		playlists[ro].YTId= yid;
-//		th.setDataAtCell(ro, 4, note); // hlink);
-//		if(th.getDataAtCell(ro, 1)=='') {th.setDataAtCell(ro, 1, note.replace(/ /g, '').substr(0,5))}
-
-			})
-		
-	     if(prop=='YTId'){  td.innerHTML= yid;}
-	    return td;
-	  }  /// YTId_Renderer	
-	 
-	 
-	 function PL_Id_Renderer(instance, td, row, col, prop, value, cellProperties) {
-		    // console.log('PL_Id_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
-		    
-		    if(value==null){ td.innerHTML= ""; return td;}
-		    if(value.length < 10){ td.innerHTML= value; return td;}
-		    
-		    var ro=row, th= this;
-		    var yid= render_YT_URL(value, function(rj){
-				//alert(tit)
-		    	// infoRich= $('#chri').prop('checked')
-		    	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) : ' %s, by %s'.sf(rj.title, rj.author_name)
-		    	    			                         
-		    	//var note= '<html> %s, by <a href="%s">%s</a>  </html>'.sf(rj.tlink, rj.author_url, rj.author_name);
-				// console.log('note=', note)
-				playlists[ro].Info= note;
-				if(!playlists[ro].YTId) {
-					playlists[ro].Id= hashId(rj.title);   //rj.title.replace(/\s+/g, '').substr(0,5);
-					playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
-					playlists[ro].YTId= rj.yid;
-		         //   td.innerHTML= rj.title.replace(/ /g, '').substr(0,5);
-				}
-
-			})
+function treatRj(ro, rj, value) {
+	// infoRich= $('#chri').prop('checked')
 			
-		    return td;
+	// cl('PL_Id_Renderer: dbPL({YTId:yid})=', dbPL({YTId:yid}))	
+	
+	
+	// should never be fired
+	if( dbPL({YTId: rj.yid}).count() > 0){ // check dup
+		alert(yid + ' is duplicate ' + tJ(dbPL({YTId:rj.yid}).get()[0])); 
+		return
+	} 
+	
+	/// no dup
+	var e= {Id:hashId(rj.title), YTId:rj.yid
+            , Type:2, Info: fNote(rj), Comment:''}
+	dbPL.insert(e);
+	
+	//playlists[ro].Info= fNote(rj, infoRich)
+	playlists[ro].rj= rj
+	
+	if(!playlists[ro].YTId || playlists[ro].YTId.length !=11) {  /// new yid
+		playlists[ro].Id= hashId(rj.title);   //rj.title.replace(/\s+/g, '').substr(0,5);
+		playlists[ro].YTId= rj.yid;
+		playlists[ro].Type= 2;
+		playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ') // for Rob's list parsing
+     //   td.innerHTML= rj.title.replace(/ /g, '').substr(0,5);
+	}
+} 
 
-		    if(/<a href/.test(td.innerHTML)) {console.log('skipped', row, col); return td;}
 
-		  }  /// YTId_Renderer	
+//function YTId_Renderer(instance, td, row, col, prop, value, cellProperties) {
+//    // console.log('YTId_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
+//	
+//    var ro= row, th= this;
+//    var yid= render_YT_URL(ro, value, function(rj){return treatRj(ro, rj, value)})
+//		
+//    if(prop=='YTId'){  td.innerHTML= yid;}
+//    return td;
+//}  /// YTId_Renderer	
+ 
+	 
+function PL_Id_Renderer(instance, td, row, col, prop, value, cellProperties) {
+    console.log('PL_Id_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
+    
+    if(prop=='Id'){
+        if(value==null){ td.innerHTML= ""; return td;}
+        if(value.length < 11){ td.innerHTML= value; return td;}
+    }
+    
+    if(prop=='YTId' && (!value || value && value.length == 11 ) ){ td.innerHTML= value; return td;}  // do nothing
 
-	 function Video_Renderer1(instance, td, row, col, prop, value, cellProperties) {
+    
+    //var ro=row, th= this;
+    //var yid= render_YT_URL(ro, value, function(rj) {return treatRj(ro, rj, value)})
+    render_YT_URL(row, value, treatRj)
+    
+  //  if(prop=='YTId'){  td.innerHTML= yid;}
+	
+  //  return td;
+
+  //  if(/<a href/.test(td.innerHTML)) {console.log('skipped', row, col); return td;}
+}  /// PL_Id_Renderer
+
+
+function Video_Renderer1(instance, td, row, col, prop, value, cellProperties) {
 //		    console.log('Video_Renderer1: instance, td, row, col, prop, value, cellProperties:'
 //		    		, instance, td, row, col, prop, value, cellProperties)
 			
@@ -622,23 +646,17 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		    return td;
 		  }  /// Video_Renderer1	
 
-
+function toggleRich() {infoRich= !infoRich;  playlistsHT.loadData(playlists)
+}
 
 	  
-  playlistsHT = new Handsontable($("#tbPlaylistsH")[0], {
+playlistsHT = new Handsontable($("#tbPlaylistsH")[0], {
 		data: playlists,  //dbPL().get(), //
 		minSpareRows: 1,
 		height: 296,
-		//colHeaders: 'Id YTId Type Info Comment'.split(" "),
-	    colHeaders: function (col) {
-	        switch (col) {
-            case 0:	                return 'Id';
-            case 1:	                return 'YTId';
-	            case 2:	                return '<span title="1 for Left video Player, 2 for right">Type<span>';
-	            case 3:	                return 'Info &nbsp;&nbsp;<button onclick="infoRich= !infoRich; playlistsHT.loadData(playlists)" title="toggle Info to Plain Text before copy the table Ctrl-A,Ctrl-C">Toggle Rich</button>'; //http://jsfiddle.net/vECgN/15/   https://github.com/handsontable/handsontable/issues/1540
-	            case 4:	                return 'Comment'
-	            default:	            return '';
-	        }
+	    colHeaders: function(j) {
+	    			  return j==3 ? 'Info &nbsp;&nbsp;<button onclick="toggleRich() " title="toggle Info to Plain Text before copy the table Ctrl-A,Ctrl-C">Toggle Rich</button>'
+            		              : 'Id YTId Type Info Comment'.split(" ")[j]
 	    },
 		rowHeaders: true,
 		stretchH: 'all',
@@ -647,33 +665,25 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
 		//className: "htCenter htMiddle",
 		readOnly: false,
 		columns: [
-
-		  {data: 'Id' , type: 'text'}, //? , renderer: PL_Id_Renderer}, // YTId_Renderer
-		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 12  }, // 4 },
+		  {data: 'Id' , type: 'text'},     //renderer: PL_Id_Renderer},  // YTId_Renderer
+		  {data: 'YTId' , type: 'text',  renderer: PL_Id_Renderer, width: 12}, //YTId_Renderer 4 },
 		  {data: 'Type' , type: 'numeric', format: '0'},  //, width: 14
-		  {data: 'Info'  , renderer: "html"},  // , width: 1
+		 // {data: 'Info'  , renderer: "html"},  // , width: 1
+		  {data: 'rj'  , renderer: fNote},  // , width: 1
 		  {data: 'Comment'  , type: 'text'}
 		] //,     minSpareRows: 1
         , autoWrapRow: false ///true
-        ,manualRowResize: true,
+        , manualRowResize: true,
          manualColumnResize: true,
          contextMenu: ['row_above', 'row_below', 'remove_row','undo', 'redo','commentsAddEdit'],
 		 comments: true,
 		 cell: [
-		      {row: 0, col: 0, comment: 'You can paste youtube Id or links to this column'}
+		      {row: 0               , col: 0, comment: 'You can paste youtube Id or links to this column'}
 			, {row: playlists.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
 			, {row: playlists.length, col: 1, comment: 'You can paste youtube Id or links to this cell'}
 		 ]
-	    , afterRender: function(){ fillPlaylistsDict(); evData_Filled= fillEvs(); 
-
-// cl('playlistsHT.afterRender()')
-//	    	dbVid.store('dbVid'); dbPL.store('dbPL'); cl('afterRender: dbVid.store(); dbPL.store()', dbPL()) 
-	    	}
-       // , afterRender : createCanvas // function(){positionCanvas('playlistsHT afterRender');  }
-//nOK zzz        , afterRender : evsHT.loadData(evData) //updateSettings()  // // function(){positionCanvas('playlistsHT afterRender');  }
-
-        , afterChange: function(changes, source) {
-        	//if(changes) if(1 || source === 'alter'){
+	    , afterRender: function(){ fillPlaylistsDict(); evData_Filled= fillEvs() }
+        , afterChangeBak: function(changes, source) {
             if(changes) if(source === 'alter'){
             	for(var i=0, l= changes.length; i<l; i++){
         			// console.log(changes)
@@ -683,7 +693,6 @@ function render_YT_URL(value, callback) {  // value is YT_Id or url
         			var ro= changes[i][0], th= this;
         			
         			playlists[ro].YTId= yid
-        			//playlistsHT.setDataAtCell(ro, 1, yid);
         			
         			$.ajax({
         	            url: 'http://query.yahooapis.com/v1/public/yql',
@@ -1191,7 +1200,8 @@ function dbPhases2evsHT(all){
 		  pp[2].go1Vid(playlistsDict[e.Video2].YTId, e.t2)
  	  } else {alert('playlistsDict [' + e.Video2 + '] does not exists')}
  	  
-      evsHT.selectCell(iEvent, 0) 
+      //evsHT.selectCell(iEvent, 0) 
+      evsHT.selectCell(iEvent, 0, iEvent, evsHT.countCols()-1) 
 
  	  
 	  $('#inpCurrPoint').val(iEvent+1)
