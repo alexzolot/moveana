@@ -814,13 +814,42 @@ evsHT= new Handsontable($("#tbEventsH")[0], {
   
 
 
-    $('#tbEventsH table tbody').on('dblclick', 'tr', function(evt){
-    	//var index= $($(this).find('td')[0]).text();
-    	var index= $($(this).find('.rowHeader')[0]).text();
-    	console.log('#tbEventsH table tbody index=', index)
-    	go2ev(index-1)
-	}) ;
-  
+
+$('#tbPlaylistsH table tbody').on('dblclick', 'tr th', function(evt){
+//$('#tbPlaylistsH table .rowHeader').on('dblclick', 'tr', function(evt){
+//$('#tbPlaylistsH table tbody').on('dblclick', 'tr  .rowHeader', function(evt){
+
+	//var index= $($(this).find('td')[0]).text();
+	//var index= $($(this).find('.rowHeader')[0]).text();
+	
+	var index= $(this).text()
+	var p= playlists[index-1], c1= p.Type==1 || p.Type==3, c2= p.Type==2 || p.Type==3//dbPL()
+	
+	if(p.Type==0){
+		playlistsHT.alter ('remove_row', index-1)
+		return
+	}
+	
+	console.log('#tbPlaylistsH table tbody index, p=', index, p)
+	
+	evData.push({Video1: c1 ? p.Id :'', t1: c1 ? 2 :''
+			   , Video2: c2 ? p.Id :'', t2: c2 ? 2 :''
+			   , Phase: p.Comment //Info
+	})
+   dbEv.insert({Video1: c1 ? p.Id :'', t1: c1 ? 2 :''
+	          , Video2: c2 ? p.Id :'', t2: c2 ? 2 :''
+		   , Phase: p.Comment //Info
+	})
+}) ;
+
+
+$('#tbEventsH table tbody').on('dblclick', 'tr', function(evt){
+	//var index= $($(this).find('td')[0]).text();
+	var index= $($(this).find('.rowHeader')[0]).text();
+	console.log('#tbEventsH table tbody index=', index)
+	go2ev(index-1)
+}) ;
+
   
 //  $('.pp').resizable();  // .draggable()
 
