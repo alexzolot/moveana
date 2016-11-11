@@ -132,31 +132,34 @@ var vm = new Vue({
 //			 setTimeout(function(){pla.pauseVideo().seekTo(t);}, 2000); 
 			 
 			// iNew= pll.indexOf(vidId)
-			 pla= pla.playVideoAt( pll.indexOf(vidId) ).seekTo(t- .3) //.pauseVideo()
-             setTimeout(function(){pla.pauseVideo().seekTo(t);}, 2000);
+			 if(pll){
+				 pla= pla.playVideoAt( pll.indexOf(vidId) ).seekTo(t- .3) //.pauseVideo()
+	             setTimeout(function(){pla.pauseVideo().seekTo(t);}, 2000);
+							 //if (pla.getState() == YT.PlayerState.PLAYING) setTimeout(function(){pla.pauseVideo()}, 1000);  
+				 
+				 
+	//			 var timer= setInterval(function() {pla.pauseVideo().seekTo(t);
+	//			   if(player.getPlayerState()==YT.PlayerState.PAUSED) clearInterval(timer)
+	//			 }, 1000);
+				 
+				
+				// nOK ? 
+	//			 function seek(){
+	//				 if(pla.getPlayerState()!=YT.PlayerState.PAUSED){
+	//					 pla.pauseVideo().seekTo(t) //; 
+	//				     setTimeout(seek, 1000)}
+	//			 }
+	//			 seek()
+				 
+				 //while(player.getPlayerState()==YT.PlayerState.PLAYING)
+				 
+				 
+				 // $('#t' + ip).val(r100(t))
+	
+				 return pla;	 
+			 }
 			 
-			 //if (pla.getState() == YT.PlayerState.PLAYING) setTimeout(function(){pla.pauseVideo()}, 1000);  
-			 
-			 
-//			 var timer= setInterval(function() {pla.pauseVideo().seekTo(t);
-//			   if(player.getPlayerState()==YT.PlayerState.PAUSED) clearInterval(timer)
-//			 }, 1000);
-			 
-			
-			// nOK ? 
-//			 function seek(){
-//				 if(pla.getPlayerState()!=YT.PlayerState.PAUSED){
-//					 pla.pauseVideo().seekTo(t) //; 
-//				     setTimeout(seek, 1000)}
-//			 }
-//			 seek()
-			 
-			 //while(player.getPlayerState()==YT.PlayerState.PLAYING)
-			 
-			 
-			 // $('#t' + ip).val(r100(t))
 
-			 return pla;
       }
     	
         
@@ -306,8 +309,14 @@ var vm = new Vue({
 
   
   var cl= console.log;
-  var evData_Filled, selection, currEvent=0;
+  var evData_Filled, currEvent=0;
   var infoRich= true;
+  
+  function note(infoRich, rj) {return  infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'
+		  .sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) :  ' %s, by %s'.sf(rj.title, rj.author_name)
+  }
+
+
 
 //function fullScreen(ip){
 //	   $('#vp' + ip + ' iframe').detach().appendTo('body').css({position: 'absolute','top':0,'left':0, 'width': '100%','height':'100%','z-index':'120'});
@@ -324,7 +333,7 @@ var vm = new Vue({
 	  var p= pp[ip];
  	  console.log("fullScreen: p=", p)
 
-	  var state= {i: p.getPlaylistIndex(), t: p.getCurrentTime()}  
+	  var state= {i: p.getPlaylistIndex(), t: p.getCurrentTime(), PL: p.getPlaylist()}  
  	  
       // var vp= $('#vp' + ip + ' iframe')
       var vp= $('#v' + ip)
@@ -353,6 +362,7 @@ var vm = new Vue({
 		}
 	  
  	 setTimeout(function(){	
+ 		   p.loadPlaylist(state.PL)
 		   p.playVideoAt(state.i).seekTo(state.t)
 		   setTimeout(function(){p.seekTo(state.t)}, 2000)	 
 	 }, 1000)	  
@@ -463,14 +473,14 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
 
 	// not dup in dbPL; check in dbVid
     rj= dbVid({yid:yid}).get()[0]
-    if(rj != undefined && rj.status == 'gotAjax'){  // ready to use != 'sent2Ajax'
+    if(rj != undefined && rj.status == 'gotAjax'){  // ready to use    != 'sent2Ajax'
     	cl('render_YT_URL: '+ yid +' found in dbVid'); 
 	    console.log('dbVid({yid:yid})=', rj)
 	    
 		if(1){	    //??
 			callback(rj); 
 			//callback(ro, rj, value); 
-			    return yid
+			return yid
 		}	    
     }    
 
@@ -498,8 +508,8 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
     		  var res= result.query.results;
     		  if(res==null) return;
     		  
-    		  var rj=res.json, tit= rj.title
-              rj.yid=yid; 
+    		  var rj= res.json, tit= rj.title
+              rj.yid= yid; 
               rj.tlink= '<a href="%s" target="_blank">%s</a>'.sf(url, tit)
               
               cl('render_YT_URL: ajax success rj=', rj)
@@ -535,7 +545,7 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
        });
     
     return yid;
-  }  /// YTId_Renderer	
+  }  /// render_YT_URL	
 	
 	if(test=0){ render_YT_URL(0, 'https://www.youtube.com/watch?v=d1IXMk6uSAU', function(){alert(tit)})}
 	
@@ -545,7 +555,7 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
 function hashId(title){ 
 	title= title || ''
 	var ids= dbPL().select('Id')  // ids in PL
-	 var h0= title.replace(/\s*/g, '').substr(0,2), h= h0, ss= '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''); ss[0]='';
+	 var h0= title.replace(/\s*/g, '').substr(0, 3), h= h0, ss= '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''); ss[0]='';
 	 for(var i=0; i<40;  h= h0 + ss[i++]){ 
 		 if(ids.indexOf(h)==-1){ids.push(h); return h}
 	 }
@@ -563,12 +573,12 @@ function hashId(title){
     var yid= render_YT_URL(ro, value, function(rj){
 		//alert(tit)
     	// infoRich= $('#chri').prop('checked')
-    	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) :
-    					     ' %s, by %s'.sf(rj.title, rj.author_name)
+ //   	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) :
+ //   					     ' %s, by %s'.sf(rj.title, rj.author_name)
     	    			                         
     	//var note= '<html> %s, by <a href="%s">%s</a>  </html>'.sf(rj.tlink, rj.author_url, rj.author_name);
 		// console.log('note=', note)
-		playlists[ro].Info= note;
+		playlists[ro].Info= note(infoRich, rj);
 		if(prop=='YTId' && !playlists[ro].Id || prop=='Id' &&  value.length > 11) {
 			playlists[ro].Id= hashId(rj.title);  //.replace(/\s+ /g, '').substr(0,5);
 			playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
@@ -586,44 +596,44 @@ function hashId(title){
 
 			})
 		
-		if(prop=='YTId'){  td.innerHTML= yid;}
-        if(prop=='Id'){  td.innerHTML= playlists[ro].Id;}
+		if(prop=='YTId'){ td.innerHTML= yid;}
+        if(prop=='Id')  { td.innerHTML= playlists[ro].Id;}
         
 	    return td;
 	  }  /// YTId_Renderer	
 	 
 	 
-	 function PL_Id_Renderer(instance, td, row, col, prop, value, cellProperties) {
-		    // console.log('PL_Id_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
-		    
-		    if(value==null){ td.innerHTML= ""; return td;}
-		    if(value.length < 10){ td.innerHTML= value; return td;}
-		    
-		    var ro=row, th= this;
-		    var yid= render_YT_URL(ro, value, function(rj){
-				//alert(tit)
-		    	// infoRich= $('#chri').prop('checked')
-		    	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) : ' %s, by %s'.sf(rj.title, rj.author_name)
-		    	    			                         
-		    	//var note= '<html> %s, by <a href="%s">%s</a>  </html>'.sf(rj.tlink, rj.author_url, rj.author_name);
-				// console.log('note=', note)
-				playlists[ro].Info= note;
-				if(!playlists[ro].YTId) {
-					playlists[ro].Id= hashId(rj.title);   //rj.title.replace(/\s+/g, '').substr(0,5);
-					playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
-					playlists[ro].YTId= rj.yid;
-		         //   td.innerHTML= rj.title.replace(/ /g, '').substr(0,5);
-				//	playlistsHT.setDataAtCell(ro, 0, playlists[ro].Id);
-				//	playlistsHT.setDataAtCell(ro, 1, playlists[ro].YTId);
-				}
-
-			})
-			
-		    return td;
-
-		    if(/<a href/.test(td.innerHTML)) {console.log('skipped', row, col); return td;}
-
-		  }  /// PL_Id_Renderer	
+//	 function PL_Id_Renderer(instance, td, row, col, prop, value, cellProperties) {
+//		    // console.log('PL_Id_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
+//		    
+//		    if(value==null){ td.innerHTML= ""; return td;}
+//		    if(value.length < 10){ td.innerHTML= value; return td;}
+//		    
+//		    var ro=row, th= this;
+//		    var yid= render_YT_URL(ro, value, function(rj){
+//				//alert(tit)
+//		    	// infoRich= $('#chri').prop('checked')
+//		    	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) : ' %s, by %s'.sf(rj.title, rj.author_name)
+//		    	    			                         
+//		    	//var note= '<html> %s, by <a href="%s">%s</a>  </html>'.sf(rj.tlink, rj.author_url, rj.author_name);
+//				// console.log('note=', note)
+//				playlists[ro].Info= note;
+//				if(!playlists[ro].YTId) {
+//					playlists[ro].Id= hashId(rj.title);   //rj.title.replace(/\s+/g, '').substr(0,5);
+//					playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
+//					playlists[ro].YTId= rj.yid;
+//		         //   td.innerHTML= rj.title.replace(/ /g, '').substr(0,5);
+//				//	playlistsHT.setDataAtCell(ro, 0, playlists[ro].Id);
+//				//	playlistsHT.setDataAtCell(ro, 1, playlists[ro].YTId);
+//				}
+//
+//			})
+//			
+//		    return td;
+//
+//		    if(/<a href/.test(td.innerHTML)) {console.log('skipped', row, col); return td;}
+//
+//		  }  /// PL_Id_Renderer	
 
 	 function Video_Renderer1(instance, td, row, col, prop, value, cellProperties) {
 //		    console.log('Video_Renderer1: instance, td, row, col, prop, value, cellProperties:'
@@ -636,15 +646,13 @@ function hashId(title){
 		    var ro=row, th= this;
 		    var yid= render_YT_URL(ro, value, function(rj){
 				//alert(tit)s
-		    	// infoRich= $('#chri').prop('checked')
-		    	var note= infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'.sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) : ' %s, by %s'.sf(rj.title, rj.author_name)
-		    	    			                         
-		    	//var note= '<html> %s, by <a href="%s">%s</a>  </html>'.sf(rj.tlink, rj.author_url, rj.author_name);
-
-		    	var pl_YTId= playlists.map(function(p){return p.YTId}), ro= pl_YTId.indexOf(yid), type= col <2 ? 1: 2;
+		    	// note(infoRich, rj)
+		    	
+		    	var pl_YTId= playlists.map(function(p){return p.YTId})
+		    	  , ro= pl_YTId.indexOf(yid), type= col <2 ? 1 : 2;
 
                 //evData[row].Index= evData.length; 
-                evData[row]['yid'+type]= yid, 
+                evData[row]['yid'+type]= rj.yid, 
 		    	evData[row]['t'+type]=  evData[row]['t'+type] || 3 //sec
 		    	evData[row].Phase= evData[row].Phase || ""
 		    		
@@ -652,7 +660,7 @@ function hashId(title){
 		    		evData[row]['Video'+type]=  hashId(rj.title);  //rj.title.replace(/\s+/g, '').substr(0,5)
 		    		playlists.push({ // new video
 							    		Id: hashId(rj.title), //rj.title.replace(/\s+/g, '').substr(0,5),
-										YTId: yid,
+										YTId: rj.yid,
 										Comment:value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' '),
 										Type: type
 							    	}) 
@@ -743,9 +751,7 @@ function hashId(title){
         		    		  //playlists[changes[i][0]].Info= result.getElementsByTagName("title");
         		    		  playlists[ro].Info= tit;
         		    		  //th.render();
-        		    		  //playlistsHT.setDataAtCell(ro, 3, tit);
         		    		  th.setDataAtCell(ro, 1, yid); // hlink);
-        		    		  //th.setDataAtCell(ro, 3, tit);
         		    		  th.setDataAtCell(ro, 3, '%s, by %s'.sf(tit, result.query.results.json.author_name));
         		    	  }});
         		}
@@ -755,7 +761,7 @@ function hashId(title){
         }
 	  });  
   
-  evsHT= new Handsontable($("#tbEventsH")[0], {
+evsHT= new Handsontable($("#tbEventsH")[0], {
 		data: evData,  //dbEv().get(), //
 		minSpareRows: 1,
 		height: 196,
@@ -807,13 +813,7 @@ function hashId(title){
 	  });	
   
 
-  
 
-  
-  evsHT.updateSettings({
-	  afterSelection: function (e) {selection = evsHT.getSelected(); console.log(selection)}
-  })
-  
     $('#tbEventsH table tbody').on('dblclick', 'tr', function(evt){
     	//var index= $($(this).find('td')[0]).text();
     	var index= $($(this).find('.rowHeader')[0]).text();
@@ -1187,6 +1187,7 @@ function dbPhases2evsHT(all){
   
   
    function go2ev(iEvent){  // i = row in table Events
+	  var selection = evsHT.getSelected()
 	  iEvent= iEvent != undefined ? iEvent : selection == undefined ? 0: selection[0] 
 	  
  	  var e= evData_Filled[iEvent];  console.log('go2ev:', iEvent, e); 
