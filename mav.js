@@ -569,12 +569,14 @@ function hashId(title){
     	//var note= '<html> %s, by <a href="%s">%s</a>  </html>'.sf(rj.tlink, rj.author_url, rj.author_name);
 		// console.log('note=', note)
 		playlists[ro].Info= note;
-		if(!playlists[ro].Id) {
+		if(prop=='YTId' && !playlists[ro].Id || prop=='Id' &&  value.length > 11) {
 			playlists[ro].Id= hashId(rj.title);  //.replace(/\s+ /g, '').substr(0,5);
 			playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
 			playlists[ro].YTId= rj.yid;
 			//dbPL({YTId:rj.yid}).update(playlists[ro])
 			dbPL({YTId:rj.yid}).update(function(){this.pl= playlists[ro]; return this})
+		// if(playlistsHT)	playlistsHT.setDataAtCell(ro, 0, playlists[ro].Id);
+		//	playlistsHT.setDataAtCell(ro, 1, playlists[ro].YTId);
 		}
 		//if(!playlists[ro].Comment && value.test('http')) {playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
 //		if(!playlists[ro].Comment && value.test('http')){playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
@@ -584,7 +586,9 @@ function hashId(title){
 
 			})
 		
-	     if(prop=='YTId'){  td.innerHTML= yid;}
+		if(prop=='YTId'){  td.innerHTML= yid;}
+        if(prop=='Id'){  td.innerHTML= playlists[ro].Id;}
+        
 	    return td;
 	  }  /// YTId_Renderer	
 	 
@@ -609,6 +613,8 @@ function hashId(title){
 					playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
 					playlists[ro].YTId= rj.yid;
 		         //   td.innerHTML= rj.title.replace(/ /g, '').substr(0,5);
+				//	playlistsHT.setDataAtCell(ro, 0, playlists[ro].Id);
+				//	playlistsHT.setDataAtCell(ro, 1, playlists[ro].YTId);
 				}
 
 			})
@@ -676,7 +682,7 @@ function hashId(title){
 		readOnly: false,
 		columns: [
 
-		  {data: 'Id' , type: 'text' , renderer:PL_Id_Renderer}, //?}, //  YTId_Renderer
+		  {data: 'Id' , type: 'text' , renderer:YTId_Renderer }, //?}, // PL_Id_Renderer 
 		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 12  }, // 4 },
 		  {data: 'Type' , type: 'numeric', format: '0'},  //, width: 14
 		  {data: 'Info'  , renderer: "html"},  // , width: 1
@@ -800,29 +806,7 @@ function hashId(title){
          , afterRender : function(){evData_Filled= fillEvs()}
 	  });	
   
-//  function imgRenderer (instance, td, row, col, prop, value, cellProperties) {}  // dummy
-//	  function imgRenderer (instance, td, row, col, prop, value, cellProperties) {
-//	    var escaped = Handsontable.helper.stringify(value),
-//	      img;
-//
-//	    if (escaped.indexOf('http') === 0) {
-//	      img = document.createElement('IMG');
-//	      img.src = value;
-//
-//	      Handsontable.Dom.addEvent(img, 'mousedown', function (e){
-//	        e.preventDefault(); // prevent selection quirk
-//	      });
-//
-//	      Handsontable.Dom.empty(td);
-//	      td.appendChild(img);
-//	    }
-//	    else {
-//	      // render as text
-//	      Handsontable.renderers.TextRenderer.apply(this, arguments);
-//	    }
-//
-//	    return td;
-//	  }
+
   
 
   
