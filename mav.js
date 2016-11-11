@@ -6,6 +6,7 @@ function v100(x) {return r100($(x).val())};
 var fJ= JSON.parse, tJ= JSON.stringify;
 //String.prototype.fJ= function() {return JSON.parse(this)} 
 //Object.prototype.tJ= function() {return JSON.stringify(this)} 
+Array.prototype.notEmpty= function() {return this.filter(function(s){return s>''})}
 
 // http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format
 String.prototype.sf0= function() {  //format 
@@ -675,7 +676,7 @@ function hashId(title){
 		readOnly: false,
 		columns: [
 
-		  {data: 'Id' , type: 'text' , renderer: PL_Id_Renderer}, //?}, // YTId_Renderer
+		  {data: 'Id' , type: 'text' , renderer:PL_Id_Renderer}, //?}, //  YTId_Renderer
 		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 12  }, // 4 },
 		  {data: 'Type' , type: 'numeric', format: '0'},  //, width: 14
 		  {data: 'Info'  , renderer: "html"},  // , width: 1
@@ -1328,6 +1329,56 @@ function toggleDev() {
 		       }
 	, 100)
 }
+
+
+//$(function(){ ////////////////////////////////////////////////////
+	// treat query string
+	var qs = (function(a) {
+	    if (a == "") return [];
+        var b= decodeURIComponent(a)
+              .replace(/http/g,'zz1http')
+	          .replace(/(http\S+)/g,'$1zz2').split(/\s*zz1|zz2\s*|yt=/)
+	          //.filter(function(s){return s>''})
+	          .notEmpty()
+	     cl('treat query string b=', b)
+	    return b
+	})(window.location.search.substr(1).split('&'));
+	
+	console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  treat query string qs=', qs)
+
+	if(qs){
+
+		cl('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww  treat query string qs=', qs)
+		
+		var c='',yid
+
+		qs.map(function(q){ cl('111 qs.map q=', q)
+//			if(q.length==1) { var yid= q.replace(/.*http/, 'http'), c= q.replace(/http.*/, '');
+//			} else {yid= q[1]; c= q[0]}
+			if(! /http/.test(q) ) {c= q
+			} else { yid= q
+				playlists.push({YTId: yid, type:3, Comment:c}) 
+				evData.push({Video2:yid, t2:2, Phase:c})
+				c=''
+			}
+			
+//			var yid= (q.length==1) ? q[0].replace(/.*http/, 'http'): q[1]
+//			var c  = (q.length==1) ? q[0].replace(/http.*/, '')    : q[0]
+//			
+	    	cl('222 yid, c=', yid, c)
+//			playlists.push({YTId: yid, type:3, Comment:c}) 
+//			evData.push({Video2:yid, t2:2, Phase:c})
+		})
+		
+
+		playlistsHT.loadData(playlists)	
+		evsHT.loadData(evData)
+		
+		setTimeout(LoadPlaylists, 1000)
+	}
+
+//}) /////////////////////////////////////////////////////////////////
+
   
 var	x= function(data) {
 		  //first row "title" column
