@@ -32,6 +32,9 @@ String.prototype.sf = function() {  //format
 };
 
 
+
+
+
 //<template id="note-template">
 //	<div class="col-md-3 vid">
 //	   {{header}}:<br/><textarea id="{{id}}"  rows="3" cols="45"></textarea>
@@ -287,7 +290,9 @@ var vm = new Vue({
   var dbPL= TAFFY(daPL); console.log('dbPL = ', dbPL().get());
   var dbEv= TAFFY(daEv); console.log('dbEv = ', dbEv().get());
   var dbVid= TAFFY(); dbVid.store("dbVid"); console.log('dbVid = ', dbVid().get()); // localStorage.dbVid
-  var dbPhases= TAFFY(); dbPhases.store("dbPhases"); console.log('dbPhases = ', dbPhases().get()); // localStorage.dbVid
+  var dbPhases= TAFFY(); dbPhases.store("dbPhases"); 
+  dbPhases= uniq_dbPhases()
+  console.log('dbPhases = ', dbPhases().get()); // localStorage.dbVid
 //  dbPL().remove()
 //  dbVid().remove() ; localStorage.clear()
   
@@ -758,21 +763,7 @@ function hashId(title){
         	
         }
 	  });  
- 
-function evall() {
-	eval($('#ta').val())
-}  
-  
-function db2ht(db) {
-	var db= db|| dbEv, da= db().get();
-	cl('db2ht(db) db=dbEv', db().get())
- 
-	htDB= new Handsontable($("#testOut")[0], {
-		data: da
-		, colHeaders: Object.keys(da[0])
-	})
-}  
-  
+
   
 htEv= new Handsontable($("#tbEventsH")[0], {
 		data: daEv,  //dbEv().get(), //
@@ -1303,7 +1294,8 @@ function LogCurrentPoint(){  // to htEv
 //		  })
 		  
 	var u=	{phase:$('#inpPh').val(), yid:vid2, t:$('#t2').val()}  
-	if(dbPhases(u).count()==0) { dbPhases.insert(u) 
+  	//if(dbPhases(u).count()==0) { dbPhases.insert(u) 
+  	if(!dbPhases(u).get()[0]) { dbPhases.insert(u) 
 		dbPhases.store("dbPhases")
 	}
 		  
@@ -1332,6 +1324,46 @@ function LogCurrentPoint(){  // to htEv
        });
 	*/
   }
+
+function removePhase() {
+	
+	var u=	{phase:$('#inpPh').val(), yid:pp[2].getPlaylist()[pp[2].getPlaylistIndex()], t:$('#t2').val()}  
+  	if(!dbPhases(u).get()[0]) { dbPhases.insert(u) 
+		dbPhases.store("dbPhases")
+	}
+	
+	dbPhases(u).remove();
+	dbPhases= uniq_dbPhases()
+	localStorage.removeItem('taffy_' + "dbPhases");
+	dbPhases.store("dbPhases")
+	
+}
+
+
+function uniq_dbPhases() {
+	var db= TAFFY()
+	
+	dbPhases().each(function (p, recordnumber) {
+		var u=	{phase:p.phase, yid:p.yid, t:p.t}
+		if(!db(u).get()[0]) db.insert(u) 
+		
+	});
+	
+	localStorage.removeItem('taffy_' + "dbPhases");
+	db.store("dbPhases")
+	dbPhases= db
+	return db
+}
+
+var unP= uniq_dbPhases()
+cl('uniq_dbPhases=', unP )
+if(1){
+	dbPhases= unP;
+	localStorage.removeItem('taffy_' + "dbPhases");
+	dbPhases.store("dbPhases")
+	//dbPhases.store("dbPhases")
+	console.log('dbPhases = ', dbPhases().get())
+}
   
   
   function all_dbVid2PL() {
@@ -1365,6 +1397,39 @@ function LogCurrentPoint(){  // to htEv
 	}
 
   function toggleSet() {$("#settings").toggle()	}
+  
+  
+  
+  //   debugging misc funcs  ///////////////////////////////////////////////////
+  function evall() {
+  	eval($('#ta').val())
+  }  
+    
+  function db2ht(db) {
+  	var db= db|| dbEv, da= db().get();
+  	cl('db2ht(db) db=dbEv', db().get())
+   
+  	htDB= new Handsontable($("#testOut")[0], {
+  		data: da
+  		, colHeaders: Object.keys(da[0])
+  	})
+  }  
+
+  function ht2db(ht, add2) {
+  	ht= ht || htEv
+  	add2= add2 || []
+  	var jj= ht.getColHeader(), dav= ht.getData()
+  	
+  	for(var i=0, l=dav.length; i<l;i++){
+  		var d= {}
+  		for(var j=0, lj=dav[0].length; j<lj;j++){
+  			d[jj[j]]= dav[i][j]
+  		}
+  		add2.push(d)
+  	}
+  	return TAFFY(add2)
+  }
+
 
 
 //$(function(){ ////////////////////////////////////////////////////

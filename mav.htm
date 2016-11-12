@@ -225,7 +225,8 @@
 
 
 	<div class="col-md-1 vid">
-	  <br/> <button onclick="LogCurrentPoint()" title='Current Point to tabble "Points"' class='fa fa-export'>to Log</button> 
+      <br/> <button onclick="LogCurrentPoint()" title='Current Point to tabble "Points"' class='fa fa-export'>to Log</button> 
+      <br/> <button onclick="removePhase()" title='Remove Current Point from  "Phases"' class='fa fa-times'>Remove Phase</button> 
 	</div>
 </div>
 </div app>
@@ -269,7 +270,7 @@
 	<!--                 <button id="getG.bak" class="btn btn-primary">load from GDoc  onclick="GSheet2_HT()"</button> -->
 	<!--                 <button class="btn btn-primary" onclick="saveHandst2GDoc()">save to GDoc</button> -->
                     &nbsp; &nbsp; <a href="http://bit.ly/alexzolot-ma"> bit.ly/alexzolot-ma (GSheet)</a><br/>
-                    &nbsp; &nbsp; <a href="http://bit.ly/MA-tool/"> bit.ly/MA-tool</a><br/>
+                    &nbsp; &nbsp; <a href="http://bit.ly/MA-tool"> bit.ly/MA-tool</a><br/>
 <!--    <a href="https://chriszarate.github.io/sheetrock/">sheetrock</a> --> 
 	            </div>
 	            
@@ -278,8 +279,16 @@
 	            -->
 	
     <button id="test">test  onclick="test()"</button> <br/>
-    <textarea name="message" id='ta' rows="9" cols="80">db2ht(dbEv)</textarea>
-    <button id="testDB" onclick='evall()'>test  db2ht(db)"</button> <br/>
+    <pre>  
+  var dbPL= TAFFY(daPL); console.log('dbPL = ', dbPL().get());
+  var dbEv= TAFFY(daEv); console.log('dbEv = ', dbEv().get());
+  var dbVid= TAFFY(); dbVid.store("dbVid"); console.log('dbVid = ', dbVid().get()); // localStorage.dbVid
+  var dbPhases= TAFFY(); dbPhases.store("dbPhases"); console.log('dbPhases = ', dbPhases().get()); // localStorage.dbVid
+    
+    </pre>
+    <textarea name="message" id='ta' rows="9" cols="80">db2ht(dbPhases)</textarea><br/>
+    <button  onclick='evall()'>evall()</button> <br/>
+    <button  onclick='db2ht()'>test  db2ht(db)"</button> <br/>
 	<div id="testOut"></div>
 </div>
 </div app>
