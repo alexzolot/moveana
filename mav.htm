@@ -11,6 +11,15 @@
 
         
 <style>
+
+
+.blue {background:#bbf}
+.lblue{background:#ddf}
+.lred {background:#fdd}
+.red  {background:#fbb}
+.green{background:#bfb}
+
+
     #tbPlaylistsH  .ht_master tr > td:nth-child(3) {
       background-color: #efe;
     }
@@ -75,11 +84,13 @@
 </div>
 &nbsp;&nbsp; <!--  Play/Pause: -->
 <div class="btn-group">
-              <button onclick="plays(pp[{{ip}}], .25)" style='border:1px; background:#bbf; width:20px; padding:2px; font-size:99%' title="Play Speed 1/4 or Pause" class='fa fa-play'/>
-              <button onclick="plays(pp[{{ip}}], .5)"  style='border:1px; background:#ddf; width:20px; padding:2px; font-size:99%' title="Play Speed 1/2 or Pause" class='fa fa-play'/>
-              <button onclick="plays(pp[{{ip}}], 1)"   style='border:1px;  width:20px; padding:2px;' title="Play normal Speed or Pause"  class='fa fa-play'/>  <!-- width: 10px; height: 10px; -->
-              <button onclick="plays(pp[{{ip}}], 1.5)" style='border:1px; background:#fdd; padding:2px; font-size:100%' title="Play Speed 1.5 or Pause" class='fa fa-play'/> 
-              <button onclick="plays(pp[{{ip}}], 2)"   style='border:1px; background:#fbb; padding:2px; font-size:100%' title="Play Speed 2 or Pause" class='fa fa-play'></button> &nbsp;
+
+
+              <button onclick="plays(pp[{{ip}}], .25)" style='border:1px; width:20px; padding:2px; font-size:99%' title="Play Speed 1/4 or Pause" class='fa fa-play blue'/>
+              <button onclick="plays(pp[{{ip}}], .5)"  style='border:1px; width:20px; padding:2px; font-size:99%' title="Play Speed 1/2 or Pause" class='fa fa-play lblue'/>
+              <button onclick="plays(pp[{{ip}}], 1)"   style='border:1px; width:20px; padding:2px;' title="Play normal Speed or Pause"  class='fa fa-play'/>  <!-- width: 10px; height: 10px; -->
+              <button onclick="plays(pp[{{ip}}], 1.5)" style='border:1px; padding:2px; font-size:100%' title="Play Speed 1.5 or Pause" class='fa fa-play lred'/> 
+              <button onclick="plays(pp[{{ip}}], 2)"   style='border:1px; padding:2px; font-size:100%' title="Play Speed 2 or Pause" class='fa fa-play red'></button> &nbsp;
 </div>
               <input id="t{{ip}}"  onchange="pp[{{ip}}].seekTo(value)" type="number" step = ".3"></input>
               <button id="fullscr{{ip}}" onclick="fullScreen({{ip}});"  title="toggle Full Screen" class='glyphicon glyphicon-fullscreen'/> 
@@ -160,13 +171,13 @@
                <div id="tbEventsH" title='DblClk set event'></div>
              
 <!-- 	            <table id="tbSheetrock" class="table table-condensed table-striped"></table> -->
-	              <button onclick="LoadPlaylists()"  class='glyphicon glyphicon-import' title='Load Playlists from Table to Players'> Load Playlists</button> 
+	              <button onclick="LoadPlaylists()"  class='glyphicon glyphicon-import green' title='Load Playlists from Table to Players'> Load Playlists</button> 
                   <button onclick="go2ev()" class='fa fa-arrow-down'  title='set video to current row of the Points Table'>Current Point:</button> 
                   <input id="inpCurrPoint" title="current Point"  onchange="
-                          if(value> evData.length) value= 1;
+                          if(value> daEv.length) value= 1;
 	                      go2ev(value-1); 
-		                  evsHT.scrollViewportTo(value-1, 0); 
-		                  evsHT.selectCell(value-1, 0)" 
+		                  htEv.scrollViewportTo(value-1, 0); 
+		                  htEv.selectCell(value-1, 0)" 
 	                  type="number" step = "1" value="1" />
         </div>
    </div>
@@ -224,11 +235,12 @@
 <hr/>
 <hr/>
 
-<!-- <h3> for Developers</h3> ----------------------------------------------------------------->
+<!--  for Developers ----------------------------------------------------------------->
 
-<button onclick= 'toggleDev()' class="fa fa-wrench" aria-hidden="true" title='for Developers'></button>  <br/>
+<button onclick= 'toggleDev()' class="fa fa-wrench red" aria-hidden="true" title='for Developers'></button>  <br/>
 
 <div id='for-developers' style='display:none'>
+    <h3> for Developers</h3>
     <button onclick='dbPhases2evsHT()'>dbPhases2evsHT()</button>
     <button onclick='evsHT2dbPhases()'>evsHT2dbPhases()</button>
     <button onclick='GSheet2db()'>GSheet2db()</button>
@@ -238,8 +250,8 @@
     
 
 <!--   --->
-	  
-	 API: <a href="https://developers.google.com/sheets/samples/reading">Google Sheets API </a><br/>
+	<h4>API:</h4>
+	<a href="https://developers.google.com/sheets/samples/reading">Google Sheets API </a><br/>
 	<a href="https://developers.google.com/youtube/js_api_reference">YouTube JavaScript Player API Reference</a><br/>
     <a href="https://handsontable.com/examples.html?headers">handsontable.com</a> <br/>
     <a href="http://www.taffydb.com/workingwithdata">TaffyDB</a> <br/>
