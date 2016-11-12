@@ -234,8 +234,8 @@ var vm = new Vue({
   
 
  /// Handsontable Events 
-  var htEv,  playlistsHT; 
-  var playlists= [//{Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:3, 	Info:"R", 	Comment:""}, 
+  var htEv,  htPL; 
+  var daPL= [//{Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:3, 	Info:"R", 	Comment:""}, 
 	  //{Id:"Z", 	YTId:"4oiPmaBlJNA", 	Type:3, 	Info:"Zep", 	Comment:""}, 
           //    {Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:2, 	Info:"med", 	Comment:""}, 
                    {Id:"AZ1", 	YTId:"TSDx6RK15es", 	Type:1, 	Info:"Med radius turns, at Palmer Field, by Alex Zolotovitski", 	Comment:""}, 
@@ -284,7 +284,7 @@ var vm = new Vue({
 
 
 
-  var dbPL= TAFFY(playlists); console.log('dbPL = ', dbPL().get());
+  var dbPL= TAFFY(daPL); console.log('dbPL = ', dbPL().get());
   var dbEv= TAFFY(daEv); console.log('dbEv = ', dbEv().get());
   var dbVid= TAFFY(); dbVid.store("dbVid"); console.log('dbVid = ', dbVid().get()); // localStorage.dbVid
   var dbPhases= TAFFY(); dbPhases.store("dbPhases"); console.log('dbPhases = ', dbPhases().get()); // localStorage.dbVid
@@ -294,9 +294,9 @@ var vm = new Vue({
 
    var playlistsDict={}, playlistsDictY={}, plt={1:[], 2:[]}; // by Id; by YTId; by player type
    
-   function fillPlaylistsDict(){  /// fillPlaylistsDict(playlists)
+   function fillPlaylistsDict(){  /// fillPlaylistsDict(daPL)
 	     playlistsDict={}; playlistsDictY={}; plt= {1:[], 2:[]};
-	     for(var i=0, l= playlists.length; i<l; i++){ var p= playlists[i];
+	     for(var i=0, l= daPL.length; i<l; i++){ var p= daPL[i];
 		  	//if(p.Type>0) plt[p.Type].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
 		  	if(p.Type==1 || p.Type==3) plt[1].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
 		  	if(p.Type==2 || p.Type==3) plt[2].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
@@ -518,7 +518,7 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
             	 var e= {Id:hashId(tit), YTId:yid
                          , Type:2, Info: fNote(rj), Comment:''}
             	 dbPL.insert(e);
-	             // in treatRj    playlists.push(e)
+	             // in treatRj    daPL.push(e)
 	      	  }
           */    
               
@@ -576,26 +576,26 @@ function hashId(title){
     	    			                         
     	//var note= '<html> %s, by <a href="%s">%s</a>  </html>'.sf(rj.tlink, rj.author_url, rj.author_name);
 		// console.log('note=', note)
-		playlists[ro].Info= note(infoRich, rj);
-		if(prop=='YTId' && !playlists[ro].Id || prop=='Id' &&  value.length > 11) {
-			playlists[ro].Id= hashId(rj.title);  //.replace(/\s+ /g, '').substr(0,5);
-			playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
-			playlists[ro].YTId= rj.yid;
-			//dbPL({YTId:rj.yid}).update(playlists[ro])
-			dbPL({YTId:rj.yid}).update(function(){this.pl= playlists[ro]; return this})
-		// if(playlistsHT)	playlistsHT.setDataAtCell(ro, 0, playlists[ro].Id);
-		//	playlistsHT.setDataAtCell(ro, 1, playlists[ro].YTId);
+		daPL[ro].Info= note(infoRich, rj);
+		if(prop=='YTId' && !daPL[ro].Id || prop=='Id' &&  value.length > 11) {
+			daPL[ro].Id= hashId(rj.title);  //.replace(/\s+ /g, '').substr(0,5);
+			daPL[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
+			daPL[ro].YTId= rj.yid;
+			//dbPL({YTId:rj.yid}).update(daPL[ro])
+			dbPL({YTId:rj.yid}).update(function(){this.pl= daPL[ro]; return this})
+		// if(htPL)	htPL.setDataAtCell(ro, 0, daPL[ro].Id);
+		//	htPL.setDataAtCell(ro, 1, daPL[ro].YTId);
 		}
-		//if(!playlists[ro].Comment && value.test('http')) {playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
-//		if(!playlists[ro].Comment && value.test('http')){playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
-//?		playlists[ro].YTId= yid;
+		//if(!daPL[ro].Comment && value.test('http')) {daPL[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
+//		if(!daPL[ro].Comment && value.test('http')){daPL[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')}
+//?		daPL[ro].YTId= yid;
 //		th.setDataAtCell(ro, 4, note); // hlink);
 //		if(th.getDataAtCell(ro, 1)=='') {th.setDataAtCell(ro, 1, note.replace(/ /g, '').substr(0,5))}
 
 			})
 		
 		if(prop=='YTId'){ td.innerHTML= yid;}
-        if(prop=='Id')  { td.innerHTML= playlists[ro].Id;}
+        if(prop=='Id')  { td.innerHTML= daPL[ro].Id;}
         
 	    return td;
 	  }  /// YTId_Renderer	
@@ -615,14 +615,14 @@ function hashId(title){
 //		    	    			                         
 //		    	//var note= '<html> %s, by <a href="%s">%s</a>  </html>'.sf(rj.tlink, rj.author_url, rj.author_name);
 //				// console.log('note=', note)
-//				playlists[ro].Info= note;
-//				if(!playlists[ro].YTId) {
-//					playlists[ro].Id= hashId(rj.title);   //rj.title.replace(/\s+/g, '').substr(0,5);
-//					playlists[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
-//					playlists[ro].YTId= rj.yid;
+//				daPL[ro].Info= note;
+//				if(!daPL[ro].YTId) {
+//					daPL[ro].Id= hashId(rj.title);   //rj.title.replace(/\s+/g, '').substr(0,5);
+//					daPL[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
+//					daPL[ro].YTId= rj.yid;
 //		         //   td.innerHTML= rj.title.replace(/ /g, '').substr(0,5);
-//				//	playlistsHT.setDataAtCell(ro, 0, playlists[ro].Id);
-//				//	playlistsHT.setDataAtCell(ro, 1, playlists[ro].YTId);
+//				//	htPL.setDataAtCell(ro, 0, daPL[ro].Id);
+//				//	htPL.setDataAtCell(ro, 1, daPL[ro].YTId);
 //				}
 //
 //			})
@@ -646,7 +646,7 @@ function hashId(title){
 				//alert(tit)s
 		    	// note(infoRich, rj)
 		    	
-		    	var pl_YTId= playlists.map(function(p){return p.YTId})
+		    	var pl_YTId= daPL.map(function(p){return p.YTId})
 		    	  , ro= pl_YTId.indexOf(yid), type= col <2 ? 1 : 2;
 
                 //daEv[row].Index= daEv.length; 
@@ -656,24 +656,24 @@ function hashId(title){
 		    		
 		    	if(ro<0) { ///  new video
 		    		daEv[row]['Video'+type]=  hashId(rj.title);  //rj.title.replace(/\s+/g, '').substr(0,5)
-		    		playlists.push({ // new video
+		    		daPL.push({ // new video
 							    		Id: hashId(rj.title), //rj.title.replace(/\s+/g, '').substr(0,5),
 										YTId: rj.yid,
 										Comment:value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' '),
 										Type: type
 							    	}) 
-		    	} else {daEv[row]['Video'+type]= playlists[ro].Id};
+		    	} else {daEv[row]['Video'+type]= daPL[ro].Id};
 			})
 			
 		    return td;
 		  }  /// Video_Renderer1	
 
 
-	 function toggleRich() {infoRich= !infoRich;  playlistsHT.loadData(playlists)
+	 function toggleRich() {infoRich= !infoRich;  htPL.loadData(daPL)
 	 }
 	  
-  playlistsHT = new Handsontable($("#tbPlaylistsH")[0], {
-		data: playlists,  //dbPL().get(), //
+  htPL = new Handsontable($("#tbPlaylistsH")[0], {
+		data: daPL,  //dbPL().get(), //
 		minSpareRows: 1,
 		height: 296,
 	    colHeaders: function(j) {
@@ -701,16 +701,16 @@ function hashId(title){
 		 comments: true,
 		 cell: [
 		      {row: 0, col: 0, comment: 'You can paste youtube Id or links to this column'}
-			, {row: playlists.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
-			, {row: playlists.length, col: 1, comment: 'You can paste youtube Id or links to this cell'}
+			, {row: daPL.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
+			, {row: daPL.length, col: 1, comment: 'You can paste youtube Id or links to this cell'}
 		 ]
 	    , afterRender: function(){ fillPlaylistsDict(); evData_Filled= fillEvs(); 
 
-// cl('playlistsHT.afterRender()')
+// cl('htPL.afterRender()')
 //	    	dbVid.store('dbVid'); dbPL.store('dbPL'); cl('afterRender: dbVid.store(); dbPL.store()', dbPL()) 
 	    	}
-       // , afterRender : createCanvas // function(){positionCanvas('playlistsHT afterRender');  }
-//nOK zzz        , afterRender : htEv.loadData(daEv) //updateSettings()  // // function(){positionCanvas('playlistsHT afterRender');  }
+       // , afterRender : createCanvas // function(){positionCanvas('htPL afterRender');  }
+//nOK zzz        , afterRender : htEv.loadData(daEv) //updateSettings()  // // function(){positionCanvas('htPL afterRender');  }
 
         , afterChange: function(changes, source) {
         	//if(changes) if(1 || source === 'alter'){
@@ -722,8 +722,8 @@ function hashId(title){
 
         			var ro= changes[i][0], th= this;
         			
-        			playlists[ro].YTId= yid
-        			//playlistsHT.setDataAtCell(ro, 1, yid);
+        			daPL[ro].YTId= yid
+        			//htPL.setDataAtCell(ro, 1, yid);
         			
         			$.ajax({
         	            url: 'http://query.yahooapis.com/v1/public/yql',
@@ -746,8 +746,8 @@ function hashId(title){
         		    		  console.log('result=', result)
         		    		  var tit= result.query.results.json.title;
         		    		  console.log('tit=', tit)
-        		    		  //playlists[changes[i][0]].Info= result.getElementsByTagName("title");
-        		    		  playlists[ro].Info= tit;
+        		    		  //daPL[changes[i][0]].Info= result.getElementsByTagName("title");
+        		    		  daPL[ro].Info= tit;
         		    		  //th.render();
         		    		  th.setDataAtCell(ro, 1, yid); // hlink);
         		    		  th.setDataAtCell(ro, 3, '%s, by %s'.sf(tit, result.query.results.json.author_name));
@@ -783,13 +783,13 @@ htEv= new Handsontable($("#tbEventsH")[0], {
 	//	  {data: 'Index' , type: 'numeric', format: '0'}, // width: 13},
 		  {data: 'Video1' , type: 'text' , renderer: Video_Renderer1
 //zzz			  , editor: 'select'
-//			  , selectOptions: playlists.filter(function(p){return p.Type==1}) .map(function(i){return i['Id']})
+//			  , selectOptions: daPL.filter(function(p){return p.Type==1}) .map(function(i){return i['Id']})
 			}, //, width: 20}, 
 		  {data: 't1' , type: 'numeric', format: '0.00'},  // renderer: function(){alert("ttt")}}, //, width: 14},
 //		  {data: 'Video2', renderer: function(){alert("zzz")} //Video_Renderer1   , type: 'text'
 		  {data: 'Video2' , type: 'text', renderer: Video_Renderer1  
 //zzz			  , editor: 'select'
-//			  , selectOptions: playlists.filter(function(p){return p.Type==2}) .map(function(i){return i.Id})
+//			  , selectOptions: daPL.filter(function(p){return p.Type==2}) .map(function(i){return i.Id})
 			}, //, width: 20}, 
 		  {data: 't2' , type: 'numeric', format: '0.00'}, //, width: 14},
 		  {data: 'Phase'  , type: 'text'},
@@ -820,10 +820,10 @@ $('#tbPlaylistsH table tbody').on('dblclick', 'tr th', function(evt){
 	//var index= $($(this).find('.rowHeader')[0]).text();
 	
 	var index= $(this).text()
-	var p= playlists[index-1], c1= p.Type==1 || p.Type==3, c2= p.Type==2 || p.Type==3//dbPL()
+	var p= daPL[index-1], c1= p.Type==1 || p.Type==3, c2= p.Type==2 || p.Type==3//dbPL()
 	
 	if(p.Type==0 || p.Type=='r'|| p.Type=='rr'){
-		playlistsHT.alter ('remove_row', index-1)
+		htPL.alter ('remove_row', index-1)
         if(p.Type=='rr'){dbVid({yid:p.YTId}).remove()
         	dbPL({YTId:p.YTId}).remove()
         	return
@@ -901,7 +901,7 @@ $('#tbEventsH table tbody').on('dblclick', 'tr', function(evt){
 		  
 		   $(entry).each(function(){
 		     // Column names are name, age, etc.
-		     $('#testOut').prepend('<h4>'+this.gsx$playlists.$t+'</h4>'+this.gsx$points.$t);
+		     $('#testOut').prepend('<h4>'+this.gsx$daPL.$t+'</h4>'+this.gsx$points.$t);
 		   });
 		  
 		  });
@@ -952,7 +952,7 @@ function GSheet2_HT(){
 	  var spreadsheetID = "170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI";
 
 	  GSheetRange2_HTcells(spreadsheetID, 4, 50, 11, 15, function(playls){console.log('plls10 =', plls)
-		  playlistsHT.loadData(playls) 
+		  htPL.loadData(playls) 
 	  });
 	  
     GSheetRange2_HTcells(spreadsheetID, 4, 40, 1, 9, function(points){console.log('points =', pts)
@@ -972,7 +972,7 @@ function GSheet2_HT(){
 	  var spreadsheetID = "170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI";
 
 	  GSheetRange2_HTcells(spreadsheetID, 4, 30, 11, 15, function(plls){console.log('plls10 =', plls)
-		  playlistsHT.loadData(plls) 
+		  htPL.loadData(plls) 
 	  });
 	  GSheetRange2_HTcells(spreadsheetID, 4, 30, 1, 9, function(pts){console.log('points =', pts)
 		  htEv.loadData(pts) 
@@ -1020,7 +1020,7 @@ function GSheetPh2dbHT(){
 //		})
 		
 	GSheetRange2_HTcells(0, 1, 2, 5, 5, function(res){console.log('GSheetPh2dbHT: res =', res)
-		    //playlistsHT.loadData(playls) 
+		    //htPL.loadData(playls) 
 			cl('GSheetPh2dbHT: fJ(res[0].dbPhases)', fJ(res[0].dbPhases))
 				
 			var dd= fJ(res[0].dbPhases), pp=[];
@@ -1191,13 +1191,13 @@ function dbPhases2evsHT(all){
 	}
 
 
-  function LoadPlaylists(){console.log(playlists); //alert(playlists)
+  function LoadPlaylists(){console.log(daPL); //alert(daPL)
   
   		fillPlaylistsDict()
   
   		var pl=[[], []]; // pl[0]=[]; pl[1]=[];
-  		for(var i=0, l= playlists.length; i<l; i++) if(playlists[i].YTId > ''){
-	  			var p=playlists[i], t= p.Type-1;
+  		for(var i=0, l= daPL.length; i<l; i++) if(daPL[i].YTId > ''){
+	  			var p=daPL[i], t= p.Type-1;
 	  			if(t==0 || t==2) if(pl[0].indexOf(p.YTId) < 0) { pl[0].push(p.YTId) }
 	  			if(t==1 || t==2) if(pl[1].indexOf(p.YTId) < 0) { pl[1].push(p.YTId) }
 	  			//if(pl[t].indexOf(p.YTId) < 0) { pl[t].push(p.YTId) }
@@ -1316,14 +1316,14 @@ function LogCurrentPoint(){  // to htEv
   
   function all_dbVid2PL() {
 	  dbVid().each(function (p, recordnumber) {
-  		playlists.push({ // new video
+  		daPL.push({ // new video
     		Id: hashId(p.title), //rj.title.replace(/\s+/g, '').substr(0,5),
 			YTId: p.yid,
 			Comment:p.title,
 			Type: 3
     	}) 
 	  })
-	  playlistsHT.loadData(playlists)
+	  htPL.loadData(daPL)
 	  $("html, body").animate({scrollTop: $('#tbPlaylistsH').offset().top-40} , 300)
 }
 
@@ -1373,7 +1373,7 @@ function LogCurrentPoint(){  // to htEv
 //			} else {yid= q[1]; c= q[0]}
 			if(! /http/.test(q) ) {c= q
 			} else { yid= q
-				playlists.push({YTId: yid, type:3, Comment:c}) 
+				daPL.push({YTId: yid, type:3, Comment:c}) 
 				daEv.push({Video2:yid, t2:2, Phase:c})
 				c=''
 			}
@@ -1382,12 +1382,12 @@ function LogCurrentPoint(){  // to htEv
 //			var c  = (q.length==1) ? q[0].replace(/http.*/, '')    : q[0]
 //			
 	    	cl('222 yid, c=', yid, c)
-//			playlists.push({YTId: yid, type:3, Comment:c}) 
+//			daPL.push({YTId: yid, type:3, Comment:c}) 
 //			daEv.push({Video2:yid, t2:2, Phase:c})
 		})
 		
 
-		playlistsHT.loadData(playlists)	
+		htPL.loadData(daPL)	
 		htEv.loadData(daEv)
 		
 		setTimeout(LoadPlaylists, 1000)
