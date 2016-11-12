@@ -209,18 +209,16 @@ var vm = new Vue({
     }}
 
 
-      function updateTimerDisplay(){
-    	    // Update current time text display.
+   	// Update current time text display.
+    function updateTimerDisplay(){
    	     if(pp[1].getCurrentTime) $('#t1').val(r100( pp[1].getCurrentTime() ));
 	     if(pp[2].getCurrentTime) $('#t2').val(r100( pp[2].getCurrentTime() ));
-       }
+     }
       
 
-      function onplaStateChange(i){ return function(event) { 
+   function onplaStateChange(i){ return function(event) { 
     	  if (event.data == YT.PlayerState.PAUSED){updateTimerDisplay()
   	  }}
-
-
    }
 
 
@@ -236,7 +234,7 @@ var vm = new Vue({
   
 
  /// Handsontable Events 
-  var evsHT, evsHT2, playlistsHT; 
+  var htEv,  playlistsHT; 
   var playlists= [//{Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:3, 	Info:"R", 	Comment:""}, 
 	  //{Id:"Z", 	YTId:"4oiPmaBlJNA", 	Type:3, 	Info:"Zep", 	Comment:""}, 
           //    {Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:2, 	Info:"med", 	Comment:""}, 
@@ -260,15 +258,15 @@ var vm = new Vue({
 //                   {Id:"CPow", 	YTId:"fdaudGMBaO0", 	Type:2, 	Info:"Tips Up – How To Steer Your Skis Through Powder, by Canadian Ski Council", 	Comment:"Powder"},  
 //   {Id:"BASIA", 	YTId:"YsIvjr1uH-4", 	Type:1, 	Info:"BASI Alpine  Level 4 Bumps.mpg, by OfficialBASI", 	Comment:""}, 
 //   {Id:"SKIIN", 	YTId:"7tyY8A8hobc", 	Type:1, 	Info:"SKIING LEVEL 4 BASI ISTD, by admirallimos admirallimos", 	Comment:""}, 
-   {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}
+//   {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}
                    ]; 
 
-  var evData=[//{	Video1:"R", 	t1:4.31, 	Video2:"Z", 	t2:377, 	Info:"R, apex", 	SSI:"sss", 	BM:"banbb", 	TD:"outsi" 	},
+  var daEv=[//{	Video1:"R", 	t1:4.31, 	Video2:"Z", 	t2:377, 	Info:"R, apex", 	SSI:"sss", 	BM:"banbb", 	TD:"outsi" 	},
 //	  {	Video1:"Z", 	t1:4.31, 	Video2:"R", 	t2:4.89, 	Info:"R, apex", 	SSI:"sss", 	BM:"banbb", 	TD:"outsi" 	},
 	      {Video1:"AZ1", 	t1:4.31, 	Video2:"PSIANW", 	t2:4.89, 	Phase:"", 	SSI:"small edge angle", 	BM:"banking", 	TD:"outside arm too high and back" 	},
       {Video1:"", 	t1:5.94, 	Video2:"", 	t2:5.82, 	Phase:"", 	SSI:"", 	BM:"outs arm low", 	TD:"poll in arms, parallel to ground" 	},
       {Video1:"", 	t1:7.8, 	Video2:"", 	t2:6.75, 	Phase:"", 	SSI:"small edge angle", 	BM:"hips too high", 	TD:"more ang before apex; look at dir of travel" 	},
-      {Video1:"", 	t1:8.75, 	Video2:"", 	t2:8.08, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
+//      {Video1:"", 	t1:8.75, 	Video2:"", 	t2:8.08, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
       {Video1:"", 	t1:4.49, 	Video2:"Reilly", 	t2:63.61, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
       {Video1:"AZ2", 	t1:50.7, 	Video2:"", 	t2:69.74, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
 ////      {Video1:"", 	t1:50.7, 	Video2:"Berger", 	t2:413.83, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	}
@@ -287,7 +285,7 @@ var vm = new Vue({
 
 
   var dbPL= TAFFY(playlists); console.log('dbPL = ', dbPL().get());
-  var dbEv= TAFFY(evData); console.log('dbEv = ', dbEv().get());
+  var dbEv= TAFFY(daEv); console.log('dbEv = ', dbEv().get());
   var dbVid= TAFFY(); dbVid.store("dbVid"); console.log('dbVid = ', dbVid().get()); // localStorage.dbVid
   var dbPhases= TAFFY(); dbPhases.store("dbPhases"); console.log('dbPhases = ', dbPhases().get()); // localStorage.dbVid
 //  dbPL().remove()
@@ -296,7 +294,7 @@ var vm = new Vue({
 
    var playlistsDict={}, playlistsDictY={}, plt={1:[], 2:[]}; // by Id; by YTId; by player type
    
-   function fillPlaylistsDict(){
+   function fillPlaylistsDict(){  /// fillPlaylistsDict(playlists)
 	     playlistsDict={}; playlistsDictY={}; plt= {1:[], 2:[]};
 	     for(var i=0, l= playlists.length; i<l; i++){ var p= playlists[i];
 		  	//if(p.Type>0) plt[p.Type].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
@@ -651,20 +649,20 @@ function hashId(title){
 		    	var pl_YTId= playlists.map(function(p){return p.YTId})
 		    	  , ro= pl_YTId.indexOf(yid), type= col <2 ? 1 : 2;
 
-                //evData[row].Index= evData.length; 
-                evData[row]['yid'+type]= rj.yid, 
-		    	evData[row]['t'+type]=  evData[row]['t'+type] || 3 //sec
-		    	evData[row].Phase= evData[row].Phase || ""
+                //daEv[row].Index= daEv.length; 
+                daEv[row]['yid'+type]= rj.yid, 
+		    	daEv[row]['t'+type]=  daEv[row]['t'+type] || 3 //sec
+		    	daEv[row].Phase= daEv[row].Phase || ""
 		    		
 		    	if(ro<0) { ///  new video
-		    		evData[row]['Video'+type]=  hashId(rj.title);  //rj.title.replace(/\s+/g, '').substr(0,5)
+		    		daEv[row]['Video'+type]=  hashId(rj.title);  //rj.title.replace(/\s+/g, '').substr(0,5)
 		    		playlists.push({ // new video
 							    		Id: hashId(rj.title), //rj.title.replace(/\s+/g, '').substr(0,5),
 										YTId: rj.yid,
 										Comment:value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' '),
 										Type: type
 							    	}) 
-		    	} else {evData[row]['Video'+type]= playlists[ro].Id};
+		    	} else {daEv[row]['Video'+type]= playlists[ro].Id};
 			})
 			
 		    return td;
@@ -712,7 +710,7 @@ function hashId(title){
 //	    	dbVid.store('dbVid'); dbPL.store('dbPL'); cl('afterRender: dbVid.store(); dbPL.store()', dbPL()) 
 	    	}
        // , afterRender : createCanvas // function(){positionCanvas('playlistsHT afterRender');  }
-//nOK zzz        , afterRender : evsHT.loadData(evData) //updateSettings()  // // function(){positionCanvas('playlistsHT afterRender');  }
+//nOK zzz        , afterRender : htEv.loadData(daEv) //updateSettings()  // // function(){positionCanvas('playlistsHT afterRender');  }
 
         , afterChange: function(changes, source) {
         	//if(changes) if(1 || source === 'alter'){
@@ -761,8 +759,8 @@ function hashId(title){
         }
 	  });  
   
-evsHT= new Handsontable($("#tbEventsH")[0], {
-		data: evData,  //dbEv().get(), //
+htEv= new Handsontable($("#tbEventsH")[0], {
+		data: daEv,  //dbEv().get(), //
 		minSpareRows: 1,
 		height: 196,
 
@@ -803,12 +801,12 @@ evsHT= new Handsontable($("#tbEventsH")[0], {
 		 ] //,     minSpareRows: 1
 		, comments: true,
 		 cell: [
-			  {row: evData.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
-			, {row: evData.length, col: 2, comment: 'You can paste youtube Id or links to this cell'}
+			  {row: daEv.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
+			, {row: daEv.length, col: 2, comment: 'You can paste youtube Id or links to this cell'}
 		 ]
          , autoWrapRow: true
          
-     //   , afterRender : function(){positionCanvas('evsHT afterRender');  }
+     //   , afterRender : function(){positionCanvas('htEv afterRender');  }
          , afterRender : function(){evData_Filled= fillEvs()}
 	  });	
   
@@ -837,7 +835,7 @@ $('#tbPlaylistsH table tbody').on('dblclick', 'tr th', function(evt){
 	
 	console.log('#tbPlaylistsH table tbody index, p=', index, p)
 	
-	evData.push({Video1: c1 ? p.Id :'', t1: c1 ? 2 :''
+	daEv.push({Video1: c1 ? p.Id :'', t1: c1 ? 2 :''
 			   , Video2: c2 ? p.Id :'', t2: c2 ? 2 :''
 			   , Phase: p.Comment //Info
 	})
@@ -958,7 +956,7 @@ function GSheet2_HT(){
 	  });
 	  
     GSheetRange2_HTcells(spreadsheetID, 4, 40, 1, 9, function(points){console.log('points =', pts)
-  	  evsHT.loadData(points) 
+  	  htEv.loadData(points) 
     });
     
     
@@ -968,16 +966,16 @@ function GSheet2_HT(){
 }
 
 //$('#getG').click(GSheet2_HT)
-$('#getG').click(function(){
+//$('#getG').click(GSheet2_HT())
+function GSheet2_HT(){
 	  alert('GSheet2_HT()')
 	  var spreadsheetID = "170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI";
 
-	  GSheetRange2_HTcells(spreadsheetID, 4, 20, 11, 15, function(plls){console.log('plls10 =', plls)
+	  GSheetRange2_HTcells(spreadsheetID, 4, 30, 11, 15, function(plls){console.log('plls10 =', plls)
 		  playlistsHT.loadData(plls) 
-
 	  });
-	  GSheetRange2_HTcells(spreadsheetID, 4, 20, 1, 9, function(pts){console.log('points =', pts)
-		  evsHT.loadData(pts) 
+	  GSheetRange2_HTcells(spreadsheetID, 4, 30, 1, 9, function(pts){console.log('points =', pts)
+		  htEv.loadData(pts) 
 	  });
 	  
 	  
@@ -1006,7 +1004,7 @@ $('#getG').click(function(){
             dataType: "jsonp"            		    //$.get({url: "https://www.youtube.com/watch?v="+ yid + '&format=json&callback=?'
     	  , success: function(res){console.log('getPh:', res)}
 	  })
-})
+}
 
 
 
@@ -1052,10 +1050,10 @@ function GSheet2db(spreadsheetID, db, callback){
 function evsHT2dbPhases(){
     var db= TAFFY();
 	
-	for(i=0, l= evData.length; i<l; i++){var e= evData[i];
+	for(i=0, l= daEv.length; i<l; i++){var e= daEv[i];
 	console.log('evsHT2dbPhases: i,e=', i, e)
 
-	 if(e.Phase) db.insert({yid:dbPL({Id:evData[i].Video2}).get()[0].YTId, phase:e.Phase, t:e.t2})
+	 if(e.Phase) db.insert({yid:dbPL({Id:daEv[i].Video2}).get()[0].YTId, phase:e.Phase, t:e.t2})
     }
 	console.log('evsHT2dbPhases: db().get()=', db().get())
 	console.log('evsHT2dbPhases: db().distinct()=', db().distinct("phase","t","yid") )
@@ -1078,15 +1076,15 @@ function matchPhase(ph){
 	  console.log('matchPhase: remove dups: un, dbPhases', un, dbPhases().get())	  
 	  
 	  dbPhases({phase: ph}).each(function (p, recordnumber) {
-		  evData.push({Video2:'http://www.youtube.com/watch?v='+p.yid, t2:p.t, Phase:$('#inpPh').val()}) //zz
+		  daEv.push({Video2:'http://www.youtube.com/watch?v='+p.yid, t2:p.t, Phase:$('#inpPh').val()}) //zz
 		});
 	  
 //    var phs= dbPhases({phase:$('#inpPh').val()}).get()
-//    phs.map(function(p){evData.push({Video2:p.yid, t2:p.t, Phase:$('#inpPh').val()}) })
-	  evsHT.loadData(evData)	
+//    phs.map(function(p){daEv.push({Video2:p.yid, t2:p.t, Phase:$('#inpPh').val()}) })
+	  htEv.loadData(daEv)	
 }
 
-
+// all==T  only from dbPL
 function dbPhases2evsHT(all){
 	//var db= dbPhases().join(dbPL, function (l, r) { return (l.yid === r.YTId); }); //get Id
 	var db= dbPhases(); //get Id
@@ -1095,28 +1093,28 @@ function dbPhases2evsHT(all){
 	//evData_Filled= dat;  //?? used by go2ev
 	
 	dat.each(function (p, recordnumber) {
-		  //evData.push({Video2:'http://www.youtube.com/watch?v='+p.yid, t2:p.t, Phase:p.phase, SSI:p.yid, BM: d.Info}) //zz
-		  $.extend(evData[recordnumber], {Video2:'http://www.youtube.com/watch?v='+p.yid
+		  //daEv.push({Video2:'http://www.youtube.com/watch?v='+p.yid, t2:p.t, Phase:p.phase, SSI:p.yid, BM: d.Info}) //zz
+		  $.extend(daEv[recordnumber], {Video2:'http://www.youtube.com/watch?v='+p.yid
 			     , t2:p.t, Phase:p.phase, SSI:p.yid, BM: p.Info}) //zz
 		 // }
 	});
 	
 	if(0){
 		for(i=0, l= dat.length; i<l; i++){ var d= dat[i];
-			evData[i].Video2= 'http://www.youtube.com/watch?v='+d.yid  // dat[i].Id; 
-			evData[i].t2= d.t;
-			evData[i].Phase= d.phase;
-			evData[i].SSI= d.yid;
-			evData[i].BM= d.Info;
+			daEv[i].Video2= 'http://www.youtube.com/watch?v='+d.yid  // dat[i].Id; 
+			daEv[i].t2= d.t;
+			daEv[i].Phase= d.phase;
+			daEv[i].SSI= d.yid;
+			daEv[i].BM= d.Info;
 		}
 	}
 
-	evsHT.loadData(evData)
+	htEv.loadData(daEv)
 		
 //	console.log('get_dbPhases2evsHT: db.get()=', db.get())
 //	console.log('get_dbPhases2evsHT: dat=', dat)
 //
-//	evsHT.updateSettings({
+//	htEv.updateSettings({
 //		//data: dbPhases().order('t').order('yid').get()
 //		data: dat
 //		//colHeaders: 'Video1 t1 Video2 t2 Phase SSI BM TD img'.split(" "),
@@ -1124,7 +1122,7 @@ function dbPhases2evsHT(all){
 //		//, colHeaders: 'yid phase t'.split(" ")
 //		, columns: [{data:'Id'},{data:'t'}, {data:'Id'},{data:'t'},{data:'phase'},{data:'yid'},{data:'Info', renderer: "html"}]
 //	})
-//	evsHT.loadData(dat)
+//	htEv.loadData(dat)
 }
 
 
@@ -1168,21 +1166,21 @@ function dbPhases2evsHT(all){
 //				}
 //				
 //				console.log('res=', res)
-//				//evsHT.loadData(res) 
-//				evData= res;
-//				evsHT.loadData(evData) 
+//				//htEv.loadData(res) 
+//				daEv= res;
+//				htEv.loadData(daEv) 
 //				
 //
 //		  } else{alert('treatSheetrock error:' + error)}
 //		};
 
 		
-	function fillEvs(){  /// fill empty cells in evData
+	function fillEvs(){  /// fill empty cells in daEv
 		var evData_Filled=[];	
-		for (var key in evData[0]) {
-			if (evData[0].hasOwnProperty(key)) {
-			  for (var i=0, l= evData.length; i<l; i++){ evData_Filled[i]= evData_Filled[i] || {};
-			    evData_Filled[i][key]= evData[i][key];
+		for (var key in daEv[0]) {
+			if (daEv[0].hasOwnProperty(key)) {
+			  for (var i=0, l= daEv.length; i<l; i++){ evData_Filled[i]= evData_Filled[i] || {};
+			    evData_Filled[i][key]= daEv[i][key];
 			    if( i > 0  && (key=="Video1" || key=="Video2"||key=="t1" || key=="t2") 
 			               && (evData_Filled[i][key]==null || evData_Filled[i][key]=='' ) 
 			      ) evData_Filled[i][key]= evData_Filled[i-1][key];
@@ -1213,15 +1211,15 @@ function dbPhases2evsHT(all){
 		
 		fillEvs()
 		
-        evsHT.getCellMeta(evData.length-1, 0).comment= 'You can paste youtube Id or links to this cell';
-        evsHT.getCellMeta(evData.length-1, 2).comment= 'You can paste youtube Id or links to this cell';
-		evsHT.render();
+        htEv.getCellMeta(daEv.length-1, 0).comment= 'You can paste youtube Id or links to this cell';
+        htEv.getCellMeta(daEv.length-1, 2).comment= 'You can paste youtube Id or links to this cell';
+		htEv.render();
 		go2ev(0)
   }
   
   
    function go2ev(iEvent){  // i = row in table Events
-	  var selection = evsHT.getSelected()
+	  var selection = htEv.getSelected()
 	  iEvent= iEvent != undefined ? iEvent : selection == undefined ? 0: selection[0] 
 	  
  	  var e= evData_Filled[iEvent];  console.log('go2ev:', iEvent, e); 
@@ -1235,8 +1233,8 @@ function dbPhases2evsHT(all){
 		  pp[2].go1Vid(playlistsDict[e.Video2].YTId, e.t2)
  	  } else {alert('playlistsDict [' + e.Video2 + '] does not exists')}
  	  
-      //evsHT.selectCell(iEvent, 0) 
-      evsHT.selectCell(iEvent, 0, iEvent, evsHT.countCols()-1) 
+      //htEv.selectCell(iEvent, 0) 
+      htEv.selectCell(iEvent, 0, iEvent, htEv.countCols()-1) 
 
  	  
 	  $('#inpCurrPoint').val(iEvent+1)
@@ -1261,17 +1259,17 @@ function dbPhases2evsHT(all){
 }
 
 
-  function LogCurrentPoint(){  // to evsHT
+function LogCurrentPoint(){  // to htEv
 	  var vid1=pp[1].getVideoData().video_id, vid2=pp[2].getVideoData().video_id;
-  	  evData.push({ //Index:evData.length+1,
+  	  daEv.push({ //Index:daEv.length+1,
   		 Video1: playlistsDictY[vid1].Id || vid1, 	t1: $('#t1').val()
   		, Video2: playlistsDictY[vid2].Id || vid2, 	t2: $('#t2').val()
   		, Phase:$('#inpPh').val(), SSI:$('#taSS').val(), BM:$('#taBM').val(), TD:$('#taTD').val()})
   		
-	  evsHT.loadData(evData)
-	  evsHT.scrollViewportTo(evsHT.countRows()-1, 4)
-	  evsHT.selectCell(evsHT.countRows()-1, 4)
-	  //$('#tbEventsH').handsontable('selectCell', evsHT.countRows()-1, 5, evsHT.countRows()-1, 5, scrollToSelection = true)
+	  htEv.loadData(daEv)
+	  htEv.scrollViewportTo(htEv.countRows()-1, 4)
+	  htEv.selectCell(htEv.countRows()-1, 4)
+	  //$('#tbEventsH').handsontable('selectCell', htEv.countRows()-1, 5, htEv.countRows()-1, 5, scrollToSelection = true)
 	  
  
  //	  dbVid({yid:vid1}).update(function(){
@@ -1317,7 +1315,6 @@ function dbPhases2evsHT(all){
   
   
   function all_dbVid2PL() {
-	  
 	  dbVid().each(function (p, recordnumber) {
   		playlists.push({ // new video
     		Id: hashId(p.title), //rj.title.replace(/\s+/g, '').substr(0,5),
@@ -1325,11 +1322,9 @@ function dbPhases2evsHT(all){
 			Comment:p.title,
 			Type: 3
     	}) 
-		  
 	  })
 	  playlistsHT.loadData(playlists)
 	  $("html, body").animate({scrollTop: $('#tbPlaylistsH').offset().top-40} , 300)
-
 }
 
   
@@ -1379,7 +1374,7 @@ function dbPhases2evsHT(all){
 			if(! /http/.test(q) ) {c= q
 			} else { yid= q
 				playlists.push({YTId: yid, type:3, Comment:c}) 
-				evData.push({Video2:yid, t2:2, Phase:c})
+				daEv.push({Video2:yid, t2:2, Phase:c})
 				c=''
 			}
 			
@@ -1388,12 +1383,12 @@ function dbPhases2evsHT(all){
 //			
 	    	cl('222 yid, c=', yid, c)
 //			playlists.push({YTId: yid, type:3, Comment:c}) 
-//			evData.push({Video2:yid, t2:2, Phase:c})
+//			daEv.push({Video2:yid, t2:2, Phase:c})
 		})
 		
 
 		playlistsHT.loadData(playlists)	
-		evsHT.loadData(evData)
+		htEv.loadData(daEv)
 		
 		setTimeout(LoadPlaylists, 1000)
 	}
