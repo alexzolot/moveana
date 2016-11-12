@@ -758,6 +758,21 @@ function hashId(title){
         	
         }
 	  });  
+ 
+function evall() {
+	eval($('#ta').val())
+}  
+  
+function db2ht(db) {
+	var db= db|| dbEv, da= db().get();
+	cl('db2ht(db) db=dbEv', db().get())
+ 
+	htDB= new Handsontable($("#testOut")[0], {
+		data: da
+		, colHeaders: Object.keys(da[0])
+	})
+}  
+  
   
 htEv= new Handsontable($("#tbEventsH")[0], {
 		data: daEv,  //dbEv().get(), //
@@ -935,7 +950,7 @@ function gcellsToArr(cbfun){ return function(data){
 		      if(r> rOld+1) {break}; rOld= r;
 
 			  if(r== -1) {header[c]= e.$t} else {
-				  if(res[r]== undefined){ if(c>0)break; res[r]= {} }; /// break on empty first col in the row
+				  if(res[r]== undefined){ if(c>0) break; res[r]= {} }; /// break on empty first col in the row
 				  res[r][header[c]]= e.$t} 
 		   }
 		   
@@ -947,38 +962,32 @@ function gcellsToArr(cbfun){ return function(data){
 }}	
   
 
-function GSheet2_HT(){
-	alert('GSheet2_HT()')
-	  var spreadsheetID = "170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI";
-
-	  GSheetRange2_HTcells(spreadsheetID, 4, 50, 11, 15, function(playls){console.log('plls10 =', plls)
-		  htPL.loadData(playls) 
-	  });
-	  
-    GSheetRange2_HTcells(spreadsheetID, 4, 40, 1, 9, function(points){console.log('points =', pts)
-  	  htEv.loadData(points) 
-    });
-    
-    
-	  var urlph = 'https://docs.google.com/spreadsheets/d/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/edit#gid=131568998/values?alt=json&min-row='+2 + '&max-row='+12 + '&min-col='+1 + '&max-col='+3 ;
-	  console.log('GSheet2_HT: urlc =', urlph)
-	  $.getJSON(urlc, function(res) {console.log('getPh', res)})
-}
+//function GSheet2_HT(){
+//	// alert('GSheet2_HT()')
+//	  var spreadsheetID = "170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI";
+//
+//	  GSheetRange2_HTcells(spreadsheetID, 4, 50, 11, 15, function(playls){console.log('plls10 =', plls)
+//		  htPL.loadData(playls) 
+//	  });
+//	  
+//    GSheetRange2_HTcells(spreadsheetID, 4, 40, 1, 9, function(points){console.log('points =', pts)
+//  	  htEv.loadData(points) 
+//    });
+//    
+//    
+//	  var urlph = 'https://docs.google.com/spreadsheets/d/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/edit#gid=131568998/values?alt=json&min-row='+2 + '&max-row='+12 + '&min-col='+1 + '&max-col='+3 ;
+//	  console.log('GSheet2_HT: urlc =', urlph)
+//	  $.getJSON(urlc, function(res) {console.log('getPh', res)})
+//}
 
 //$('#getG').click(GSheet2_HT)
 //$('#getG').click(GSheet2_HT())
-function GSheet2_HT(){
-	  alert('GSheet2_HT()')
-	  var spreadsheetID = "170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI";
+function GSheet2_HT(db){
+	  //alert('GSheet2_HT()')
+	// db= db|| 'dbPhases'
+	 var spreadsheetID = "170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI";
+	 var GSheets={dbLog:'ojacmh6', dbPl:'o8ewx2k', dbPhases:'o26bz5o', dbVid:'oevm3xw', dbEv:'ouj8mhj'} 
 
-	  GSheetRange2_HTcells(spreadsheetID, 4, 30, 11, 15, function(plls){console.log('plls10 =', plls)
-		  htPL.loadData(plls) 
-	  });
-	  GSheetRange2_HTcells(spreadsheetID, 4, 30, 1, 9, function(pts){console.log('points =', pts)
-		  htEv.loadData(pts) 
-	  });
-	  
-	  
 	  ///  http://damolab.blogspot.com/2011/03/od6-and-finding-other-worksheet-ids.html
 	  
 	  // Get all lists descr: https://spreadsheets.google.com/feeds/worksheets/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/private/full
@@ -988,22 +997,33 @@ function GSheet2_HT(){
 	  // dbPhases https://spreadsheets.google.com/feeds/list/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/o26bz5o/private/full?alt=json
 	  // dbVid https://spreadsheets.google.com/feeds/cells/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/oevm3xw/private/full
 	  
-	 var GSheets={dbLog:'ojacmh6', dbPl:'o8ewx2k', dbPhases:'o26bz5o', dbVid:'oevm3xw', dbEv:'ouj8mhj'} 
 	  
 	// https://spreadsheets.google.com/feeds/list/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/131568998/public/full
 	  //var urlph = 'https://docs.google.com/spreadsheets/d/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/edit#gid=131568998/values?alt=json&min-row='+2 + '&max-row='+12 + '&min-col='+1 + '&max-col='+3 ;
 	  //var urlph = 'https://spreadsheets.google.com/list/'+ spreadsheetID +'/' + GSheets.dbPhases + '/public/values?alt=json' ;
-	 // var urlph = 'https://spreadsheets.google.com/list/'+ spreadsheetID +'/' + GSheets.dbPhases + '/public/values?alt=json' ;
-	  var urlph = 'https://spreadsheets.google.com/feeds/list/'+ spreadsheetID +'/' + GSheets.dbPl + '/public/values?alt=json' ;
-	  console.log('getGSpreadsheet2Handst2: urlph =', urlph)
-	 // $.getJSON(urlph, function(res) {console.log('getPh:', res)})
+	 // var urlph = 'https://spreadsheets.google.com/feeds/list/'+ spreadsheetID +'/' + GSheets.dbPl + '/public/values?alt=json' ;
+	 
 	  
-	  $.ajax({
-        url: urlph,
-            //data: { alt: "json" },
-            dataType: "jsonp"            		    //$.get({url: "https://www.youtube.com/watch?v="+ yid + '&format=json&callback=?'
-    	  , success: function(res){console.log('getPh:', res)}
-	  })
+	  if(db){
+		  var urlph = 'https://spreadsheets.google.com/feeds/list/'+ spreadsheetID +'/' + GSheets[db] + '/public/values?alt=json' ;
+		  console.log('getGSpreadsheet2Handst2: urlph =', urlph)
+		 // $.getJSON(urlph, function(res) {console.log('getPh:', res)})
+		  
+		  $.ajax({
+	        url: urlph,
+	            //data: { alt: "json" },
+	            dataType: "jsonp"            		    //$.get({url: "https://www.youtube.com/watch?v="+ yid + '&format=json&callback=?'
+	    	  , success: function(res){console.log('get db:', db, res)}
+		  })		  
+	  } else {
+		  GSheetRange2_HTcells(spreadsheetID, 4, 70, 11, 15, function(plls){console.log('plls10 =', plls)
+			  htPL.loadData(plls) 
+		  });
+		  GSheetRange2_HTcells(spreadsheetID, 4, 50, 1, 9, function(pts){console.log('points =', pts)
+			  htEv.loadData(pts) 
+		  }); 
+	  }
+
 }
 
 
