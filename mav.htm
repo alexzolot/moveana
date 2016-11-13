@@ -84,8 +84,6 @@
 </div>
 &nbsp;&nbsp; <!--  Play/Pause: -->
 <div class="btn-group">
-
-
               <button onclick="plays(pp[{{ip}}], .25)" style='border:1px; width:20px; padding:2px; font-size:99%' title="Play Speed 1/4 or Pause" class='fa fa-play blue'/>
               <button onclick="plays(pp[{{ip}}], .5)"  style='border:1px; width:20px; padding:2px; font-size:99%' title="Play Speed 1/2 or Pause" class='fa fa-play lblue'/>
               <button onclick="plays(pp[{{ip}}], 1)"   style='border:1px; width:20px; padding:2px;' title="Play normal Speed or Pause"  class='fa fa-play'/>  <!-- width: 10px; height: 10px; -->
@@ -95,6 +93,7 @@
               <input id="t{{ip}}"  onchange="pp[{{ip}}].seekTo(value)" type="number" step = ".3"></input>
               <button id="fullscr{{ip}}" onclick="fullScreen({{ip}});"  title="toggle Full Screen" class='glyphicon glyphicon-fullscreen'/> 
 <!--               FS</button> -->
+
 	</div>
 	</div>
 <!--  <script> $(function(){/// $('#vpcontr{{ip}}').draggable() 
@@ -161,7 +160,9 @@
         <!--  https://handsontable.com/examples.html#fndtn-advanced  --> 
        <a href="http://bit.ly/alexzolot-ma" target="_blank">  G-sheet (to copy-paste the data) </a>
 
+
         <button id="getG" onclick='GSheet2_HT()' class='fa fa-cloud-download'  title='Load data from GSheets to Tables'> load from GSheets</button>
+
 
   <div class="col-md-11 vid">    
 	     <h4>Playlists:</h4>
@@ -171,6 +172,7 @@
                <div id="tbEventsH" title='DblClk set event'></div>
              
 <!-- 	            <table id="tbSheetrock" class="table table-condensed table-striped"></table> -->
+
 	              <button onclick="LoadPlaylists()"  class='glyphicon glyphicon-import green' title='Load Playlists from Table to Players'> Load Playlists</button> 
                   <button onclick="go2ev()" class='fa fa-arrow-down'  title='set video to current row of the Points Table'>Current Point:</button> 
                   <input id="inpCurrPoint" title="current Point"  onchange="
@@ -178,6 +180,7 @@
 	                      go2ev(value-1); 
 		                  htEv.scrollViewportTo(value-1, 0); 
 		                  htEv.selectCell(value-1, 0)" 
+
 	                  type="number" step = "1" value="1" />
         </div>
    </div>
@@ -225,8 +228,10 @@
 
 
 	<div class="col-md-1 vid">
+
       <br/> <button onclick="LogCurrentPoint()" title='Current Point to tabble "Points"' class='fa fa-export'>to Log</button> 
       <br/> <button onclick="removePhase()" title='Remove Current Point from  "Phases"' class='fa fa-times'>Remove Phase</button> 
+
 	</div>
 </div>
 </div app>
@@ -236,12 +241,14 @@
 <hr/>
 <hr/>
 
+
 <!--  for Developers ----------------------------------------------------------------->
 
 <button onclick= 'toggleDev()' class="fa fa-wrench red" aria-hidden="true" title='for Developers'></button>  <br/>
 
 <div id='for-developers' style='display:none'>
     <h3> for Developers</h3>
+
     <button onclick='dbPhases2evsHT()'>dbPhases2evsHT()</button>
     <button onclick='evsHT2dbPhases()'>evsHT2dbPhases()</button>
     <button onclick='GSheet2db()'>GSheet2db()</button>
@@ -258,7 +265,6 @@
     <a href="http://www.taffydb.com/workingwithdata">TaffyDB</a> <br/>
  
 
- 
     <a href="http://demo.tutorialzine.com/2015/08/how-to-control-youtubes-video-player-with-javascript">Tutorial how-to-control-youtubes-video-player-with-javascript</a><br/>
     <a href="http://fontawesome.io/icons/#web-application">fontawesome icons</a><br/>
     <a href="http://getbootstrap.com/components/#glyphicons">bootstrap icons</a><br/>
@@ -270,7 +276,9 @@
 	<!--                 <button id="getG.bak" class="btn btn-primary">load from GDoc  onclick="GSheet2_HT()"</button> -->
 	<!--                 <button class="btn btn-primary" onclick="saveHandst2GDoc()">save to GDoc</button> -->
                     &nbsp; &nbsp; <a href="http://bit.ly/alexzolot-ma"> bit.ly/alexzolot-ma (GSheet)</a><br/>
+
                     &nbsp; &nbsp; <a href="http://bit.ly/MA-tool"> bit.ly/MA-tool</a><br/>
+
 <!--    <a href="https://chriszarate.github.io/sheetrock/">sheetrock</a> --> 
 	            </div>
 	            
@@ -321,6 +329,7 @@
     <script src="http://cdn.jsdelivr.net/vue/1.0.16/vue.min.js"></script>
     
     <link rel="stylesheet" href="lib/font-awesome-4.7.0/css/font-awesome.min.css">
+
     
     <script src="mav.js"></script>         <!-- AZ -->
 </body>
@@ -328,7 +337,7 @@
 
 <!-- 
 TODO:  match by phase, e.g.: bL 6oc,  [b]{LSBP} \d?\doc, 12-6 clockwise (CW), 7-11 conterclockwise (CCW)
- - play -2 +1
+- play -2 +1
 - render tbPoints
 - persistents
 - addr line REST= get

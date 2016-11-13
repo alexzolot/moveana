@@ -251,7 +251,7 @@ var vm = new Vue({
                    {Id:"PSIANW", 	YTId:"HrCfQR3qwi0", 	Type:2, 	Info:"LEVEL III - MEDIUM RADIUS TURNS, by BaileyPSIANW", 	Comment:""}, 
 //                   {Id:"JfB29", 	YTId:"r07Ea0TYkaA", 	Type:2, 	Info:"Jf Beaulieu: Video 29, by Jf Beaulieu", 	Comment:"1. Carving -"}, 
 //                   {Id:"Landes", 	YTId:"ZoRsJYRmD5k", 	Type:2, 	Info:"Landes 1 Mogul Training Ski Instructor Academy 2013, by SIA Austria", 	Comment:"2. Bumps -"}, 
-                   {Id:"ReMog", 	YTId:"cIMfJKslkyo", 	Type:2, 	Info:"Reilly McGlashan Spring Mogul Skiing Niseko Japan 2016, by Reilly McGlashan", 	Comment:"3. Bumps -"}, 
+                   {Id:"ReMog", 	YTId:"cIMfJKslkyo", 	Type:2, 	Info:"Reilly McGlashan Spring Mogul Skiing Niseko Japan 2016, by Reilly McGlashan", 	Comment:"3. Bumps -"} 
 //                   {Id:"Cats", 	YTId:"9Y0v2tpSP0s", 	Type:2, 	Info:"Cat skiing with Selkirk Powder @ Schweitzer Mountain, by Thomas Smiley", 	Comment:"4. Powder -"}, 
 //                   {Id:"Powder", 	YTId:"vp4OgUjJx2M", 	Type:2, 	Info:"Powder 101 with CMH - Powder Intro with Roko, by skipurepowder", 	Comment:"5. Powder -"}, 
 //                   {Id:"ReTu", 	YTId:"aJVhrraLRkw", 	Type:2, 	Info:"Reilly McGlashan - Long turn to short turn rhythm change, Hokkaido Technical Ski Championships 2016, by Reilly McGlashan", 	Comment:"6. Turn Variation -"}, 
@@ -262,7 +262,8 @@ var vm = new Vue({
 //   {Id:"BASIA", 	YTId:"YsIvjr1uH-4", 	Type:1, 	Info:"BASI Alpine  Level 4 Bumps.mpg, by OfficialBASI", 	Comment:""}, 
 //   {Id:"SKIIN", 	YTId:"7tyY8A8hobc", 	Type:1, 	Info:"SKIING LEVEL 4 BASI ISTD, by admirallimos admirallimos", 	Comment:""}, 
 //   {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}
-                   ]; 
+  ]; 
+
 
   var daEv=[//{	Video1:"R", 	t1:4.31, 	Video2:"Z", 	t2:377, 	Info:"R, apex", 	SSI:"sss", 	BM:"banbb", 	TD:"outsi" 	},
 //	  {	Video1:"Z", 	t1:4.31, 	Video2:"R", 	t2:4.89, 	Info:"R, apex", 	SSI:"sss", 	BM:"banbb", 	TD:"outsi" 	},
@@ -273,7 +274,7 @@ var vm = new Vue({
       {Video1:"", 	t1:4.49, 	Video2:"Reilly", 	t2:63.61, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
       {Video1:"AZ2", 	t1:50.7, 	Video2:"", 	t2:69.74, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
 ////      {Video1:"", 	t1:50.7, 	Video2:"Berger", 	t2:413.83, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	}
-      {Video1:"", 	t1:50.7, 	Video2:"BASI", 	t2:65.14, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
+      {Video1:"", 	t1:50.7, 	Video2:"BASI", 	t2:65.14, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	}
       ]
 //      {Video1:"BASIL", 	t1:83.25, 	Video2:"JBa", 	t2:2.65, 	Phase:"Long - Med turns", 	SSI:"", 	BM:"", 	TD:"" 	},
 //      {Video1:"BASIL", 	t1:93.29, 	Video2:"JBa", 	t2:4.84, 	Phase:"Long - Med turns. 9oc", 	SSI:"", 	BM:"", 	TD:"" 	},
@@ -337,7 +338,7 @@ var vm = new Vue({
  	  console.log("fullScreen: p=", p)
 
 	  var state= {i: p.getPlaylistIndex(), t: p.getCurrentTime(), PL: p.getPlaylist()}  
- 	  
+
       // var vp= $('#vp' + ip + ' iframe')
       var vp= $('#v' + ip)
  	  console.log("wi=", wi)
@@ -449,7 +450,7 @@ var vm = new Vue({
 
 function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
   //?  if(value=== undefined || value==null || !value){return ''};
-    
+
     var escaped = Handsontable.helper.stringify(value);
     
     escaped = strip_tags(escaped, '<em><b><strong><a><big>'); //be sure you only allow certain HTML tags to avoid XSS threats (you should also remove unwanted HTML attributes)
@@ -462,7 +463,6 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
     
     
     // TODO: fix this block
-
     // checky yid in dbPL
     var rj= dbPL({YTId:yid}).get()[0]
     if( rj){ 
@@ -472,6 +472,7 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
 //??	    	callback(ro, rj, value);
 //	    	return yid
     }
+
     
 
 	// not dup in dbPL; check in dbVid
@@ -495,7 +496,7 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
     // ??
     //    if( dbVid({yid:yid}).select('status') == 'sent2Ajax') {return;}
     //    if( dbVid({yid:yid}).select('status') == 'gotAjax') {return;}
-    if( dbVid({yid:yid}).select('status') == 'sent2Ajax') {return;}
+    if( dbVid({yid:yid}).select('status') == 'sent2Ajax') {return }  //? return yid
     
     /// not in db, not sent2Ajax
     dbVid({yid:yid}).update({status: 'sent2Ajax'});
@@ -507,7 +508,7 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
             format: "json"
         }
       , dataType: "jsonp"            		    //$.get({url: "https://www.youtube.com/watch?v="+ yid + '&format=json&callback=?'
-	  , success: function(result){  
+	  , success: function(result){
     		  var res= result.query.results;
     		  if(res==null) return;
     		  
@@ -518,6 +519,7 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
               cl('render_YT_URL: ajax success rj=', rj)
 
               if(dbVid({yid:yid}).count()==0) dbVid.insert(rj);
+
          /*??     
               if(dbPL({YTId:yid}).count()==0){
             	 var e= {Id:hashId(tit), YTId:yid
@@ -526,7 +528,7 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
 	             // in treatRj    daPL.push(e)
 	      	  }
           */    
-              
+
       
     		  //dbVid({yid:yid}).update({status: 'gotAjax'});
     		  dbVid({yid:yid}).update(function(){this.status= 'gotAjax'; return this});
@@ -550,6 +552,7 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
     return yid;
   }  /// render_YT_URL	
 	
+
 	if(test=0){ render_YT_URL(0, 'https://www.youtube.com/watch?v=d1IXMk6uSAU', function(){alert(tit)})}
 	
  //function hashId(title){ return title.replace(/\s+ /g, '').substr(0,5)}	
@@ -557,13 +560,18 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
 
 function hashId(title){ 
 	title= title || ''
-	var ids= dbPL().select('Id')  // ids in PL
-	 var h0= title.replace(/\s*/g, '').substr(0, $('#idLength').val()), h= h0, ss= '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''); ss[0]='';
-	 for(var i=0; i<40;  h= h0 + ss[i++]){ 
-		 if(ids.indexOf(h)==-1){ids.push(h); return h}
-	 }
+	var ids= dbPL().select('Id'), nSymb= $('#idLength').val() || 3 // ids in PL
+	var h0= title.replace(/\s*/g, '').substr(0, nSymb), h= h0, ss= '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''); ss[0]='';
+	for(var i=0; i<40;  h= h0 + ss[i++]){ 
+		if(ids.indexOf(h)==-1){ids.push(h); return h}
+	}
 }
- 	
+
+  
+function fNote(rj) {return infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'
+               .sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) 
+		   : ' %s, by %s'.sf(rj.title, rj.author_name)
+}
 
  function YTId_Renderer(instance, td, row, col, prop, value, cellProperties) {
     // console.log('YTId_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
@@ -638,7 +646,8 @@ function hashId(title){
 //
 //		  }  /// PL_Id_Renderer	
 
-	 function Video_Renderer1(instance, td, row, col, prop, value, cellProperties) {
+
+function Video_Renderer1(instance, td, row, col, prop, value, cellProperties) {
 //		    console.log('Video_Renderer1: instance, td, row, col, prop, value, cellProperties:'
 //		    		, instance, td, row, col, prop, value, cellProperties)
 			
@@ -692,7 +701,6 @@ function hashId(title){
 		//className: "htCenter htMiddle",
 		readOnly: false,
 		columns: [
-
 		  {data: 'Id' , type: 'text' , renderer:YTId_Renderer }, //?}, // PL_Id_Renderer 
 		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 12  }, // 4 },
 		  {data: 'Type' , type: 'numeric', format: '0'},  //, width: 14
@@ -700,7 +708,7 @@ function hashId(title){
 		  {data: 'Comment'  , type: 'text'}
 		] //,     minSpareRows: 1
         , autoWrapRow: false ///true
-        ,manualRowResize: true,
+        , manualRowResize: true,
          manualColumnResize: true,
          contextMenu: ['row_above', 'row_below', 'remove_row','undo', 'redo','commentsAddEdit'],
 		 comments: true,
@@ -726,7 +734,7 @@ function hashId(title){
         			var hlink= '<a href="https://www.youtube.com/watch?v=%s" target="_blank">%s</a>'.sf(yid, yid)
 
         			var ro= changes[i][0], th= this;
-        			
+
         			daPL[ro].YTId= yid
         			//htPL.setDataAtCell(ro, 1, yid);
         			
@@ -818,13 +826,7 @@ htEv= new Handsontable($("#tbEventsH")[0], {
   
 
 
-
 $('#tbPlaylistsH table tbody').on('dblclick', 'tr th', function(evt){
-//$('#tbPlaylistsH table .rowHeader').on('dblclick', 'tr', function(evt){
-//$('#tbPlaylistsH table tbody').on('dblclick', 'tr  .rowHeader', function(evt){
-
-	//var index= $($(this).find('.rowHeader')[0]).text();
-	
 	var index= $(this).text()
 	var p= daPL[index-1], c1= p.Type==1 || p.Type==3, c2= p.Type==2 || p.Type==3//dbPL()
 	
@@ -1101,6 +1103,7 @@ function dbPhases2evsHT(all){
 	var db= dbPhases(); //get Id
 	if(!all) db= db.join(dbPL, function (l, r) { return (l.yid === r.YTId); }); //get Id
 	var dat= db.order('t').order('Id')//.get()
+
 	//evData_Filled= dat;  //?? used by go2ev
 	
 	dat.each(function (p, recordnumber) {
@@ -1225,6 +1228,7 @@ function dbPhases2evsHT(all){
         htEv.getCellMeta(daEv.length-1, 0).comment= 'You can paste youtube Id or links to this cell';
         htEv.getCellMeta(daEv.length-1, 2).comment= 'You can paste youtube Id or links to this cell';
 		htEv.render();
+
 		go2ev(0)
   }
   
@@ -1234,6 +1238,7 @@ function dbPhases2evsHT(all){
 	  iEvent= iEvent != undefined ? iEvent : selection == undefined ? 0: selection[0] 
 	  
  	  var e= evData_Filled[iEvent];  console.log('go2ev:', iEvent, e); 
+
  	  if(	[e.Video1]){
 	  	  console.log('playlistsDict[e.Video1].YTId:', playlistsDict[e.Video1].YTId); 
 		  pp[1].go1Vid(playlistsDict[e.Video1].YTId, e.t1)
@@ -1247,7 +1252,7 @@ function dbPhases2evsHT(all){
       //htEv.selectCell(iEvent, 0) 
       htEv.selectCell(iEvent, 0, iEvent, htEv.countCols()-1) 
 
- 	  
+
 	  $('#inpCurrPoint').val(iEvent+1)
 	  $('#taSS').val(e.SSI)
 	  $('#taBM').val(e.BM)
@@ -1375,6 +1380,7 @@ if(1){
 			Type: 3
     	}) 
 	  })
+
 	  htPL.loadData(daPL)
 	  $("html, body").animate({scrollTop: $('#tbPlaylistsH').offset().top-40} , 300)
 }
@@ -1387,7 +1393,8 @@ if(1){
 		$.getJSON("http://spreadsheets.google.com/feeds/list/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/od6/public/values?alt=json-in-script&callback=x")
 
   }
-  
+
+
   function toggleDev() {
 		$("#for-developers").toggle(); 
 		setTimeout(function(){$("html, body").animate({scrollTop: $(document).height()-$(window).height()}
@@ -1480,7 +1487,8 @@ if(1){
 
 //}) /////////////////////////////////////////////////////////////////
 
-  
+
+
 var	x= function(data) {
 		  //first row "title" column
 //			  console.log(data.feed.entry[0]['gsx$title']['$t']);
