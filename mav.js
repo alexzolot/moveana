@@ -343,25 +343,60 @@ var vm = new Vue({
       var vp= $('#v' + ip)
  	  console.log("wi=", wi)
  	  console.log("vp.width()=", vp.width())
-  
 	  
 	  if($('#fullscr'+ ip)[0].classList.value.indexOf("glyphicon-fullscreen")>=0){  //if($('#fullscr'+ip).text()=='FS'){
 		   vp.appendTo('body')  // .detach()
                  .css({position: 'absolute'
 			           , top: $(document).scrollTop()
-			           , left: 0, 'width': '100%','height':'100%','z-index':'120'});
+			           , left: 0, width: '100%', height:'100%','z-index':'120'});
 		   $('#vpcontr' + ip ).appendTo('body').css({position: 'absolute'
+			      , top: vp.offset().top + vp.height() - 35  //'96%' // $('body iframe').height()	
+			      , left: '30%'
+			      , width: '30%', height:'50px','z-index':'99999'});
+			 
+ 
+		   $('#canvas').appendTo('body').css({position: 'absolute' //, border:'1px solid #ccffcc'
+			      , top: vp.offset().top +  35  //'96%' // $('body iframe').height()	
+			      , left: '40px'
+	            , Width: '90%', Height: document.body.clientHeight, 'z-index':'99999'});
+
+		        ctx.canvas.height = window.innerHeight * .82 
+			
+				canvasOffset = $("#canvas").offset();
+				offsetX = canvasOffset.left;
+				offsetY = canvasOffset.top;
+			   
+		   $('#canv-tools').appendTo('body').css({position: 'absolute'
 		      , top: vp.offset().top + vp.height() - 35  //'96%' // $('body iframe').height()	
-		      , left: '30%'
+		      , left: '60%'
 		      , width: '30%', height:'50px','z-index':'99999'});
 
-		   $('#fullscr'+ip).toggleClass('glyphicon-fullscreen glyphicon-resize-small') //$('#fullscr'+ip).text('fs')
+		   $('#fullscr'+ip).toggleClass('glyphicon-fullscreen  glyphicon-resize-small') //$('#fullscr'+ip).text('fs')
 	  } else{
 			   var vp= $('body > iframe').appendTo($('#vp' + ip)).css({top:0
 				   , left:0, width: wi, height: he, 'z-index': 8});
 			   $('#vpcontr' + ip ).appendTo($('#vpcontr-contain' + ip)).css({position: 'absolute'
 				    , top: 0, left:0, width: '100%', height:'50px'
 					});
+			   
+			   $('#canvas').appendTo('#divcanvas')
+			   		        ctx.canvas.width= $("#vplayers").width()-8 
+			   		        ctx.canvas.height= $("#vplayers").height() -100 
+
+			   positionCanvas()
+			   
+			 //  $('#canv-tools').insertBefore($('#bt-draw')).css({position: 'relative'
+				   $('#canv-tools').insertAfter($('#both')).css({position: 'relative'
+				      , top: 0, left:'20px'})  //'96%' // $('body iframe').height()
+					      
+//				      , width: '100px', height:'50px','z-index':'99999'});
+				      
+//			  // $('#canv-tools').appendTo($('#both')).css({position: 'relative'
+//			  .css({position: 'relative'
+//				      , top: 0  //'96%' // $('body iframe').height()	
+//				      , left: '60%'
+//				      , width: '100px', height:'50px','z-index':'99999'});
+			   
 			   $('#fullscr'+ip).toggleClass('glyphicon-resize-small glyphicon-fullscreen') //$('#fullscr'+ip).text('FS')
 		}
 	  
@@ -379,9 +414,10 @@ var vm = new Vue({
 //	  $('#vpcontr1').draggable();
 //	  $('#vpcontr2').draggable();
 
-	  positionCanvas= function (info){
+	  positionCanvas= function (info, refContain){
+		   refContain=  refContain || $("#vplayers")
 		   setTimeout(function(){
-			   var vof= $("#vplayers").offset(); //.position()
+			   var vof= refContain.offset(); //.position()
 				console.log('positionCanvas '+ info +',  vof=', vof);
 				$("#canvas").offset({top: vof.top + 50, left: vof.left +9});
 				
