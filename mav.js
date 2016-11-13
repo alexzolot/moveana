@@ -596,11 +596,18 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
 
 function hashId(title){ 
 	title= title || ''
-	var ids= dbPL().select('Id'), nSymb= $('#idLength').val() || 3 // ids in PL
+	//var ids= dbPL().select('Id'), nSymb= $('#idLength').val() || 3 // ids in PL
+	//var ids= dbPL().select('Id'), nSymb= sett('nSymb') || 3 // ids in PL
+	var ids= daPL.map(function(p){ return p.Id}), nSymb= sett('nSymb') || 3 // ids in PL
 	var h0= title.replace(/\s*/g, '').substr(0, nSymb), h= h0, ss= '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''); ss[0]='';
 	for(var i=0; i<40;  h= h0 + ss[i++]){ 
 		if(ids.indexOf(h)==-1){ids.push(h); return h}
 	}
+}
+
+function dupPL(yid) {
+	var ids= daPL.map(function(p){return p.YTId})
+	return ids.indexOf(yid) > -1
 }
 
   
@@ -629,6 +636,7 @@ function fNote(rj) {return infoRich ? '<html><img src="%s" height="36px"/> %s, b
 		if(prop=='YTId' && !daPL[ro].Id || prop=='Id' &&  value.length > 11) {
 			daPL[ro].Id= hashId(rj.title);  //.replace(/\s+ /g, '').substr(0,5);
 			daPL[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
+			daPL[ro].Type= daPL[ro].Type || dupPL(rj.yid)  ?  'r' : sett('defTy');
 			daPL[ro].YTId= rj.yid;
 			//dbPL({YTId:rj.yid}).update(daPL[ro])
 			dbPL({YTId:rj.yid}).update(function(){this.pl= daPL[ro]; return this})
@@ -722,7 +730,20 @@ function Video_Renderer1(instance, td, row, col, prop, value, cellProperties) {
 	 function toggleRich() {infoRich= !infoRich;  htPL.loadData(daPL)
 	 }
 
+var daSett=[{name:'defTy', Parameter:'Defaut video Type\n1 -Left Player, 2 -right, 3 - both', value:3}
+	      , {name:'defSec', Parameter:'Default t, sec', value:2}
+	     , {name:'nSymb', Parameter:'Default # symb in Id', value:3}
+	     , {name:'spreadsheetID', Parameter:'G-sheet (to copy-paste the data)', value:"170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI"}
+	]
 
+htSett= new Handsontable($("#tbSett")[0], {
+	data: daSett,
+	colHeaders: 'name Parameter Value'.split(" "),
+	rowHeaders: false, stretchH: 'all'})
+
+function sett(nm) {return daSett.filter(function(s){return s.name==nm})[0].value}
+// test: sett('defTy')
+	
 
 htPL= new Handsontable($("#tbPlaylistsH")[0], {
 		data: daPL,  //dbPL().get(), //
@@ -936,7 +957,8 @@ $('#tbEventsH table tbody').on('dblclick', 'tr', function(evt){
   $("#test").click(function(){alert('$("#test").click')
 
 		//ID of the Google Spreadsheet
-		  var spreadsheetID = "170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI";
+	  //var spreadsheetID = "170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI";
+      var spreadsheetID= sett('spreadsheetID');
 		  
 		  // Make sure it is public or set to Anyone with link can view 
 		  var url = "https://spreadsheets.google.com/feeds/list/" + spreadsheetID + "/od6/public/values?alt=json";
@@ -957,7 +979,9 @@ $('#tbEventsH table tbody').on('dblclick', 'tr', function(evt){
   
   
 function GSheetRange2_HTcells(spreadsheetID, r1, r2, c1, c2, cbfun, db){
-    spreadsheetID= spreadsheetID || '170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'
+    //spreadsheetID= spreadsheetID || '170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'
+    var spreadsheetID= sett('spreadsheetID');
+
     db= db || 'MA'
 
     var GSheets= {MA:'od6', dbLog:'ojacmh6', dbPl:'o8ewx2k', dbPhases:'o26bz5o', dbVid:'oevm3xw', dbEv:'ouj8mhj'} 
@@ -1017,7 +1041,9 @@ function gcellsToArr(cbfun){ return function(data){
 function GSheet2_HT(db){
 	  //alert('GSheet2_HT()')
 	// db= db|| 'dbPhases'
-	 var spreadsheetID = "170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI";
+	// var spreadsheetID = "170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI";
+     var spreadsheetID= sett('spreadsheetID');
+
 	 var GSheets={dbLog:'ojacmh6', dbPl:'o8ewx2k', dbPhases:'o26bz5o', dbVid:'oevm3xw', dbEv:'ouj8mhj'} 
 
 	  ///  http://damolab.blogspot.com/2011/03/od6-and-finding-other-worksheet-ids.html
@@ -1510,11 +1536,15 @@ if(1){
 //			} else {yid= q[1]; c= q[0]}
 			if(! /http/.test(q) ) {c= q
 			} else { yid= q
-				daPL.push({YTId: yid, type:3, Comment:c}) 
-				daEv.push({Video2:yid, t2:2, Phase:c})
+				var  ty= sett('defTy'), t= sett('defSec')
+				//daPL.push({YTId: yid, type:ty, Comment:c}) 
+				daPL.push({Id: yid, type:ty, Comment:c}) 
+				daEv.push(ty==1 ? {Video1:yid, t1:t, Phase:c}
+					    : ty==2 ? {Video2:yid, t2:t, Phase:c}
+					    :  {Video1:yid, t1:t, Video2:yid, t2:t, Phase:c}  //ty==3 ?
+					)
+				}
 				c=''
-			}
-			
 //			var yid= (q.length==1) ? q[0].replace(/.*http/, 'http'): q[1]
 //			var c  = (q.length==1) ? q[0].replace(/http.*/, '')    : q[0]
 //			
@@ -1523,6 +1553,10 @@ if(1){
 //			daEv.push({Video2:yid, t2:2, Phase:c})
 		})
 		
+		//take uniq
+		var yy=[]
+		daPL= daPL.filter(function(p){if(yy.indexOf(p.YTId)<0 && p.Id > ''){yy.push(p.YTId); return 1} else return 0})
+		//daPL= daPL.filter(function(p){return yy.indexOf(p.YTId)<0 ?  yy.push(p.YTId) && 1 : 0})
 
 		htPL.loadData(daPL)	
 		htEv.loadData(daEv)
