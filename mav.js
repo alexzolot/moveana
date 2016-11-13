@@ -1230,9 +1230,11 @@ function dbPhases2evsHT(all){
 		
 	function fillEvs(){  /// fill empty cells in daEv
 		var evData_Filled=[];	
-		for (var key in daEv[0]) {
-			if (daEv[0].hasOwnProperty(key)) {
-			  for (var i=0, l= daEv.length; i<l; i++){ evData_Filled[i]= evData_Filled[i] || {};
+		
+			  for (var i=0, l= daEv.length; i<l; i++){ evData_Filled[i]= {}  // evData_Filled[i] || {};
+					for (var key in daEv[i]) {
+						if (daEv[i].hasOwnProperty(key)) {  
+			  
 			    evData_Filled[i][key]= daEv[i][key];
 			    if( i > 0  && (key=="Video1" || key=="Video2"||key=="t1" || key=="t2") 
 			               && (evData_Filled[i][key]==null || evData_Filled[i][key]=='' ) 
@@ -1278,7 +1280,7 @@ function dbPhases2evsHT(all){
 	  
  	  var e= evData_Filled[iEvent];  console.log('go2ev:', iEvent, e); 
 
- 	  if(	[e.Video1]){
+ 	  if(playlistsDict[e.Video1]){
 	  	  console.log('playlistsDict[e.Video1].YTId:', playlistsDict[e.Video1].YTId); 
 		  pp[1].go1Vid(playlistsDict[e.Video1].YTId, e.t1)
  	  } else {alert('playlistsDict [' + e.Video1 + '] does not exists')}
@@ -1296,6 +1298,8 @@ function dbPhases2evsHT(all){
 	  $('#taSS').val(e.SSI)
 	  $('#taBM').val(e.BM)
 	  $('#taTD').val(e.TD)
+	  // draw  lines
+      if(e.lines) setTimeout(function(){for (var i = 0; i < e.lines.length; i++) { drawLine(e.lines[i])} }, 4000)
   }
    
 
@@ -1319,8 +1323,10 @@ function LogCurrentPoint(){  // to htEv
   	  daEv.push({ //Index:daEv.length+1,
   		 Video1: playlistsDictY[vid1].Id || vid1, 	t1: $('#t1').val()
   		, Video2: playlistsDictY[vid2].Id || vid2, 	t2: $('#t2').val()
-  		, Phase:$('#inpPh').val(), SSI:$('#taSS').val(), BM:$('#taBM').val(), TD:$('#taTD').val()})
+  		, Phase:$('#inpPh').val(), SSI:$('#taSS').val(), BM:$('#taBM').val(), TD:$('#taTD').val(), lines:lines})  //? tJ(lines)
   		
+  		evData_Filled= fillEvs();
+  	  
 	  htEv.loadData(daEv)
 	  htEv.scrollViewportTo(htEv.countRows()-1, 4)
 	  htEv.selectCell(htEv.countRows()-1, 4)
