@@ -685,8 +685,10 @@ function Video_Renderer1(instance, td, row, col, prop, value, cellProperties) {
 
 	 function toggleRich() {infoRich= !infoRich;  htPL.loadData(daPL)
 	 }
-	  
-  htPL = new Handsontable($("#tbPlaylistsH")[0], {
+
+
+
+htPL= new Handsontable($("#tbPlaylistsH")[0], {
 		data: daPL,  //dbPL().get(), //
 		minSpareRows: 1,
 		height: 296,
@@ -706,16 +708,17 @@ function Video_Renderer1(instance, td, row, col, prop, value, cellProperties) {
 		  {data: 'Type' , type: 'numeric', format: '0'},  //, width: 14
 		  {data: 'Info'  , renderer: "html"},  // , width: 1
 		  {data: 'Comment'  , type: 'text'}
-		] //,     minSpareRows: 1
+		] 
+        , minSpareRows: 1
         , autoWrapRow: false ///true
         , manualRowResize: true,
          manualColumnResize: true,
          contextMenu: ['row_above', 'row_below', 'remove_row','undo', 'redo','commentsAddEdit'],
-		 comments: true,
+		 comments: true,  //TODO: comment does not work, 
 		 cell: [
 		      {row: 0, col: 0, comment: 'You can paste youtube Id or links to this column'}
-			, {row: daPL.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
-			, {row: daPL.length, col: 1, comment: 'You can paste youtube Id or links to this cell'}
+			, {row: daPL.length-1, col: 0, comment: 'You can paste youtube Id or links to this cell'}
+			, {row: daPL.length-1, col: 1, comment: 'You can paste youtube Id or links to this cell'}
 		 ]
 	    , afterRender: function(){ fillPlaylistsDict(); evData_Filled= fillEvs(); 
 
