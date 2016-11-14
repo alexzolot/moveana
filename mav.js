@@ -243,10 +243,10 @@ var vm = new Vue({
           //    {Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:2, 	Info:"med", 	Comment:""}, 
                    {Id:"AZ1", 	YTId:"TSDx6RK15es", 	Type:1, 	Info:"Med radius turns, at Palmer Field, by Alex Zolotovitski", 	Comment:""}, 
                    {Id:"AZ2", 	YTId:"urAXN77X6zU", 	Type:1, 	Info:"3 runs on Outland 87 x 178, by Alex Zolotovitski", 	Comment:""}, 
-                   {Id:"==", 	YTId:"", 	Type:"", 	Info:"", 	Comment:""}, 
+                   {Id:"==", 	YTId:"==", 	Type:"", 	Info:"", 	Comment:""}, 
                    {Id:"Reilly", 	YTId:"t334XENKLFo", 	Type:2, 	Info:"Reilly Ski Training 2012.mov, by Reilly McGlashan", 	Comment:"32-bumps, 75-med back, 87-short, 129=med"}, 
 //                   {Id:"Berger", 	YTId:"5SZqiCggJN8", 	Type:2, 	Info:"Imagination Richard Berger, by Dnalor Elraes", 	Comment:""}, 
-                   {Id:"BASI", 	YTId:"SgrO7Dprl6g", 	Type:2, 	Info:"BASI level 4 interpretation by Jon Ahlsén, by Jon Ahlsén", 	Comment:"22-short back, 33-med,71-bumps,114-med"}, 
+                   {Id:"BASI", 	YTId:"SgrO7Dprl6g", 	Type:3, 	Info:"BASI level 4 interpretation by Jon AhlsÃƒÂ©n, by Jon AhlsÃƒÂ©n", 	Comment:"22-short back, 33-med,71-bumps,114-med"}, 
 //                   {Id:"CSIA", 	YTId:"aiSzmN82I4A", 	Type:2, 	Info:"Training demos for the level 4 CSIA 2013, by Javier Fuentes", 	Comment:""}, 
                    {Id:"PSIANW", 	YTId:"HrCfQR3qwi0", 	Type:2, 	Info:"LEVEL III - MEDIUM RADIUS TURNS, by BaileyPSIANW", 	Comment:""}, 
 //                   {Id:"JfB29", 	YTId:"r07Ea0TYkaA", 	Type:2, 	Info:"Jf Beaulieu: Video 29, by Jf Beaulieu", 	Comment:"1. Carving -"}, 
@@ -258,7 +258,7 @@ var vm = new Vue({
 //                   {Id:"JBa", 	YTId:"i-lgX65esDo", 	Type:2, 	Info:"Jonathan Ballou - Medium Turns, by Jonathan Ballou", 	Comment:""}, 
 //                   {Id:"BB", 	YTId:"XpA9XXa7vAU", 	Type:2, 	Info:"JF Beaulieau & Jonthan Ballou TC August 2014, by Jonathan Ballou", 	Comment:""}, 
 //                   {Id:"JfB3", 	YTId:"Us85e6y-NCE", 	Type:2, 	Info:"video 3: Expert skiing, various situations: Jf beaulieu training in Whistler, April, 2014, by Jf Beaulieu", 	Comment:""}, 
-//                   {Id:"CPow", 	YTId:"fdaudGMBaO0", 	Type:2, 	Info:"Tips Up – How To Steer Your Skis Through Powder, by Canadian Ski Council", 	Comment:"Powder"},  
+//                   {Id:"CPow", 	YTId:"fdaudGMBaO0", 	Type:2, 	Info:"Tips Up Ã¢â‚¬â€œ How To Steer Your Skis Through Powder, by Canadian Ski Council", 	Comment:"Powder"},  
 //   {Id:"BASIA", 	YTId:"YsIvjr1uH-4", 	Type:1, 	Info:"BASI Alpine  Level 4 Bumps.mpg, by OfficialBASI", 	Comment:""}, 
 //   {Id:"SKIIN", 	YTId:"7tyY8A8hobc", 	Type:1, 	Info:"SKIING LEVEL 4 BASI ISTD, by admirallimos admirallimos", 	Comment:""}, 
 //   {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}
@@ -315,12 +315,6 @@ var vm = new Vue({
   var cl= console.log;
   var evData_Filled, currEvent=0;
   var infoRich= true;
-  
-  function note(infoRich, rj) {return  infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'
-		  .sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) :  ' %s, by %s'.sf(rj.title, rj.author_name)
-  }
-
-
 
 //function fullScreen(ip){
 //	   $('#vp' + ip + ' iframe').detach().appendTo('body').css({position: 'absolute','top':0,'left':0, 'width': '100%','height':'100%','z-index':'120'});
@@ -482,7 +476,12 @@ var vm = new Vue({
       return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
     });
   }  
-	  
+
+function note(_infoRich, rj) {return  _infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'
+			  .sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) 
+			  :  ' %s, by %s'.sf(rj.title, rj.author_name)
+}
+
 
 function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
   //?  if(value=== undefined || value==null || !value){return ''};
@@ -496,17 +495,25 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
     var yid= escaped.replace(/.*v=([_0-9a-zA-Z\-]+).*/g, '$1')
       , url= "http://www.youtube.com/watch?v="+ yid;
     console.log('render_YT_URL: value=', value ,  'yid, url=', yid, url)
+    //brr  /r07/.test(yid)
+    
+    
+    // bad yid
+    if( ! /^[0-9a-zA-Z\-\_]{11}$/.test(yid)){return yid}
     
     
     // TODO: fix this block
     // checky yid in dbPL
     var rj= dbPL({YTId:yid}).get()[0]
-    if( rj){ 
+    var rjb= daPL.filter(function(p){ return p.YTId==yid})
+    if((rjb?1:0) != ( rj?1:0)) alert('(rjb?1:0) != ( rj?1:0)' + tJ(rj))
+    
+    if(rj){ 
     	cl('render_YT_URL: YT id '+ yid + ' is dup in dbPL: '+ tJ(rj))  // is dup?
 
     	//    	return ''
 //??	    	callback(ro, rj, value);
-//	    	return yid
+	    	return yid
     }
 
     
@@ -526,17 +533,17 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
 
     /// not in db
     var hlink= '<a href="%s" target="_blank">%s</a>'.sf(url, yid)
+    // ??
+
+    //    if( dbVid({yid:yid}).select('status') == 'gotAjax') {return;}
+    if( dbVid({yid:yid}).select('status') == 'sent2Ajax') {return yid}  //? return yid
     
     cl('to ajax ', yid)
     
-    // ??
-    //    if( dbVid({yid:yid}).select('status') == 'sent2Ajax') {return;}
-    //    if( dbVid({yid:yid}).select('status') == 'gotAjax') {return;}
-    if( dbVid({yid:yid}).select('status') == 'sent2Ajax') {return }  //? return yid
-    
     /// not in db, not sent2Ajax
     dbVid({yid:yid}).update({status: 'sent2Ajax'});
-    
+
+
 	$.ajax({
         url: 'http://query.yahooapis.com/v1/public/yql'
       , data: {
@@ -559,7 +566,7 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
          /*??     
               if(dbPL({YTId:yid}).count()==0){
             	 var e= {Id:hashId(tit), YTId:yid
-                         , Type:2, Info: fNote(rj), Comment:''}
+                         , Type:2, Info: note(infoRich, rj), Comment:''}
             	 dbPL.insert(e);
 	             // in treatRj    daPL.push(e)
 	      	  }
@@ -598,10 +605,13 @@ function hashId(title){
 	title= title || ''
 	//var ids= dbPL().select('Id'), nSymb= $('#idLength').val() || 3 // ids in PL
 	//var ids= dbPL().select('Id'), nSymb= sett('nSymb') || 3 // ids in PL
-	var ids= daPL.map(function(p){ return p.Id}), nSymb= sett('nSymb') || 3 // ids in PL
+	var ids= daPL.map(function(p){ return p.Id}), nSymb= sett('nSymb') || 3 // ids in PL  TODO: via dbPL
 	var h0= title.replace(/\s*/g, '').substr(0, nSymb), h= h0, ss= '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''); ss[0]='';
 	for(var i=0; i<40;  h= h0 + ss[i++]){ 
-		if(ids.indexOf(h)==-1){ids.push(h); return h}
+		if(ids.indexOf(h)==-1){
+			ids.push(h); 
+			return h
+		}
 	}
 }
 
@@ -610,13 +620,17 @@ function dupPL(yid) {
 	return ids.indexOf(yid) > -1
 }
 
-  
-function fNote(rj) {return infoRich ? '<html><img src="%s" height="36px"/> %s, by <a href="%s">%s</a> </html>'
-               .sf(rj.thumbnail_url, rj.tlink, rj.author_url, rj.author_name) 
-		   : ' %s, by %s'.sf(rj.title, rj.author_name)
+function uniq(da, key) {
+	var yy=[],  // daPL.map(function(p){return p.YTId})
+	dau= da.filter(function(p){if(yy.indexOf(p[key]) < 0 && p[key] > ''){
+			yy.push(p[key]); return true
+			} else return false
+	})
+	return dau
 }
+//e  daPL=  uniq(daPL, 'YTId')
 
- function YTId_Renderer(instance, td, row, col, prop, value, cellProperties) {
+function YTId_Renderer(instance, td, row, col, prop, value, cellProperties) {
     // console.log('YTId_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
 	
 		if(prop=='Id' && value==null){ td.innerHTML= ""; return td;}
@@ -624,6 +638,7 @@ function fNote(rj) {return infoRich ? '<html><img src="%s" height="36px"/> %s, b
  
 	 
     var ro= row, th= this;
+    //brr  /r07/.test(value)
     var yid= render_YT_URL(ro, value, function(rj){
 		//alert(tit)
     	// infoRich= $('#chri').prop('checked')
@@ -648,6 +663,9 @@ function fNote(rj) {return infoRich ? '<html><img src="%s" height="36px"/> %s, b
 //?		daPL[ro].YTId= yid;
 //		th.setDataAtCell(ro, 4, note); // hlink);
 //		if(th.getDataAtCell(ro, 1)=='') {th.setDataAtCell(ro, 1, note.replace(/ /g, '').substr(0,5))}
+		
+		
+		dbPL= TAFFY(daPL)
 
 			})
 		
@@ -705,14 +723,14 @@ function Video_Renderer1(instance, td, row, col, prop, value, cellProperties) {
 		    	// note(infoRich, rj)
 		    	
 		    	var pl_YTId= daPL.map(function(p){return p.YTId})
-		    	  , ro= pl_YTId.indexOf(yid), type= col <2 ? 1 : 2;
+		    	  , ro1= pl_YTId.indexOf(yid), type= col <2 ? 1 : 2;
 
                 //daEv[row].Index= daEv.length; 
                 daEv[row]['yid'+type]= rj.yid, 
 		    	daEv[row]['t'+type]=  daEv[row]['t'+type] || 3 //sec
 		    	daEv[row].Phase= daEv[row].Phase || ""
 		    		
-		    	if(ro<0) { ///  new video
+		    	if(ro1<0) { ///  new video
 		    		daEv[row]['Video'+type]=  hashId(rj.title);  //rj.title.replace(/\s+/g, '').substr(0,5)
 		    		daPL.push({ // new video
 							    		Id: hashId(rj.title), //rj.title.replace(/\s+/g, '').substr(0,5),
@@ -727,8 +745,12 @@ function Video_Renderer1(instance, td, row, col, prop, value, cellProperties) {
 		  }  /// Video_Renderer1	
 
 
-	 function toggleRich() {infoRich= !infoRich;  htPL.loadData(daPL)
-	 }
+ function toggleRich() {
+	 infoRich= !infoRich;  
+	 daPL=  uniq(daPL, 'YTId')
+	 dbPL= TAFFY(daPL)
+	 htPL.loadData(daPL)
+}
 
 var daSett=[{name:'defTy', Parameter:'Defaut video Type\n1 -Left Player, 2 -right, 3 - both', value:3}
 	      , {name:'defSec', Parameter:'Default t, sec', value:2}
@@ -816,15 +838,17 @@ htPL= new Handsontable($("#tbPlaylistsH")[0], {
         	                },
         	                dataType: "jsonp"            		    //$.get({url: "https://www.youtube.com/watch?v="+ yid + '&format=json&callback=?'
         		    	  , success: function(result){
-        		    		  console.log('result=', result)
-        		    		  var tit= result.query.results.json.title;
-        		    		  console.log('tit=', tit)
+        		    		  var rj= result.query.results.json
+        		    		  console.log('afterChange ajax result=', rj)
+        		    		  var tit= rj.title;
+        		    		  console.log('afterChange ajax tit=', tit)
         		    		  //daPL[changes[i][0]].Info= result.getElementsByTagName("title");
-        		    		  daPL[ro].Info= tit;
+        		    		  daPL[ro].Info= note(infoRich, rj);
         		    		  //th.render();
         		    		  th.setDataAtCell(ro, 1, yid); // hlink);
-        		    		  th.setDataAtCell(ro, 3, '%s, by %s'.sf(tit, result.query.results.json.author_name));
-        		    	  }});
+        		    		 // th.setDataAtCell(ro, 3, '%s, by %s'.sf(tit, result.query.results.json.author_name));
+         		    		  th.setDataAtCell(ro, 3, note(infoRich, rj));
+       		    	  }});
         		}
         		//this.render();
         	}
@@ -885,12 +909,10 @@ htEv= new Handsontable($("#tbEventsH")[0], {
 	  });	
   
 
-
-$('#tbPlaylistsH table tbody').on('dblclick', 'tr th', function(evt){
-	var index= $(this).text()
-	var p= daPL[index-1], c1= p.Type==1 || p.Type==3, c2= p.Type==2 || p.Type==3//dbPL()
+function htPL2htEv(i, toDelete) {
+	var p= daPL[i], c1= p.Type==1 || p.Type==3, c2= p.Type==2 || p.Type==3//dbPL()
 	
-	if(p.Type==0 || p.Type=='r'|| p.Type=='rr'){
+	if(toDelete) if(p.Type==0 || p.Type=='r'|| p.Type=='rr'){
 		htPL.alter ('remove_row', index-1)
         if(p.Type=='rr'){dbVid({yid:p.YTId}).remove()
         	dbPL({YTId:p.YTId}).remove()
@@ -901,7 +923,7 @@ $('#tbPlaylistsH table tbody').on('dblclick', 'tr th', function(evt){
 		return
 	}
 	
-	console.log('#tbPlaylistsH table tbody index, p=', index, p)
+	//console.log('#tbPlaylistsH table tbody index, p=', index, p)
 	
 	daEv.push({Video1: c1 ? p.Id :'', t1: c1 ? 2 :''
 			   , Video2: c2 ? p.Id :'', t2: c2 ? 2 :''
@@ -911,6 +933,34 @@ $('#tbPlaylistsH table tbody').on('dblclick', 'tr th', function(evt){
 	          , Video2: c2 ? p.Id :'', t2: c2 ? 2 :''
 		   , Phase: p.Comment //Info
 	})
+}
+
+$('#tbPlaylistsH table tbody').on('dblclick', 'tr th', function(evt){
+	var row= $(this).text()
+	htPL2htEv(row-1, true)
+//	var p= daPL[row-1], c1= p.Type==1 || p.Type==3, c2= p.Type==2 || p.Type==3//dbPL()
+//	
+//	if(p.Type==0 || p.Type=='r'|| p.Type=='rr'){
+//		htPL.alter ('remove_row', index-1)
+//        if(p.Type=='rr'){dbVid({yid:p.YTId}).remove()
+//        	dbPL({YTId:p.YTId}).remove()
+//        	return
+//        }  //if(window.confirm("remove from dbVid " + tJ(dbVid({yid:p.YTId}).get())))
+//        if(p.Type=='r'){dbPL({YTId:p.YTId}).remove(); return}  // if(window.confirm("remove from dbPL " + tJ(dbPL({YTId:p.YTId}).get())))
+//		
+//		return
+//	}
+//	
+//	console.log('#tbPlaylistsH table tbody index, p=', index, p)
+//	
+//	daEv.push({Video1: c1 ? p.Id :'', t1: c1 ? 2 :''
+//			   , Video2: c2 ? p.Id :'', t2: c2 ? 2 :''
+//			   , Phase: p.Comment //Info
+//	})
+//   dbEv.insert({Video1: c1 ? p.Id :'', t1: c1 ? 2 :''
+//	          , Video2: c2 ? p.Id :'', t2: c2 ? 2 :''
+//		   , Phase: p.Comment //Info
+//	})
 }) ;
 
 
@@ -985,7 +1035,8 @@ function GSheetRange2_HTcells(spreadsheetID, r1, r2, c1, c2, cbfun, db){
     db= db || 'MA'
 
     var GSheets= {MA:'od6', dbLog:'ojacmh6', dbPl:'o8ewx2k', dbPhases:'o26bz5o', dbVid:'oevm3xw', dbEv:'ouj8mhj'} 
-
+// https://spreadsheets.google.com/feeds/cells/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/o8ewx2k/public/values?alt=json&min-row=1&max-row=4&min-col=1&max-col=5
+// https://spreadsheets.google.com/feeds/list/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/4/public/values?alt=json&min-row=1&max-row=4&min-col=1&max-col=5    
     var urlc= "https://spreadsheets.google.com/feeds/cells/" + spreadsheetID +'/'  + GSheets[db]
               + '/public/values?alt=json&min-row='+r1 + '&max-row='+r2 + '&min-col='+c1 + '&max-col='+c2 ;
     console.log('GSheetRange2_HTcells(spreadsheetID, r1, r2, c1, c2, cbfun): urlc =', urlc)
@@ -1416,6 +1467,16 @@ function removePhase() {
 }
 
 
+function uniq_db(db, key) {
+	var _db= TAFFY()
+	db().each(function (p, recordnumber) {
+		var u=	{}; u[key]= p[key]
+		if(!db(u).get()[0]) _db.insert(u) 
+	});
+	return _db
+}
+
+
 function uniq_dbPhases() {
 	var db= TAFFY()
 	
@@ -1530,19 +1591,21 @@ if(1){
 		cl('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww  treat query string qs=', qs)
 		
 		var c='',yid
+		
+		var nrowPJ= daPL.length
 
 		qs.map(function(q){ cl('111 qs.map q=', q)
 //			if(q.length==1) { var yid= q.replace(/.*http/, 'http'), c= q.replace(/http.*/, '');
 //			} else {yid= q[1]; c= q[0]}
 			if(! /http/.test(q) ) {c= q
 			} else { yid= q
-				var  ty= sett('defTy'), t= sett('defSec')
-				//daPL.push({YTId: yid, type:ty, Comment:c}) 
-				daPL.push({Id: yid, type:ty, Comment:c}) 
-				daEv.push(ty==1 ? {Video1:yid, t1:t, Phase:c}
-					    : ty==2 ? {Video2:yid, t2:t, Phase:c}
-					    :  {Video1:yid, t1:t, Video2:yid, t2:t, Phase:c}  //ty==3 ?
-					)
+					var  ty= sett('defTy'), t= sett('defSec')
+					//daPL.push({YTId: yid, type:ty, Comment:c}) 
+				 	daPL.push({Id: yid, type:ty, Comment:c}) 
+//					daEv.push(ty==1 ? {Video1:yid, t1:t, Phase:c}
+//						    : ty==2 ? {Video2:yid, t2:t, Phase:c}
+//						    :  {Video1:yid, t1:t, Video2:yid, t2:t, Phase:c}  //ty==3 ?
+//					)
 				}
 				c=''
 //			var yid= (q.length==1) ? q[0].replace(/.*http/, 'http'): q[1]
@@ -1554,13 +1617,27 @@ if(1){
 		})
 		
 		//take uniq
-		var yy=[]
-		daPL= daPL.filter(function(p){if(yy.indexOf(p.YTId)<0 && p.Id > ''){yy.push(p.YTId); return 1} else return 0})
-		//daPL= daPL.filter(function(p){return yy.indexOf(p.YTId)<0 ?  yy.push(p.YTId) && 1 : 0})
-
-		htPL.loadData(daPL)	
-		htEv.loadData(daEv)
 		
+
+		
+//		var yy=[]  // daPL.map(function(p){return p.YTId})
+//		daPL= daPL.filter(function(p){if(yy.indexOf(p.YTId) < 0 && p.Id > ''){
+//				yy.push(p.YTId); return true
+//				} else return false
+//		})
+		//daPL=  uniq(daPL, 'YTId')
+		dbPL= TAFFY(daPL)
+		
+		htPL.loadData(daPL)
+		//brr 
+		
+		//htEv.loadData(daEv)  
+		//{column:{like:value}}
+		//dbPL({YTId:{gt:'0'}}).each(function (p, i) {
+		dbPL().each(function (p, i) {
+			if(i >= nrowPJ) htPL2htEv(i, false)
+		})
+ 		//setTimeout(function() {htPL.loadData(daPL)	}, 1000)
 		setTimeout(LoadPlaylists, 1000)
 	}
 
