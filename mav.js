@@ -236,7 +236,7 @@ var vm = new Vue({
   }
   
 
- /// Handsontable Events 
+ /// Handsontables:  Sett, PL,  Events, db 
   var htEv,  htPL; 
   var daPL= [//{Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:3, 	Info:"R", 	Comment:""}, 
 	  //{Id:"Z", 	YTId:"4oiPmaBlJNA", 	Type:3, 	Info:"Zep", 	Comment:""}, 
@@ -506,15 +506,18 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
     // checky yid in dbPL
     var rj= dbPL({YTId:yid}).get()[0]
     var rjb= daPL.filter(function(p){ return p.YTId==yid})
-    if((rjb?1:0) != ( rj?1:0)) alert('(rjb?1:0) != ( rj?1:0)' + tJ(rj))
+   // if((rjb?1:0) != ( rj?1:0)) alert('(rjb?1:0) != ( rj?1:0)' + tJ(rj))
     
-    if(rj){ 
-    	cl('render_YT_URL: YT id '+ yid + ' is dup in dbPL: '+ tJ(rj))  // is dup?
-
-    	//    	return ''
-//??	    	callback(ro, rj, value);
-	    	return yid
-    }
+//    if(rj){ 
+//    	cl('render_YT_URL: YT id '+ yid + ' is dup in dbPL: '+ tJ(rj))  // is dup?
+//
+//    	//    	return ''
+////??	    	callback(ro, rj, value);
+//		//daPL[ro].Info= note(infoRich, rj); //zzz
+//        callback(rj);
+//        
+//	    return yid
+//    }
 
     
 
@@ -744,12 +747,24 @@ function Video_Renderer1(instance, td, row, col, prop, value, cellProperties) {
 		    return td;
 		  }  /// Video_Renderer1	
 
+//$('#togr').click(function() {
 
- function toggleRich() {
-	 infoRich= !infoRich;  
-	 daPL=  uniq(daPL, 'YTId')
-	 dbPL= TAFFY(daPL)
-	 htPL.loadData(daPL)
+// //*[@id="togr"]
+$('#tbPlaylistsH table').on('click', '#togr', function() {
+	cl(77778888)
+	alert('#tbPlaylistsH')
+	infoRich=  !infoRich
+	htPL.loadData(daPL)
+})// nOK
+// function toggleRich(_infoRich, set) {
+//	 infoRich= set? _infoRich : !infoRich;  
+//	// daPL=  uniq(daPL, 'YTId')
+//	 dbPL= TAFFY(daPL)
+//	 htPL.loadData(daPL)
+//}
+
+//function toggleRich() {infoRich= !infoRich;  htPL.loadData(daPL)
+var toggleRich= function () {infoRich= !infoRich;  htPL.loadData(daPL)
 }
 
 var daSett=[{name:'defTy', Parameter:'Defaut video Type\n1 -Left Player, 2 -right, 3 - both', value:3}
@@ -772,14 +787,14 @@ htPL= new Handsontable($("#tbPlaylistsH")[0], {
 		minSpareRows: 1,
 		height: 296,
 	    colHeaders: function(j) {
-	    			  return j==3 ? 'Info &nbsp;&nbsp;<button onclick="toggleRich() " title="toggle Info to Plain Text before copy the table Ctrl-A,Ctrl-C">Toggle Rich</button>'
+			  return j==3 ? 'Info &nbsp; &nbsp; &nbsp;     <i  onclick="toggleRich()" class="fa fa-copy" style="font-size: 14px; float: right" ' + 
+			//		  return j==3 ? 'Info &nbsp; &nbsp; &nbsp;    <i  onclick="toggleRich()" class="fa fa-copy"  ' + 
+						    '  title="toggle Info to Plain Text before copy the table to Excel or G-Sheets Ctrl-A,Ctrl-C "> Toggle before copy</i> &nbsp; &nbsp; &nbsp;'
             		              : 'Id YTId Type Info Comment'.split(" ")[j]
 	    },
 		rowHeaders: true,
 		stretchH: 'all',
-		columnSorting: true,
 		contextMenu: true,
-		//className: "htCenter htMiddle",
 		readOnly: false,
 		columns: [
 		  {data: 'Id' , type: 'text' , renderer:YTId_Renderer }, //?}, // PL_Id_Renderer 
@@ -862,8 +877,8 @@ htEv= new Handsontable($("#tbEventsH")[0], {
 		minSpareRows: 1,
 		height: 196,
 
-		//colHeaders: 'Index Video1 t1 Video2 t2 Phase SSI BM TD img'.split(" "),
-		colHeaders: 'Video1 t1 Video2 t2 Phase SSI BM TD img'.split(" "),
+		//colHeaders: 'Video1 t1 Video2 t2 Phase SSI BM TD img'.split(" "),
+		colHeaders: 'Video1 t1 Video2 t2 Phase SSI BM TD'.split(" "),
 
 		rowHeaders: true,
 		stretchH: 'all',
@@ -894,7 +909,7 @@ htEv= new Handsontable($("#tbEventsH")[0], {
 		  {data: 'SSI'  , type: 'text'},
 		  {data: 'BM'  , type: 'text', renderer: "html"}, // renderer: "html" for Phases 
 		  {data: 'TD'  , type: 'text'}
-		, {data: 'img'  }  // , renderer: imgRenderer}
+//		, {data: 'img'  }  // , renderer: imgRenderer}
 
 		 ] //,     minSpareRows: 1
 		, comments: true,

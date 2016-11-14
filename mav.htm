@@ -151,22 +151,17 @@
   
   <div class="row"> 
   
-   <button onclick= '$("#settings").toggle()' class="fa fa-cog" aria-hidden="true" title='Settings'> &nbsp; Settings</button>  <br/>
-   <div id='settings' style='display:none'  class="col-md-6">
-<!--      Default Id length:<input id="idLength" type="number" step = "1" value="3" /> -->
-     <div id='tbSett'></div><br/>
-   </div>
-  
+ 
   
         <!--  https://handsontable.com/examples.html#fndtn-advanced  --> 
+
+
+        <button id="getG" onclick='GSheet2_HT()' class='fa fa-cloud-download'  title='Load data from GSheets to Tables'>  &nbsp; load from GSheets</button>
        <a href="http://bit.ly/alexzolot-ma" target="_blank">  G-sheet (to copy-paste the data) </a>
 
 
-        <button id="getG" onclick='GSheet2_HT()' class='fa fa-cloud-download'  title='Load data from GSheets to Tables'> load from GSheets</button>
-
-
   <div class="col-md-11 vid">    
-	     <h4>Playlists:</h4>
+	     <h4> Playlists: </h4>
 	           <div id="tbPlaylistsH" title='Playlists'></div>
 
          <h4>Points for MA:</h4>
@@ -238,11 +233,20 @@
 </div app>
 
 
+   <button onclick= '$("#settings").toggle()' class="fa fa-cog" aria-hidden="true" title='Settings'> &nbsp; Settings</button>  <br/>
+   <div id='settings' style='display:none'  class="col-md-6">
+     <div id='tbSett'></div><br/>
+   </div>
+
+
+   <br/>
+
    
-<hr/>
+
 <hr/>
 
 
+ 
 <!--  for Developers ----------------------------------------------------------------->
 
 <button onclick= 'toggleDev()' class="fa fa-wrench red" aria-hidden="true" title='for Developers'></button>  <br/>
