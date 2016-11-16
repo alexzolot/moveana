@@ -1374,12 +1374,12 @@ function dbPhases2evsHT(all){
  	  if(playlistsDict[e.Video1]){
 	  	  console.log('playlistsDict[e.Video1].YTId:', playlistsDict[e.Video1].YTId); 
 		  pp[1].go1Vid(playlistsDict[e.Video1].YTId, e.t1)
- 	  } else {alert('playlistsDict [' + e.Video1 + '] does not exists')}
+ 	  } else {cl('playlistsDict [' + e.Video1 + '] does not exists !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')}
  	  
  	  if(playlistsDict[e.Video2]){
 	  	  console.log('playlistsDict[e.Video2].YTId:', playlistsDict[e.Video2].YTId); 
 		  pp[2].go1Vid(playlistsDict[e.Video2].YTId, e.t2)
- 	  } else {alert('playlistsDict [' + e.Video2 + '] does not exists')}
+ 	  } else {cl('playlistsDict [' + e.Video2 + '] does not exists !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')}
  	  
       //htEv.selectCell(iEvent, 0) 
       htEv.selectCell(iEvent, 0, iEvent, htEv.countCols()-1) 
