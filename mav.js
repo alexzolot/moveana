@@ -424,15 +424,14 @@ var vm = new Vue({
 	  
 	function  createCanvas(){
 
-	   var canvas = $('<canvas />').attr({
-		        id: "canvas"
+	   var canvas= $('<canvas />').attr({  id: "canvas"
 		        , Width: $("#vplayers").width()-8,
 		          Height: $("#vplayers").height() -100
 		   })
 	    
 	    $.each(['#f00', '#00f'], function() {
 		      $('#erase').before("<button class='brush' style='width: 10px; height: 8px; background: " + 
-			          this + ";' onclick='setColor(\""+ this +"\")'  ondblclick='setLwd(11-lwd)' ></button> ");
+			          this + ";' onclick='setColor(\""+ this +"\")'  ondblclick='setLwd(11-lwd)' title='dblclick change width of the brush'></button> ");
 			});	
 	   
 	    $('#divcanvas').append( canvas );
@@ -653,8 +652,8 @@ function YTId_Renderer(instance, td, row, col, prop, value, cellProperties) {
 		daPL[ro].Info= note(infoRich, rj);
 		if(prop=='YTId' && !daPL[ro].Id || prop=='Id' &&  value.length > 11) {
 			daPL[ro].Id= hashId(rj.title);  //.replace(/\s+ /g, '').substr(0,5);
-			daPL[ro].Comment= value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
-			daPL[ro].Type= daPL[ro].Type || dupPL(rj.yid)  ?  'r' : sett('defTy');
+			daPL[ro].Comment= daPL[ro].Comment || value.replace(/<a.*a>|http\S+/g, '').replace(/\s+/g, ' ')
+			daPL[ro].Type= daPL[ro].Type || (dupPL(rj.yid)  ?  'r' : sett('defTy'));
 			daPL[ro].YTId= rj.yid;
 			//dbPL({YTId:rj.yid}).update(daPL[ro])
 			dbPL({YTId:rj.yid}).update(function(){this.pl= daPL[ro]; return this})
@@ -1588,41 +1587,70 @@ if(1){
 
 //$(function(){ ////////////////////////////////////////////////////
 	// treat query string
-	var qs = (function(a) {
-	    if (a == "") return [];
-        var b= decodeURIComponent(a)
-              .replace(/http/g,'zz1http')
-	          .replace(/(http\S+)/g,'$1zz2').split(/\s*zz1|zz2\s*|yt=/)
-	          //.filter(function(s){return s>''})
-	          .notEmpty()
-	     cl('treat query string b=', b)
-	    return b
+  
+  /*
+  http://localhost:8000/mav.htm?keep=2&type=3&yt=  https://www.youtube.com/watch?v=i-lgX65esDo v22 v33 https://www.youtube.com/watch?v=XpA9XXa7vAU
+  http://localhost:8000/mav.htm? https://www.youtube.com/watch?v=i-lgX65esDo v22 v33 https://www.youtube.com/watch?v=XpA9XXa7vAU
+*/
+  
+	var qsPars = (function(aa) {
+	    if (aa == "") return [];
+	    
+	    cl('aa', aa)
+	    cl('decodeURIComponent(aa)=', decodeURIComponent(aa))
+
+        var r= {keep:3, type:3, yt:[]}, sep= /(keep=|type=|yt=)/g,  //decodeURIComponent(aa)        //.split('&')
+           b= aa. map(function(a){
+		             return decodeURIComponent(a).replace(sep,'zz1$1')
+			          .replace(sep,'$1zz2').split(/\s*zz1|zz2\s*/)
+			          .notEmpty()
+			 })
+	    cl('treat in query string  b=', b)
+	     
+	    b.map(function(q){ // cl('b.map q=', q)
+			if(q.length==1) {  // yt  directly after '...com?'
+				r.yt= q[0]} else r[q[0].replace(/=$/, '')]= q.length==2 ? q[1] : q.slice(1)
+		})
+		cl('out query str  r=', r)
+	    return r
 	})(window.location.search.substr(1).split('&'));
 	
-	console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  treat query string qs=', qs)
+	console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  treat query string qsPars =', qsPars)
+	
+	
+	if(qsPars.keep=='0') { daPL= daEv= []; dbPL= TAFFY(daPL); dbEv= TAFFY(daEv)}
+	if(qsPars.keep=='1' || qsPars.keep=='2'){
+		daPL= daPL.filter(function(p){return p.Type== qsPars.keep*1})
+		daEv= daEv.map(function(e){var rm= 3 - qsPars.keep; e['Video'+ rm]= ''; e['t'+ rm]= ''; return e })
+		dbPL= TAFFY(daPL); dbEv= TAFFY(daEv)
+	} 
+	cl('Before "GET"  daPL=', daPL)
+	cl('Before "GET"  daEv=', daEv)
 
-	if(qs){
+	if(qsPars.yt){
 
-		cl('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww  treat query string qs=', qs)
+		cl('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww  treat query string qsPars.yt=', qsPars.yt)
 		
-		var c='',yid
+		var c='', yid
 		
 		var nrowPJ= daPL.length
 
-		qs.map(function(q){ cl('111 qs.map q=', q)
+		qsPars.yt.replace(/\s*http/g,'zz1http')
+	          .replace(/(http\S+)\s*/g,'$1zz2').split(/\s*zz1|zz2\s*|yt=/)
+		.map(function(q){ cl('111 qs.map q=', q)
 //			if(q.length==1) { var yid= q.replace(/.*http/, 'http'), c= q.replace(/http.*/, '');
 //			} else {yid= q[1]; c= q[0]}
 			if(! /http/.test(q) ) {c= q
 			} else { yid= q
-					var  ty= sett('defTy'), t= sett('defSec')
+					var  ty= qsPars.type || sett('defTy'), t= sett('defSec')
 					//daPL.push({YTId: yid, type:ty, Comment:c}) 
-				 	daPL.push({Id: yid, type:ty, Comment:c}) 
+				 	daPL.push({Id: yid, Type: ty*1, Comment:c}) 
 //					daEv.push(ty==1 ? {Video1:yid, t1:t, Phase:c}
 //						    : ty==2 ? {Video2:yid, t2:t, Phase:c}
 //						    :  {Video1:yid, t1:t, Video2:yid, t2:t, Phase:c}  //ty==3 ?
 //					)
-				}
 				c=''
+				}
 //			var yid= (q.length==1) ? q[0].replace(/.*http/, 'http'): q[1]
 //			var c  = (q.length==1) ? q[0].replace(/http.*/, '')    : q[0]
 //			
@@ -1653,6 +1681,9 @@ if(1){
 			if(i >= nrowPJ) htPL2htEv(i, false)
 		})
  		//setTimeout(function() {htPL.loadData(daPL)	}, 1000)
+		
+		htEv.loadData(daEv)
+		
 		setTimeout(LoadPlaylists, 1000)
 	}
 
