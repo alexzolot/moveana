@@ -270,14 +270,16 @@
      <div id='tbSett'></div><br/>
    </div>
 
-    <h3> for Developers</h3>
+    <h3> for Developers</h3> 
+    <h4>Data Down</h4>
+	    <button onclick='GSheet2db()'>GSheet2db()</button>
+	    <button onclick='GSheetPh2dbPh_htEv()'>GSheetPh2dbPh_htEv()</button>
+        <button onclick='dbPhases2htEv()'>dbPhases2htEv()</button>
+        <button onclick='all_dbVid2daPLhtPL()'>all_dbVid2daPLhtPL()</button><br/>
 
-    <button onclick='dbPhases2evsHT()'>dbPhases2evsHT()</button>
-    <button onclick='evsHT2dbPhases()'>evsHT2dbPhases()</button>
-    <button onclick='GSheet2db()'>GSheet2db()</button>
-    <button onclick='GSheetPh2dbHT()'>GSheetPh2dbHT()</button>
-    <button onclick='db2GSheet()'>4 db to GSheet db2GSheet()</button>
-    <button onclick='all_dbVid2PL()'>all_dbVid2PL()</button><br/>
+    <h4>Data Up</h4>
+        <button onclick='db2GSheet()'>4 db to GSheet db2GSheet()</button>
+	    <button onclick='htEv2dbPhases()'>htEv2dbPhases()</button>
     
 
 <!--   --->
@@ -315,9 +317,14 @@
   var dbEv= TAFFY(daEv); console.log('dbEv = ', dbEv().get());
   var dbVid= TAFFY(); dbVid.store("dbVid"); console.log('dbVid = ', dbVid().get()); // localStorage.dbVid
   var dbPhases= TAFFY(); dbPhases.store("dbPhases"); console.log('dbPhases = ', dbPhases().get()); // localStorage.dbVid
-    
+  
+  db2ht(dbPhases().order('t').order('yid'))
     </pre>
-    <textarea name="message" id='ta' rows="9" cols="80">db2ht(dbPhases)</textarea><br/>
+    <textarea name="message" id='ta' rows="9" cols="80">
+    // db2ht(dbPhases)
+    db2ht(dbPhases().order('t').order('yid'))
+    
+    </textarea><br/>
     <button  onclick='evall()'>evall()</button> <br/>
     <button  onclick='db2ht()'>test  db2ht(db)"</button> <br/>
 	<div id="testOut"></div>

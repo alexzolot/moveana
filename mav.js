@@ -32,7 +32,7 @@ String.prototype.sf = function() {  //format
 };
 
 
-
+// $.ajaxSetup({ cache: false }); //?? need it?
 
 
 //<template id="note-template">
@@ -98,6 +98,7 @@ var vm = new Vue({
 		});
 
 
+
     // 2. This code loads the IFrame pp[1] API code asynchronously.
     var tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
@@ -109,7 +110,10 @@ var vm = new Vue({
     //    after the API code downloads.
     var time_update_interval, t1=0, t2=0, pp= {}; // pp - players
     
-    plays= function(pla, speed) {
+    
+    function YT_Players________________________________________________________() {}
+
+    function plays(pla, speed) {
 		    	if(pla.getPlayerState()==YT.PlayerState.PLAYING) {
 		    		pla.pauseVideo()
 		    	} else {pla.setPlaybackRate(speed).playVideo(); clearCanv()
@@ -267,14 +271,14 @@ var vm = new Vue({
 
   var daEv=[//{	Video1:"R", 	t1:4.31, 	Video2:"Z", 	t2:377, 	Info:"R, apex", 	SSI:"sss", 	BM:"banbb", 	TD:"outsi" 	},
 //	  {	Video1:"Z", 	t1:4.31, 	Video2:"R", 	t2:4.89, 	Info:"R, apex", 	SSI:"sss", 	BM:"banbb", 	TD:"outsi" 	},
-	      {Video1:"AZ1", 	t1:4.31, 	Video2:"PSIANW", 	t2:4.89, 	Phase:"", 	SSI:"small edge angle", 	BM:"banking", 	TD:"outside arm too high and back" 	},
+	      {Video1:"AZ1", 	t1:4.31, 	Video2:"PSIANW", 	t2:4.89, 	Phase:"m3", 	SSI:"small edge angle", 	BM:"banking", 	TD:"outside arm too high and back" 	},
       {Video1:"", 	t1:5.94, 	Video2:"", 	t2:5.82, 	Phase:"", 	SSI:"", 	BM:"outs arm low", 	TD:"poll in arms, parallel to ground" 	},
-      {Video1:"", 	t1:7.8, 	Video2:"", 	t2:6.75, 	Phase:"", 	SSI:"small edge angle", 	BM:"hips too high", 	TD:"more ang before apex; look at dir of travel" 	},
+      {Video1:"", 	t1:7.8, 	Video2:"", 	t2:6.75, 	Phase:"m9", 	SSI:"small edge angle", 	BM:"hips too high", 	TD:"more ang before apex; look at dir of travel" 	},
 //      {Video1:"", 	t1:8.75, 	Video2:"", 	t2:8.08, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-      {Video1:"", 	t1:4.49, 	Video2:"Reilly", 	t2:63.61, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-      {Video1:"AZ2", 	t1:50.7, 	Video2:"", 	t2:69.74, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
+      {Video1:"", 	t1:4.49, 	Video2:"Reilly", 	t2:63.61, 	Phase:"m3", 	SSI:"", 	BM:"", 	TD:"" 	},
+      {Video1:"AZ2", 	t1:50.7, 	Video2:"", 	t2:69.74, 	Phase:"m3", 	SSI:"", 	BM:"", 	TD:"" 	},
 ////      {Video1:"", 	t1:50.7, 	Video2:"Berger", 	t2:413.83, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	}
-      {Video1:"", 	t1:50.7, 	Video2:"BASI", 	t2:65.14, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	}
+      {Video1:"", 	t1:50.7, 	Video2:"BASI", 	t2:65.14, 	Phase:"m3", 	SSI:"", 	BM:"", 	TD:"" 	}
       ]
 //      {Video1:"BASIL", 	t1:83.25, 	Video2:"JBa", 	t2:2.65, 	Phase:"Long - Med turns", 	SSI:"", 	BM:"", 	TD:"" 	},
 //      {Video1:"BASIL", 	t1:93.29, 	Video2:"JBa", 	t2:4.84, 	Phase:"Long - Med turns. 9oc", 	SSI:"", 	BM:"", 	TD:"" 	},
@@ -422,6 +426,10 @@ var vm = new Vue({
 		   }, 50);
 		}
 	  
+	  
+function Canvas________________________________________________________() {}
+
+	  
 	function  createCanvas(){
 
 	   var canvas= $('<canvas />').attr({  id: "canvas"
@@ -441,6 +449,7 @@ var vm = new Vue({
 	    }, 1000)
 	    
 	} //createCanvas
+	
 	
 	setTimeout(createCanvas, 3000);
 	
@@ -617,20 +626,7 @@ function hashId(title){
 	}
 }
 
-function dupPL(yid) {
-	var ids= daPL.map(function(p){return p.YTId})
-	return ids.indexOf(yid) > -1
-}
 
-function uniq(da, key) {
-	var yy=[],  // daPL.map(function(p){return p.YTId})
-	dau= da.filter(function(p){if(yy.indexOf(p[key]) < 0 && p[key] > ''){
-			yy.push(p[key]); return true
-			} else return false
-	})
-	return dau
-}
-//e  daPL=  uniq(daPL, 'YTId')
 
 function YTId_Renderer(instance, td, row, col, prop, value, cellProperties) {
     // console.log('YTId_Renderer: instance, td, row, col, prop, value, cellProperties:', instance, td, row, col, prop, value, cellProperties)
@@ -766,6 +762,9 @@ $('#tbPlaylistsH table').on('click', '#togr', function() {
 var toggleRich= function () {infoRich= !infoRich;  htPL.loadData(daPL)
 }
 
+
+///  Settings ========================
+
 var daSett=[{name:'defTy', Parameter:'Defaut video Type\n1 -Left Player, 2 -right, 3 - both', value:3}
 	      , {name:'defSec', Parameter:'Default t, sec', value:2}
 	     , {name:'nSymb', Parameter:'Default # symb in Id', value:3}
@@ -779,6 +778,7 @@ htSett= new Handsontable($("#tbSett")[0], {
 
 function sett(nm) {return daSett.filter(function(s){return s.name==nm})[0].value}
 // test: sett('defTy')
+
 	
 
 htPL= new Handsontable($("#tbPlaylistsH")[0], {
@@ -923,58 +923,9 @@ htEv= new Handsontable($("#tbEventsH")[0], {
 	  });	
   
 
-function htPL2htEv(i, toDelete) {
-	var p= daPL[i], c1= p.Type==1 || p.Type==3, c2= p.Type==2 || p.Type==3//dbPL()
-	
-	if(toDelete) if(p.Type==0 || p.Type=='r'|| p.Type=='rr'){
-		htPL.alter ('remove_row', index-1)
-        if(p.Type=='rr'){dbVid({yid:p.YTId}).remove()
-        	dbPL({YTId:p.YTId}).remove()
-        	return
-        }  //if(window.confirm("remove from dbVid " + tJ(dbVid({yid:p.YTId}).get())))
-        if(p.Type=='r'){dbPL({YTId:p.YTId}).remove(); return}  // if(window.confirm("remove from dbPL " + tJ(dbPL({YTId:p.YTId}).get())))
-		
-		return
-	}
-	
-	//console.log('#tbPlaylistsH table tbody index, p=', index, p)
-	
-	daEv.push({Video1: c1 ? p.Id :'', t1: c1 ? 2 :''
-			   , Video2: c2 ? p.Id :'', t2: c2 ? 2 :''
-			   , Phase: p.Comment //Info
-	})
-   dbEv.insert({Video1: c1 ? p.Id :'', t1: c1 ? 2 :''
-	          , Video2: c2 ? p.Id :'', t2: c2 ? 2 :''
-		   , Phase: p.Comment //Info
-	})
-}
-
 $('#tbPlaylistsH table tbody').on('dblclick', 'tr th', function(evt){
 	var row= $(this).text()
 	htPL2htEv(row-1, true)
-//	var p= daPL[row-1], c1= p.Type==1 || p.Type==3, c2= p.Type==2 || p.Type==3//dbPL()
-//	
-//	if(p.Type==0 || p.Type=='r'|| p.Type=='rr'){
-//		htPL.alter ('remove_row', index-1)
-//        if(p.Type=='rr'){dbVid({yid:p.YTId}).remove()
-//        	dbPL({YTId:p.YTId}).remove()
-//        	return
-//        }  //if(window.confirm("remove from dbVid " + tJ(dbVid({yid:p.YTId}).get())))
-//        if(p.Type=='r'){dbPL({YTId:p.YTId}).remove(); return}  // if(window.confirm("remove from dbPL " + tJ(dbPL({YTId:p.YTId}).get())))
-//		
-//		return
-//	}
-//	
-//	console.log('#tbPlaylistsH table tbody index, p=', index, p)
-//	
-//	daEv.push({Video1: c1 ? p.Id :'', t1: c1 ? 2 :''
-//			   , Video2: c2 ? p.Id :'', t2: c2 ? 2 :''
-//			   , Phase: p.Comment //Info
-//	})
-//   dbEv.insert({Video1: c1 ? p.Id :'', t1: c1 ? 2 :''
-//	          , Video2: c2 ? p.Id :'', t2: c2 ? 2 :''
-//		   , Phase: p.Comment //Info
-//	})
 }) ;
 
 
@@ -1041,6 +992,51 @@ $('#tbEventsH table tbody').on('dblclick', 'tr', function(evt){
   
   })
   
+
+function Model_________________________________________ ( ) {}/// Model  ///////////////////////////////////////////////
+
+	  function uniq_db(db, key) {
+	  	var _db= TAFFY()
+	  	db().each(function (p, recordnumber) {
+	  		var u=	{}; u[key]= p[key]
+	  		if(!db(u).get()[0]) _db.insert(u) 
+	  	});
+	  	return _db
+	  }
+
+
+	  function uniq_dbPhases() {
+	  	var db= TAFFY()
+	  	
+	  	dbPhases().each(function (p, recordnumber) {
+	  		var u=	{phase:p.phase, yid:p.yid, t:p.t}
+	  		if(!db(u).get()[0]) db.insert(u) 
+	  		
+	  	});
+	  	
+	  	localStorage.removeItem('taffy_' + "dbPhases");
+	  	db.store("dbPhases")
+	  	dbPhases= db
+	  	return db
+	  }
+	  
+  function dupPL(yid) {
+		var ids= daPL.map(function(p){return p.YTId})
+		return ids.indexOf(yid) > -1
+	}
+
+	function uniq(da, key) {
+		var yy=[],  // daPL.map(function(p){return p.YTId})
+		dau= da.filter(function(p){if(yy.indexOf(p[key]) < 0 && p[key] > ''){
+				yy.push(p[key]); return true
+				} else return false
+		})
+		return dau
+	}
+	//e  daPL=  uniq(daPL, 'YTId')
+
+
+function Data_Down_______________________________________(){} 
   
 function GSheetRange2_HTcells(spreadsheetID, r1, r2, c1, c2, cbfun, db){
     //spreadsheetID= spreadsheetID || '170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'
@@ -1128,7 +1124,8 @@ function GSheet2_HT(db){
 	 
 	  
 	  if(db){
-		  var urlph = 'https://spreadsheets.google.com/feeds/list/'+ spreadsheetID +'/' + GSheets[db] + '/public/values?alt=json' ;
+		  var urlph = 'https://spreadsheets.google.com/feeds/list/'+ spreadsheetID +
+		              '/' + GSheets[db] + '/public/values?alt=json' ;
 		  console.log('getGSpreadsheet2Handst2: urlph =', urlph)
 		 // $.getJSON(urlph, function(res) {console.log('getPh:', res)})
 		  
@@ -1146,7 +1143,6 @@ function GSheet2_HT(db){
 			  htEv.loadData(pts) 
 		  }); 
 	  }
-
 }
 
 
@@ -1156,19 +1152,20 @@ function GSheet2_HT(db){
 //  })  /// on doc ready  ===================================================================================
   
 
-function GSheetPh2dbHT(){
+function GSheetPh2dbPh_htEv(){
 //	GSheet2db(0, "dbPhases", function(res){
-//						dbPhases=TAFFY(res); dbPhases2evsHT(1)
+//						dbPhases=TAFFY(res); dbPhases2htEv(1)
 //						//gcellsToArr(cbfun)
 //		})
 		
-	GSheetRange2_HTcells(0, 1, 2, 5, 5, function(res){console.log('GSheetPh2dbHT: res =', res)
+	GSheetRange2_HTcells(0, 1, 2, 5, 5, function(res){console.log('GSheetPh2dbPh_htEv: res =', res)
 		    //htPL.loadData(playls) 
-			cl('GSheetPh2dbHT: fJ(res[0].dbPhases)', fJ(res[0].dbPhases))
+			cl('GSheetPh2dbPh_htEv: fJ(res[0].dbPhases)', fJ(res[0].dbPhases))
 				
-			var dd= fJ(res[0].dbPhases), pp=[];
-			dd.map(function(d){ pp.push({phase:d[0], t:d[1], yid:d[2]}) })
-			dbPhases= TAFFY(pp); dbPhases2evsHT(1)
+			var dd= fJ(res[0].dbPhases), daPhases=[];
+			dd.map(function(d){ daPhases.push({phase:d[0], t:d[1], yid:d[2]}) })
+			dbPhases= TAFFY(daPhases); 
+			dbPhases2htEv(true)
 		  }, 'dbLog')
 }
 
@@ -1190,45 +1187,9 @@ function GSheet2db(spreadsheetID, db, callback){
 }
 // test: GDoc2db(0, dbPhases, 0)
 
-function evsHT2dbPhases(){
-    var db= TAFFY();
-	
-	for(i=0, l= daEv.length; i<l; i++){var e= daEv[i];
-	console.log('evsHT2dbPhases: i,e=', i, e)
 
-	 if(e.Phase) db.insert({yid:dbPL({Id:daEv[i].Video2}).get()[0].YTId, phase:e.Phase, t:e.t2})
-    }
-	console.log('evsHT2dbPhases: db().get()=', db().get())
-	console.log('evsHT2dbPhases: db().distinct()=', db().distinct("phase","t","yid") )
-}
-
-
-/// $('#btMatch').click(matchPhase)
-
-function matchPhase(ph){
-	  ph= ph || $('#inpPh').val();
-	  //dbVid({phases:{has:phase.eq.$('#inpPh').val()}})
-	  //dbPhases().insert({phase:$('#inpPh').val(), yid:vid2, t:$('#t2').val()}) 
-	  
-	  /// remove dups and phase==''
-	  var un= dbPhases().distinct("phase","t","yid");  // order alphabetic
-	  dbPhases().remove();
-//	  for (var i=0, l=un.length; i<l;  i++) {u= un[i];...} 
-	  un.map(function(u){ if(u[0] && u[1]*1) dbPhases.insert({phase:u[0], yid:u[2], t:u[1]}) })
-
-	  console.log('matchPhase: remove dups: un, dbPhases', un, dbPhases().get())	  
-	  
-	  dbPhases({phase: ph}).each(function (p, recordnumber) {
-		  daEv.push({Video2:'http://www.youtube.com/watch?v='+p.yid, t2:p.t, Phase:$('#inpPh').val()}) //zz
-		});
-	  
-//    var phs= dbPhases({phase:$('#inpPh').val()}).get()
-//    phs.map(function(p){daEv.push({Video2:p.yid, t2:p.t, Phase:$('#inpPh').val()}) })
-	  htEv.loadData(daEv)	
-}
-
-// all==T  only from dbPL
-function dbPhases2evsHT(all){
+//all==T  only from dbPL
+function dbPhases2htEv(all){
 	//var db= dbPhases().join(dbPL, function (l, r) { return (l.yid === r.YTId); }); //get Id
 	var db= dbPhases(); //get Id
 	if(!all) db= db.join(dbPL, function (l, r) { return (l.yid === r.YTId); }); //get Id
@@ -1255,8 +1216,8 @@ function dbPhases2evsHT(all){
 
 	htEv.loadData(daEv)
 		
-//	console.log('get_dbPhases2evsHT: db.get()=', db.get())
-//	console.log('get_dbPhases2evsHT: dat=', dat)
+//	console.log('get_dbPhases2htEv: db.get()=', db.get())
+//	console.log('get_dbPhases2htEv: dat=', dat)
 //
 //	htEv.updateSettings({
 //		//data: dbPhases().order('t').order('yid').get()
@@ -1270,55 +1231,189 @@ function dbPhases2evsHT(all){
 }
 
 
-  function x(result){alert('o.x')
-	    	console.log('o.result=', result)
-//	        $.each(result, function(i, field){
-//	            $("#testOut").append(field + " ");
-//	        });
-	    };
-  
-//  var sr;
-//  
-//  var getSheetrock2Handst= function(){
-//		var shr= sheetrock({
-//			 // url: 'https://docs.google.com/spreadsheets/d/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/edit?usp=sharing',   //url: 'https://docs.google.com/spreadsheets/d/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/edit?usp=sharing',
-//			  url: 'https://docs.google.com/spreadsheets/d/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/edit#gid=676984390',   //url: 'https://docs.google.com/spreadsheets/d/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/edit?usp=sharing',
-//			  query: "select A,B,C,D,E,F where C > '' ",
-//			  fetchSize:999,
-//			  reset: true,
-//			  callback: treatSheetrock
-//		});
-//	};
-//
-//var treatSheetrock = function(error, options, response) { alert('In treatSheetrock')
-//		  if (!error) {  /*  Parse response.data, loop through response.rows, or do something with
-//		      response.html.
-//		    */
-//			    console.log('response=', response)
-//			    console.log('shr t.cols=', response.raw.table.cols)
-//				console.log('shr t.rows=', response.raw.table.rows)
-//				console.log('shr rows=', response.rows)
-//				var r= response.rows, res=[];
-//				var kk= r[0].cellsArray
-//				for (i=1, l= r.length; i<l; i++){
-//					res[i-1]= {};
-//					for (ik=0; ik< kk.length; ik++ ){
-//						res[i-1][kk[ik]]= r[i].cellsArray[ik];
-//						//try{res[i][kk[ik]]= 1* res[i][kk[ik]]} finally {}
-//					}
-//					
-//				}
-//				
-//				console.log('res=', res)
-//				//htEv.loadData(res) 
-//				daEv= res;
-//				htEv.loadData(daEv) 
-//				
-//
-//		  } else{alert('treatSheetrock error:' + error)}
-//		};
 
+function LoadPlaylists(){console.log(daPL); //alert(daPL)
+
+		fillPlaylistsDict()
+
+		var pl=[[], []]; // pl[0]=[]; pl[1]=[];
+		for(var i=0, l= daPL.length; i<l; i++) if(daPL[i].YTId > ''){
+	  			var p=daPL[i], t= p.Type-1;
+	  			if(t==0 || t==2) if(pl[0].indexOf(p.YTId) < 0) { pl[0].push(p.YTId) }
+	  			if(t==1 || t==2) if(pl[1].indexOf(p.YTId) < 0) { pl[1].push(p.YTId) }
+	  			//if(pl[t].indexOf(p.YTId) < 0) { pl[t].push(p.YTId) }
+	  		}
+		console.log('pl=', pl);
+//	    pp[1].loadPlaylist(pl[0]); setTimeout(function(){pp[1].pauseVideo().seekTo(0)}, 1000);
+//		pp[2].loadPlaylist(pl[1]); setTimeout(function(){pp[2].pauseVideo().seekTo(0)}, 1000);
+
+	    pp[1].cuePlaylist(pl[0]); 
+		pp[2].cuePlaylist(pl[1]);
 		
+		fillEvs()
+		
+      htEv.getCellMeta(daEv.length-1, 0).comment= 'You can paste youtube Id or links to this cell';
+      htEv.getCellMeta(daEv.length-1, 2).comment= 'You can paste youtube Id or links to this cell';
+		htEv.render();
+
+		go2ev(0)
+		
+		pp[1].playVideo().pauseVideo()  // stop buffering ??
+	    pp[2].playVideo().pauseVideo()
+}
+
+function all_dbVid2daPLhtPL() {
+	  dbVid().each(function (p, recordnumber) {
+		daPL.push({ // new video
+		Id: hashId(p.title), //rj.title.replace(/\s+/g, '').substr(0,5),
+			YTId: p.yid,
+			Comment:p.title,
+			Type: 3
+	}) 
+	  })
+
+	  htPL.loadData(daPL)
+	  $("html, body").animate({scrollTop: $('#tbPlaylistsH').offset().top-40} , 300)
+}
+
+
+function db2ht(db, htContainer) {
+	  var htContainer= htContainer ||  $("#testOut")
+	  var db= db || dbEv, da= (typeof db =='function') ? db().get() : db.get();
+	  	cl('db2ht(db) db=dbEv, da=', da)
+	   
+	  	htDB= new Handsontable(htContainer[0], {
+	  		data: da
+	  		, colHeaders: Object.keys(da[0])
+	  	})
+	  }  
+
+function htPL2htEv(i, toDelete) {
+	var p= daPL[i], c1= p.Type==1 || p.Type==3, c2= p.Type==2 || p.Type==3//dbPL()
+	
+	if(toDelete) if(p.Type==0 || p.Type=='r'|| p.Type=='rr'){
+		htPL.alter ('remove_row', index-1)
+        if(p.Type=='rr'){dbVid({yid:p.YTId}).remove()
+        	dbPL({YTId:p.YTId}).remove()
+        	return
+        }  //if(window.confirm("remove from dbVid " + tJ(dbVid({yid:p.YTId}).get())))
+        if(p.Type=='r'){dbPL({YTId:p.YTId}).remove(); return}  // if(window.confirm("remove from dbPL " + tJ(dbPL({YTId:p.YTId}).get())))
+		
+		return
+	}
+	
+	//console.log('#tbPlaylistsH table tbody index, p=', index, p)
+	
+	daEv.push({Video1: c1 ? p.Id :'', t1: c1 ? sett('defSec') :''
+			   , Video2: c2 ? p.Id :'', t2: c2 ? sett('defSec') :''
+			   , Phase: p.Comment //Info
+	})
+   dbEv.insert({Video1: c1 ? p.Id :'', t1: c1 ? sett('defSec') :''
+	          , Video2: c2 ? p.Id :'', t2: c2 ? sett('defSec') :''
+		   , Phase: p.Comment //Info
+	})
+	
+	// if(c1) pp[1].playVideo().pauseVideo()  // stop buffering 
+	// if(c2) pp[2].playVideo().pauseVideo()
+}
+
+
+
+
+function go2ev(iEvent){  // i = row in table Events
+	  var selection = htEv.getSelected()
+	  iEvent= iEvent != undefined ? iEvent : selection == undefined ? 0: selection[0] 
+	  
+	  fillEvs()
+	  var e= evData_Filled[iEvent];  console.log('go2ev:', iEvent, e); 
+
+	  if(playlistsDict[e.Video1]){
+	  	  console.log('playlistsDict[e.Video1].YTId:', playlistsDict[e.Video1].YTId); 
+		  pp[1].go1Vid(playlistsDict[e.Video1].YTId, e.t1)
+	  } else {cl('playlistsDict [' + e.Video1 + '] does not exists !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')}
+	  
+	  if(playlistsDict[e.Video2]){
+	  	  console.log('playlistsDict[e.Video2].YTId:', playlistsDict[e.Video2].YTId); 
+		  pp[2].go1Vid(playlistsDict[e.Video2].YTId, e.t2)
+	  } else {cl('playlistsDict [' + e.Video2 + '] does not exists !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')}
+	  
+   //htEv.selectCell(iEvent, 0) 
+   htEv.selectCell(iEvent, 0, iEvent, htEv.countCols()-1) 
+
+
+	  $('#inpCurrPoint').val(iEvent+1)
+	  $('#inpPh').val(e.Phase)
+	  $('#taSS').val(e.SSI)
+	  $('#taBM').val(e.BM)
+	  $('#taTD').val(e.TD)
+	  // draw  lines
+   if(e.lines) setTimeout(function(){for (var i = 0; i < e.lines.length; i++) { drawLine(e.lines[i])} }, 4000)
+}
+
+
+function Data_Up_______________________________________(){} 
+
+function ht2db(ht, add2) {
+  	ht= ht || htEv
+  	add2= add2 || []
+  	var jj= ht.getColHeader(), dav= ht.getData()
+  	
+  	for(var i=0, l=dav.length; i<l;i++){
+  		var d= {}
+  		for(var j=0, lj=dav[0].length; j<lj;j++){
+  			d[jj[j]]= dav[i][j]
+  		}
+  		add2.push(d)
+  	}
+  	return TAFFY(add2)
+  }
+
+
+
+function htEv2dbPhases(clean){
+	clean= clean || false
+    var db= clean ? TAFFY() : dbPhases;
+	
+	for(i=0, l= daEv.length; i<l; i++){var e= daEv[i];
+	console.log('htEv2dbPhases: i,e=', i, e)
+
+	 if(e.Phase) db.insert({yid:dbPL({Id:daEv[i].Video2}).get()[0].YTId, phase:e.Phase, t:e.t2})
+    }
+	console.log('htEv2dbPhases: db().get()=', db().get())
+	console.log('htEv2dbPhases: db().distinct()=', db().distinct("phase","t","yid") )
+	if(!clean) dbPhases= db
+	return db
+}
+
+
+
+
+/// $('#btMatch').click(matchPhase)
+
+function matchPhase(ph){
+	  ph= ph || $('#inpPh').val();
+	  //dbVid({phases:{has:phase.eq.$('#inpPh').val()}})
+	  //dbPhases().insert({phase:$('#inpPh').val(), yid:vid2, t:$('#t2').val()}) 
+	  
+	  /// remove dups and phase==''
+	  var un= dbPhases().distinct("phase","t","yid");  // order alphabetic
+	  dbPhases().remove();
+//	  for (var i=0, l=un.length; i<l;  i++) {u= un[i];...} 
+	  un.map(function(u){ if(u[0] && u[1]*1) dbPhases.insert({phase:u[0], yid:u[2], t:u[1]}) })
+
+	  console.log('matchPhase: remove dups: un, dbPhases', un, dbPhases().get())	  
+	  
+	  dbPhases({phase: ph}).each(function (p, recordnumber) {
+		  daEv.push({Video2:'http://www.youtube.com/watch?v='+p.yid, t2:p.t, Phase:$('#inpPh').val()}) //zz
+		});
+	  
+//    var phs= dbPhases({phase:$('#inpPh').val()}).get()
+//    phs.map(function(p){daEv.push({Video2:p.yid, t2:p.t, Phase:$('#inpPh').val()}) })
+	  htEv.loadData(daEv)	
+}
+
+
+
 	function fillEvs(){  /// fill empty cells in daEv
 		var evData_Filled=[];	
 		
@@ -1337,62 +1432,6 @@ function dbPhases2evsHT(all){
 	}
 
 
-  function LoadPlaylists(){console.log(daPL); //alert(daPL)
-  
-  		fillPlaylistsDict()
-  
-  		var pl=[[], []]; // pl[0]=[]; pl[1]=[];
-  		for(var i=0, l= daPL.length; i<l; i++) if(daPL[i].YTId > ''){
-	  			var p=daPL[i], t= p.Type-1;
-	  			if(t==0 || t==2) if(pl[0].indexOf(p.YTId) < 0) { pl[0].push(p.YTId) }
-	  			if(t==1 || t==2) if(pl[1].indexOf(p.YTId) < 0) { pl[1].push(p.YTId) }
-	  			//if(pl[t].indexOf(p.YTId) < 0) { pl[t].push(p.YTId) }
-	  		}
-  		console.log('pl=', pl);
-//	    pp[1].loadPlaylist(pl[0]); setTimeout(function(){pp[1].pauseVideo().seekTo(0)}, 1000);
-//		pp[2].loadPlaylist(pl[1]); setTimeout(function(){pp[2].pauseVideo().seekTo(0)}, 1000);
-  
-	    pp[1].cuePlaylist(pl[0]); 
-		pp[2].cuePlaylist(pl[1]);
-		
-		fillEvs()
-		
-        htEv.getCellMeta(daEv.length-1, 0).comment= 'You can paste youtube Id or links to this cell';
-        htEv.getCellMeta(daEv.length-1, 2).comment= 'You can paste youtube Id or links to this cell';
-		htEv.render();
-
-		go2ev(0)
-  }
-  
-  
-   function go2ev(iEvent){  // i = row in table Events
-	  var selection = htEv.getSelected()
-	  iEvent= iEvent != undefined ? iEvent : selection == undefined ? 0: selection[0] 
-	  
- 	  var e= evData_Filled[iEvent];  console.log('go2ev:', iEvent, e); 
-
- 	  if(playlistsDict[e.Video1]){
-	  	  console.log('playlistsDict[e.Video1].YTId:', playlistsDict[e.Video1].YTId); 
-		  pp[1].go1Vid(playlistsDict[e.Video1].YTId, e.t1)
- 	  } else {cl('playlistsDict [' + e.Video1 + '] does not exists !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')}
- 	  
- 	  if(playlistsDict[e.Video2]){
-	  	  console.log('playlistsDict[e.Video2].YTId:', playlistsDict[e.Video2].YTId); 
-		  pp[2].go1Vid(playlistsDict[e.Video2].YTId, e.t2)
- 	  } else {cl('playlistsDict [' + e.Video2 + '] does not exists !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')}
- 	  
-      //htEv.selectCell(iEvent, 0) 
-      htEv.selectCell(iEvent, 0, iEvent, htEv.countCols()-1) 
-
-
-	  $('#inpCurrPoint').val(iEvent+1)
-	  $('#taSS').val(e.SSI)
-	  $('#taBM').val(e.BM)
-	  $('#taTD').val(e.TD)
-	  // draw  lines
-      if(e.lines) setTimeout(function(){for (var i = 0; i < e.lines.length; i++) { drawLine(e.lines[i])} }, 4000)
-  }
-   
 
   function db2GSheet() {
       request= $.ajax({
@@ -1481,31 +1520,6 @@ function removePhase() {
 }
 
 
-function uniq_db(db, key) {
-	var _db= TAFFY()
-	db().each(function (p, recordnumber) {
-		var u=	{}; u[key]= p[key]
-		if(!db(u).get()[0]) _db.insert(u) 
-	});
-	return _db
-}
-
-
-function uniq_dbPhases() {
-	var db= TAFFY()
-	
-	dbPhases().each(function (p, recordnumber) {
-		var u=	{phase:p.phase, yid:p.yid, t:p.t}
-		if(!db(u).get()[0]) db.insert(u) 
-		
-	});
-	
-	localStorage.removeItem('taffy_' + "dbPhases");
-	db.store("dbPhases")
-	dbPhases= db
-	return db
-}
-
 var unP= uniq_dbPhases()
 cl('uniq_dbPhases=', unP )
 if(1){
@@ -1517,29 +1531,10 @@ if(1){
 }
   
   
-  function all_dbVid2PL() {
-	  dbVid().each(function (p, recordnumber) {
-  		daPL.push({ // new video
-    		Id: hashId(p.title), //rj.title.replace(/\s+/g, '').substr(0,5),
-			YTId: p.yid,
-			Comment:p.title,
-			Type: 3
-    	}) 
-	  })
 
-	  htPL.loadData(daPL)
-	  $("html, body").animate({scrollTop: $('#tbPlaylistsH').offset().top-40} , 300)
-}
 
-  
-  var zz;
-  
-  function test(){ alert('test')
-	//  $.getJSON("http://cors.io/spreadsheets.google.com/feeds/list/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/od6/public/values?alt=json", function(data) {
-		$.getJSON("http://spreadsheets.google.com/feeds/list/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/od6/public/values?alt=json-in-script&callback=x")
 
-  }
-
+function  Controller_______________________________________(){} /// Controller  ////////////////////////////////////////////////////////////////////////////
 
   function toggleDev() {
 		$("#for-developers").toggle(); 
@@ -1558,31 +1553,6 @@ if(1){
   	eval($('#ta').val())
   }  
     
-  function db2ht(db) {
-  	var db= db|| dbEv, da= db().get();
-  	cl('db2ht(db) db=dbEv', db().get())
-   
-  	htDB= new Handsontable($("#testOut")[0], {
-  		data: da
-  		, colHeaders: Object.keys(da[0])
-  	})
-  }  
-
-  function ht2db(ht, add2) {
-  	ht= ht || htEv
-  	add2= add2 || []
-  	var jj= ht.getColHeader(), dav= ht.getData()
-  	
-  	for(var i=0, l=dav.length; i<l;i++){
-  		var d= {}
-  		for(var j=0, lj=dav[0].length; j<lj;j++){
-  			d[jj[j]]= dav[i][j]
-  		}
-  		add2.push(d)
-  	}
-  	return TAFFY(add2)
-  }
-
 
 
 //$(function(){ ////////////////////////////////////////////////////
@@ -1591,6 +1561,8 @@ if(1){
   /*
   http://localhost:8000/mav.htm?keep=2&type=3&yt=  https://www.youtube.com/watch?v=i-lgX65esDo v22 v33 https://www.youtube.com/watch?v=XpA9XXa7vAU
   http://localhost:8000/mav.htm? https://www.youtube.com/watch?v=i-lgX65esDo v22 v33 https://www.youtube.com/watch?v=XpA9XXa7vAU
+
+  http://localhost:8000/mav.htm?keep=0&type=3&yt= https://www.youtube.com/watch?v=Up9v4HvgIhw&list=PLU2mZrfZu7XEMRCILFWx_g9BOEpuQYtR8&index=2https://www.youtube.com/watch?v=fnrAWNaDYlc&t=2s&list=PLU2mZrfZu7XEMRCILFWx_g9BOEpuQYtR8&index=1
 */
   
 	var qsPars = (function(aa) {
@@ -1618,7 +1590,9 @@ if(1){
 	console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  treat query string qsPars =', qsPars)
 	
 	
-	if(qsPars.keep=='0') { daPL= daEv= []; dbPL= TAFFY(daPL); dbEv= TAFFY(daEv)}
+	if(qsPars.keep=='0') { // htEv.clear(); htPL.clear(); 
+		daPL= []; daEv= []; dbPL= TAFFY(daPL); dbEv= TAFFY(daEv); 
+	}
 	if(qsPars.keep=='1' || qsPars.keep=='2'){
 		daPL= daPL.filter(function(p){return p.Type== qsPars.keep*1})
 		daEv= daEv.map(function(e){var rm= 3 - qsPars.keep; e['Video'+ rm]= ''; e['t'+ rm]= ''; return e })
@@ -1633,10 +1607,10 @@ if(1){
 		
 		var c='', yid
 		
-		var nrowPJ= daPL.length
+		var nrowPL= daPL.length
 
 		qsPars.yt.replace(/\s*http/g,'zz1http')
-	          .replace(/(http\S+)\s*/g,'$1zz2').split(/\s*zz1|zz2\s*|yt=/)
+	          .replace(/(http\S+)\s*/g,'$1zz2').split(/\s*zz1|zz2\s*|yt=/) //?? treat tail uid
 		.map(function(q){ cl('111 qs.map q=', q)
 //			if(q.length==1) { var yid= q.replace(/.*http/, 'http'), c= q.replace(/http.*/, '');
 //			} else {yid= q[1]; c= q[0]}
@@ -1678,7 +1652,7 @@ if(1){
 		//{column:{like:value}}
 		//dbPL({YTId:{gt:'0'}}).each(function (p, i) {
 		dbPL().each(function (p, i) {
-			if(i >= nrowPJ) htPL2htEv(i, false)
+			if(i >= nrowPL || qsPars.keep=='0') htPL2htEv(i, false)
 		})
  		//setTimeout(function() {htPL.loadData(daPL)	}, 1000)
 		
@@ -1688,6 +1662,15 @@ if(1){
 	}
 
 //}) /////////////////////////////////////////////////////////////////
+
+	  
+	  var zz;
+	  
+	  function test(){ alert('test')
+		//  $.getJSON("http://cors.io/spreadsheets.google.com/feeds/list/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/od6/public/values?alt=json", function(data) {
+			$.getJSON("http://spreadsheets.google.com/feeds/list/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/od6/public/values?alt=json-in-script&callback=x")
+
+	  }
 
 
 
@@ -1712,6 +1695,4 @@ var	x= function(data) {
 
  * */
 
-  
-  
-      
+
