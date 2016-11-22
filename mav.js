@@ -507,7 +507,7 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
     
     
     // bad yid
-    if( ! /^[0-9a-zA-Z\-\_]{11}$/.test(yid)){return yid}
+    if( ! /^[_0-9a-zA-Z\-]{11}$/.test(yid)){return yid}
     
     
     // TODO: fix this block
@@ -1418,12 +1418,14 @@ function matchPhase(ph){
 		var evData_Filled=[];	
 		
 			  for (var i=0, l= daEv.length; i<l; i++){ evData_Filled[i]= {}  // evData_Filled[i] || {};
-					for (var key in daEv[i]) {
-						if (daEv[i].hasOwnProperty(key)) {  
+				//for (var key in daEv[i]) {
+					for (var key in daEv[0]) {  //??
+						//if (daEv[i].hasOwnProperty(key)) {  
+							if (daEv[0].hasOwnProperty(key)) {  
 			  
 			    evData_Filled[i][key]= daEv[i][key];
 			    if( i > 0  && (key=="Video1" || key=="Video2"||key=="t1" || key=="t2") 
-			               && (evData_Filled[i][key]==null || evData_Filled[i][key]=='' ) 
+			               && (evData_Filled[i][key]==null || evData_Filled[i][key]==undefined || evData_Filled[i][key]=='' ) 
 			      ) evData_Filled[i][key]= evData_Filled[i-1][key];
 			  }
 			}
