@@ -137,9 +137,26 @@
 			<ol>
             <li><a href="http://clip2net.com" target="_blank">Clip2net - Share screenshots</a></li>
             <li><a href="https://chrome.google.com/webstore/detail/adblock-for-youtube/cmedhionkhpnakcndndgjdbohmhepckk" target="_blank">Adblock for Youtube</a></li>
-            <li><a href="javascript:(function() { function se(d) { return d.selection ? d.selection.createRange().text : d.getSelection() } s = se(document); for (i=0; i<frames.length && !s; i++) s = se(frames[i].document); if (!s || s=='') s= ClipboardEvent.clipboardData; if (!s || s=='') s= window.location; if (!s || s=='') s= prompt('YT link:',''); open('http://moveana.s3-website-us-east-1.amazonaws.com/?keep=3&type=3&yt=' + (s ? encodeURIComponent(s) : '')).focus(); })();"
+<!--             <li><a href="javascript:(function() { function se(d) { return d.selection ? d.selection.createRange().text : d.getSelection()  -->
+<!--             } s = se(document); for (i=0; i<frames.length && !s; i++) s = se(frames[i].document); if (!s || s=='') s= ClipboardEvent.clipboardData; if (!s || s=='') -->
+<!--              s= window.location; if (!s || s=='') s= prompt('YT link:',''); open('http://moveana.s3-website-us-east-1.amazonaws.com/?keep=3&type=3&yt=' + -->
+<!--               (s ? encodeURIComponent(s) : '')).focus(); })();" -->
+<!--                      title="Drag and drop the link to browser's  bookmark bar">MA Tool</a> bookmarklet<br/></li> -->
+            
+            <li><a href="javascript:var s='', u= window.getSelection();
+if(u){ u= u.getRangeAt(0).cloneContents(); console.log('u,u.textContent=', u, u.textContent);
+  u.querySelectorAll('*').forEach(function(v){var h=v.href || '', t=v.textContent; 
+  if(t) {t=t.trim().replace(/More|Move to top|Move to bottom|Add \/ edit notes|Set as playlist thumbnail|\s+/g,' '); if(s.indexOf(t) <0) s+= ' ' +  t.replace(/\s+|http.*/,' ')
+  };
+  if(h && /youtube.*v=/.test(h)){h= h.replace(/&index=.*/,''); 
+     if(s.indexOf(h) <0) s+= ' ' + h
+  } ;
+ });
+  s= s.replace(/\s+/g,' ').replace(/Play next|Play now|More|Move to top|Move to bottom|Add \/ edit notes|Set as playlist thumbnail|\s+/g,' '); console.log('111111. s=', s);
+} 
+open('http://moveana.s3-website-us-east-1.amazonaws.com/?keep=3&type=3&yt=' + (s ? encodeURIComponent(s) : '')).focus()"
                      title="Drag and drop the link to browser's  bookmark bar">MA Tool</a> bookmarklet<br/></li>
-			
+            
 			
 			<!-- <br/>-->  Video: 
 			<li><a href="http://www.psia-nw.org/video-galleries/alpine-level-iii-tasks/" target="_blank">PSIA-NW Level 3</a></li>
