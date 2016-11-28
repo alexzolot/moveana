@@ -1521,6 +1521,11 @@ function removePhase() {
 	
 }
 
+function daEvPL2email() {
+	var j=tJ({daEv:daEv, daPL:daPL})
+	window.open('mailto:alex.zolot@gmail.com?subject=MAToolData&body=' +j);
+}
+
 
 var unP= uniq_dbPhases()
 cl('uniq_dbPhases=', unP )

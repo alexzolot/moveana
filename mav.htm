@@ -148,7 +148,7 @@ if(u){ u= u.getRangeAt(0).cloneContents(); console.log('u,u.textContent=', u, u.
   u.querySelectorAll('*').forEach(function(v){var h=v.href || '', t=v.textContent; 
   if(t) {t=t.trim().replace(/More|Move to top|Move to bottom|Add \/ edit notes|Set as playlist thumbnail|\s+/g,' '); if(s.indexOf(t) <0) s+= ' ' +  t.replace(/\s+|http.*/,' ')
   };
-  if(h && /youtube.*v=/.test(h)){h= h.replace(/&index=.*/,''); 
+  if(h && /youtube.*v=/.test(h)){h= h.replace(/&(index|list)=.*/,''); 
      if(s.indexOf(h) <0) s+= ' ' + h
   } ;
  });
@@ -297,7 +297,8 @@ open('http://moveana.s3-website-us-east-1.amazonaws.com/?keep=3&type=3&yt=' + (s
 
     <h4>Data Up</h4>
         <button onclick='db2GSheet()'>4 db to GSheet db2GSheet()</button>
-	    <button onclick='htEv2dbPhases()'>htEv2dbPhases()</button>
+        <button onclick='htEv2dbPhases()'>htEv2dbPhases()</button>
+        <button onclick='daEvPL2email()'>daEvPL2email()</button>
     
 
 <!--   --->
