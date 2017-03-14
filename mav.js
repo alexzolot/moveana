@@ -1232,7 +1232,8 @@ function dbPhases2htEv(all){
 
 
 
-function LoadPlaylists(){console.log(daPL); //alert(daPL)
+function LoadPlaylists(ev0){console.log(daPL); //alert(daPL)
+		ev0= ev0 || 0;
 
 		fillPlaylistsDict()
 
@@ -1256,7 +1257,9 @@ function LoadPlaylists(){console.log(daPL); //alert(daPL)
       htEv.getCellMeta(daEv.length-1, 2).comment= 'You can paste youtube Id or links to this cell';
 		htEv.render();
 
-		go2ev(0)
+		//go2ev(ev0);
+		setTimeout(function(){go2ev(ev0)}, 3000)
+
 		
 		pp[1].playVideo().pauseVideo()  // stop buffering ??
 	    pp[2].playVideo().pauseVideo()
@@ -1566,20 +1569,23 @@ function  Controller_______________________________________(){} /// Controller  
 	// treat query string
   
   /*
+  cd ~m/99_family/43_ski/out/www.vue
+  python -m SimpleHTTPServer 8000
+  
   http://localhost:8000/mav.htm?keep=2&type=3&yt=  https://www.youtube.com/watch?v=i-lgX65esDo v22 v33 https://www.youtube.com/watch?v=XpA9XXa7vAU
   http://localhost:8000/mav.htm? https://www.youtube.com/watch?v=i-lgX65esDo v22 v33 https://www.youtube.com/watch?v=XpA9XXa7vAU
 
   http://localhost:8000/mav.htm?keep=0&type=3&yt= https://www.youtube.com/watch?v=Up9v4HvgIhw&list=PLU2mZrfZu7XEMRCILFWx_g9BOEpuQYtR8&index=2https://www.youtube.com/watch?v=fnrAWNaDYlc&t=2s&list=PLU2mZrfZu7XEMRCILFWx_g9BOEpuQYtR8&index=1
 */
   
-	var qsPars = (function(aa) {
+  function treatQueryString(aa) {
 	    if (aa == "") return [];
 	    
 	    cl('aa', aa)
 	    cl('decodeURIComponent(aa)=', decodeURIComponent(aa))
 
-        var r= {keep:3, type:3, yt:[]}, sep= /(keep=|type=|yt=)/g,  //decodeURIComponent(aa)        //.split('&')
-           b= aa. map(function(a){
+      var r= {keep:3, type:3, yt:[]}, sep= /(keep=|type=|yt=)/g,  //decodeURIComponent(aa)        //.split('&')
+         b= aa. map(function(a){
 		             return decodeURIComponent(a).replace(sep,'zz1$1')
 			          .replace(sep,'$1zz2').split(/\s*zz1|zz2\s*/)
 			          .notEmpty()
@@ -1592,7 +1598,9 @@ function  Controller_______________________________________(){} /// Controller  
 		})
 		cl('out query str  r=', r)
 	    return r
-	})(window.location.search.substr(1).split('&'));
+	}
+  
+	var qsPars = treatQueryString(window.location.search.substr(1).split('&'));
 	
 	console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  treat query string qsPars =', qsPars)
 	
@@ -1614,7 +1622,7 @@ function  Controller_______________________________________(){} /// Controller  
 		
 		var c='', yid
 		
-		var nrowPL= daPL.length
+		var nrowPL= daPL.length, nEv=daEv.length;
 
 		qsPars.yt.replace(/\s*http/g,'zz1http')
 	          .replace(/(http\S+)\s*/g,'$1zz2').split(/\s*zz1|zz2\s*|yt=/) //?? treat tail uid
@@ -1665,7 +1673,8 @@ function  Controller_______________________________________(){} /// Controller  
 		
 		htEv.loadData(daEv)
 		
-		setTimeout(LoadPlaylists, 1000)
+		//setTimeout(LoadPlaylists, 1000)
+		setTimeout(function(){LoadPlaylists(daEv.length-1)}, 1000)
 	}
 
 //}) /////////////////////////////////////////////////////////////////

@@ -143,18 +143,25 @@
 <!--               (s ? encodeURIComponent(s) : '')).focus(); })();" -->
 <!--                      title="Drag and drop the link to browser's  bookmark bar">MA Tool</a> bookmarklet<br/></li> -->
             
-            <li><a href="javascript:var s='', u= window.getSelection();
-if(u){ u= u.getRangeAt(0).cloneContents(); console.log('u,u.textContent=', u, u.textContent);
-  u.querySelectorAll('*').forEach(function(v){var h=v.href || '', t=v.textContent; 
-  if(t) {t=t.trim().replace(/More|Move to top|Move to bottom|Add \/ edit notes|Set as playlist thumbnail|\s+/g,' '); if(s.indexOf(t) <0) s+= ' ' +  t.replace(/\s+|http.*/,' ')
-  };
-  if(h && /youtube.*v=/.test(h)){h= h.replace(/&(index|list)=.*/,''); 
-     if(s.indexOf(h) <0) s+= ' ' + h
-  } ;
- });
-  s= s.replace(/\s+/g,' ').replace(/Play next|Play now|More|Move to top|Move to bottom|Add \/ edit notes|Set as playlist thumbnail|\s+/g,' '); console.log('111111. s=', s);
-} 
-open('http://moveana.s3-website-us-east-1.amazonaws.com/?keep=3&type=3&yt=' + (s ? encodeURIComponent(s) : '')).focus()"
+            <li><a href="javascript:
+  var s='', u= window.getSelection(), hr=location.href;
+  if(u){ u= u.getRangeAt(0).cloneContents(); console.log('u,u.textContent=', u, u.textContent);
+      u.querySelectorAll('*').forEach(function(v){var h=v.href || '', t=v.textContent; 
+        if(t) {t=t.trim().replace(/More|Move to top|Move to bottom|Add \/ edit notes|Set as playlist thumbnail|\s+/g,' '); 
+               if(s.indexOf(t) <0) s+= ' ' +  t.replace(/\s+|http.*/,' ')
+        };
+        if(h && /youtube.*v=/.test(h)){h= h.replace(/&(index|list)=.*/,''); 
+           if(s.indexOf(h) <0) s+= ' ' + h
+        } ;
+      });
+    s= s.replace(/\s+/g,' ').replace(/Play next|Play now|More|Move to top|Move to bottom|Add \/ edit notes|Set as playlist thumbnail|\s+/g,' '); 
+    console.log('111111. s=', s);
+  } 
+
+  if(/youtube.*v=/.test(hr)) s= s || hr;
+  s= encodeURIComponent(s);
+
+open('http://moveana.s3-website-us-east-1.amazonaws.com/?keep=3&type=3&yt=' + s).focus()"
                      title="Drag and drop the link to browser's  bookmark bar">MA Tool</a> bookmarklet<br/></li>
             
 			
@@ -349,6 +356,23 @@ open('http://moveana.s3-website-us-east-1.amazonaws.com/?keep=3&type=3&yt=' + (s
     <button  onclick='evall()'>evall()</button> <br/>
     <button  onclick='db2ht()'>test  db2ht(db)"</button> <br/>
 	<div id="testOut"></div>
+	
+	<link href="//www.snow-forecast.com/stylesheets/feed.css" media="screen" rel="stylesheet" 
+	       type="text/css" />
+	<div id="wf-weatherfeed">
+	<iframe style="overflow:hidden;border:none;" allowtransparency="true" height="272" 
+	width="469" src="//www.snow-forecast.com/resorts/Stevens-Pass/forecasts/feed/mid/i" 
+	scrolling="no" frameborder="0" marginwidth="0" marginheight="0">
+	<p>Your browser does not support iframes.</p>
+	</iframe>
+	<div id="wf-link">
+	<a href="http://www.snow-forecast.com/">
+	<img alt="Snow Forecast" src="//www.snow-forecast.com/images/feed/snowlogo-150.png"/>
+	</a><p id="cmt">View detailed snow forecast for 
+	<a href="http://www.snow-forecast.com/resorts/Stevens-Pass/6day/mid">Stevens Pass</a>
+	 at:<br /><a href="http://www.snow-forecast.com/"><strong>snow-forecast.com</strong></a></p>
+	 <div style="clear: both;"></div></div></div>
+	
 </div>
 </div app>
 <br/>
