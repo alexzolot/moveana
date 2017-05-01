@@ -4,7 +4,7 @@ function r100(x) {return round(x, 100)};
 function v100(x) {return r100($(x).val())};
 
 var fJ= JSON.parse, tJ= JSON.stringify;
-//String.prototype.fJ= function() {return JSON.parse(this)} 
+//String.prototype.fJ= function() {return JSON.parse(this)} htPL
 //Object.prototype.tJ= function() {return JSON.stringify(this)} 
 Array.prototype.notEmpty= function() {return this.filter(function(s){return s>''})}
 
@@ -763,23 +763,6 @@ var toggleRich= function () {infoRich= !infoRich;  htPL.loadData(daPL)
 }
 
 
-///  Settings ========================
-
-var daSett=[{name:'defTy', Parameter:'Defaut video Type\n1 -Left Player, 2 -right, 3 - both', value:3}
-	      , {name:'defSec', Parameter:'Default t, sec', value:2}
-	     , {name:'nSymb', Parameter:'Default # symb in Id', value:3}
-	     , {name:'spreadsheetID', Parameter:'G-sheet (to copy-paste the data)', value:"170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI"}
-	]
-
-htSett= new Handsontable($("#tbSett")[0], {
-	data: daSett,
-	colHeaders: 'name Parameter Value'.split(" "),
-	rowHeaders: false, stretchH: 'all'})
-
-function sett(nm) {return daSett.filter(function(s){return s.name==nm})[0].value}
-// test: sett('defTy')
-
-	
 
 htPL= new Handsontable($("#tbPlaylistsH")[0], {
 		data: daPL,  //dbPL().get(), //
@@ -802,7 +785,6 @@ htPL= new Handsontable($("#tbPlaylistsH")[0], {
 		  {data: 'Info'  , renderer: "html"},  // , width: 1
 		  {data: 'Comment'  , type: 'text'}
 		] 
-        , minSpareRows: 1
         , autoWrapRow: false ///true
         , manualRowResize: true,
          manualColumnResize: true,
@@ -995,17 +977,17 @@ $('#tbEventsH table tbody').on('dblclick', 'tr', function(evt){
 
 function Model_________________________________________ ( ) {}/// Model  ///////////////////////////////////////////////
 
-	  function uniq_db(db, key) {
+	function uniq_db(db, key) {
 	  	var _db= TAFFY()
 	  	db().each(function (p, recordnumber) {
 	  		var u=	{}; u[key]= p[key]
 	  		if(!db(u).get()[0]) _db.insert(u) 
 	  	});
 	  	return _db
-	  }
+	}
 
 
-	  function uniq_dbPhases() {
+	function uniq_dbPhases() {
 	  	var db= TAFFY()
 	  	
 	  	dbPhases().each(function (p, recordnumber) {
@@ -1018,7 +1000,7 @@ function Model_________________________________________ ( ) {}/// Model  ///////
 	  	db.store("dbPhases")
 	  	dbPhases= db
 	  	return db
-	  }
+	}
 	  
   function dupPL(yid) {
 		var ids= daPL.map(function(p){return p.YTId})
@@ -1036,7 +1018,7 @@ function Model_________________________________________ ( ) {}/// Model  ///////
 	//e  daPL=  uniq(daPL, 'YTId')
 
 
-function Data_Down_______________________________________(){} 
+function Data_Down_______________________________________(){} // gsheet -> HT -> da,db -> videoplayers
   
 function GSheetRange2_HTcells(spreadsheetID, r1, r2, c1, c2, cbfun, db){
     //spreadsheetID= spreadsheetID || '170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'
@@ -1064,11 +1046,14 @@ function gcellsToArr(cbfun){ return function(data){
 		   for(i=0, l= entryc.length; i<l; i++){
 			  var e= entryc[i].gs$cell, r= parseInt(e.row) - r1 - 1, c= parseInt(e.col)-c1;
 			  console.log('gcellsToArr: i, r1, rOld, r, c, e.$t =', i, r1, rOld, r, c, e.$t )
-		      if(r> rOld+1) {break}; rOld= r;
+		      if(r > rOld+1) {break}; 
+		      rOld= r;
 
+			  if(c==0 && r> -1 && e.$t==null) {break} /// break on empty first col in the row
 			  if(r== -1) {header[c]= e.$t} else {
 				  if(res[r]== undefined){ if(c>0) break; res[r]= {} }; /// break on empty first col in the row
-				  res[r][header[c]]= e.$t} 
+				  res[r][header[c]]= e.$t
+			  } 
 		   }
 		   
 		   console.log('header =', header )
@@ -1105,7 +1090,7 @@ function GSheet2_HT(db){
 	// var spreadsheetID = "170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI";
      var spreadsheetID= sett('spreadsheetID');
 
-	 var GSheets={dbLog:'ojacmh6', dbPl:'o8ewx2k', dbPhases:'o26bz5o', dbVid:'oevm3xw', dbEv:'ouj8mhj'} 
+	 var GSheets={MA:'0', dbLog:'ojacmh6', dbPl:'o8ewx2k', dbPhases:'o26bz5o', dbVid:'oevm3xw', dbEv:'ouj8mhj'} 
 
 	  ///  http://damolab.blogspot.com/2011/03/od6-and-finding-other-worksheet-ids.html
 	  
@@ -1136,10 +1121,10 @@ function GSheet2_HT(db){
 	    	  , success: function(res){console.log('get db:', db, res)}
 		  })		  
 	  } else {
-		  GSheetRange2_HTcells(spreadsheetID, 4, 70, 11, 15, function(plls){console.log('plls10 =', plls)
+		  GSheetRange2_HTcells(spreadsheetID, 4, 99, 11, 15, function(plls){console.log('plls10 =', plls)
 			  htPL.loadData(plls) 
 		  });
-		  GSheetRange2_HTcells(spreadsheetID, 4, 50, 1, 9, function(pts){console.log('points =', pts)
+		  GSheetRange2_HTcells(spreadsheetID, 4, 99, 1, 9, function(pts){console.log('points =', pts)
 			  htEv.loadData(pts) 
 		  }); 
 	  }
@@ -1169,9 +1154,8 @@ function GSheetPh2dbPh_htEv(){
 		  }, 'dbLog')
 }
 
-  
 function GSheet2db(spreadsheetID, db, callback){
-	spreadsheetID= spreadsheetID || '170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'
+	spreadsheetID= spreadsheetID || sett('spreadsheetID') // '170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'
 	db= db || 'dbPl'
 	var GSheets= {MA:'od6', dbLog:'ojacmh6', dbPl:'o8ewx2k', dbPhases:'o26bz5o', dbVid:'oevm3xw', dbEv:'ouj8mhj'} 
 
@@ -1186,7 +1170,6 @@ function GSheet2db(spreadsheetID, db, callback){
 	})
 }
 // test: GDoc2db(0, dbPhases, 0)
-
 
 //all==T  only from dbPL
 function dbPhases2htEv(all){
@@ -1229,8 +1212,6 @@ function dbPhases2htEv(all){
 //	})
 //	htEv.loadData(dat)
 }
-
-
 
 function LoadPlaylists(ev0){console.log(daPL); //alert(daPL)
 		ev0= ev0 || 0;
@@ -1279,7 +1260,6 @@ function all_dbVid2daPLhtPL() {
 	  $("html, body").animate({scrollTop: $('#tbPlaylistsH').offset().top-40} , 300)
 }
 
-
 function db2ht(db, htContainer) {
 	  var htContainer= htContainer ||  $("#testOut")
 	  var db= db || dbEv, da= (typeof db =='function') ? db().get() : db.get();
@@ -1319,9 +1299,6 @@ function htPL2htEv(i, toDelete) {
 	// if(c1) pp[1].playVideo().pauseVideo()  // stop buffering 
 	// if(c2) pp[2].playVideo().pauseVideo()
 }
-
-
-
 
 function go2ev(iEvent){  // i = row in table Events
 	  var selection = htEv.getSelected()
@@ -1371,8 +1348,6 @@ function ht2db(ht, add2) {
   	return TAFFY(add2)
   }
 
-
-
 function htEv2dbPhases(clean){
 	clean= clean || false
     var db= clean ? TAFFY() : dbPhases;
@@ -1387,8 +1362,6 @@ function htEv2dbPhases(clean){
 	if(!clean) dbPhases= db
 	return db
 }
-
-
 
 
 /// $('#btMatch').click(matchPhase)
@@ -1436,8 +1409,6 @@ function matchPhase(ph){
 		return evData_Filled;
 	}
 
-
-
   function db2GSheet() {
       request= $.ajax({
           url: 'https://script.google.com/macros/s/AKfycbwUv4gQ7KqdZU4xcovE595iUGDWiewTteyuUqgAmll3Mf9iA6M/exec',
@@ -1451,7 +1422,6 @@ function matchPhase(ph){
           error: function(e){console.log('Log to G-Sheets ajax fail '+ JSON.stringify(e))}
        });
 }
-
 
 function LogCurrentPoint(){  // to htEv
 	  var vid1=pp[1].getVideoData().video_id, vid2=pp[2].getVideoData().video_id;
@@ -1539,9 +1509,6 @@ if(1){
 	//dbPhases.store("dbPhases")
 	console.log('dbPhases = ', dbPhases().get())
 }
-  
-  
-
 
 
 function  Controller_______________________________________(){} /// Controller  ////////////////////////////////////////////////////////////////////////////
@@ -1575,7 +1542,7 @@ function  Controller_______________________________________(){} /// Controller  
   http://localhost:8000/mav.htm?keep=2&type=3&yt=  https://www.youtube.com/watch?v=i-lgX65esDo v22 v33 https://www.youtube.com/watch?v=XpA9XXa7vAU
   http://localhost:8000/mav.htm? https://www.youtube.com/watch?v=i-lgX65esDo v22 v33 https://www.youtube.com/watch?v=XpA9XXa7vAU
 
-  http://localhost:8000/mav.htm?keep=0&type=3&yt= https://www.youtube.com/watch?v=Up9v4HvgIhw&list=PLU2mZrfZu7XEMRCILFWx_g9BOEpuQYtR8&index=2https://www.youtube.com/watch?v=fnrAWNaDYlc&t=2s&list=PLU2mZrfZu7XEMRCILFWx_g9BOEpuQYtR8&index=1
+  http://localhost:8000/mav.htm?gsheetid=zzz&keep=0&type=3&yt= https://www.youtube.com/watch?v=Up9v4HvgIhw&list=PLU2mZrfZu7XEMRCILFWx_g9BOEpuQYtR8&index=2https://www.youtube.com/watch?v=fnrAWNaDYlc&t=2s&list=PLU2mZrfZu7XEMRCILFWx_g9BOEpuQYtR8&index=1
 */
   
   function treatQueryString(aa) {
@@ -1584,7 +1551,8 @@ function  Controller_______________________________________(){} /// Controller  
 	    cl('aa', aa)
 	    cl('decodeURIComponent(aa)=', decodeURIComponent(aa))
 
-      var r= {keep:3, type:3, yt:[]}, sep= /(keep=|type=|yt=)/g,  //decodeURIComponent(aa)        //.split('&')
+      var r= {keep:3, type:3, yt:[], gsheetid:'170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'}
+	     , sep= /(keep=|type=|yt=|gsheetid=|time=)/g,  //decodeURIComponent(aa)        //.split('&')
          b= aa. map(function(a){
 		             return decodeURIComponent(a).replace(sep,'zz1$1')
 			          .replace(sep,'$1zz2').split(/\s*zz1|zz2\s*/)
@@ -1600,9 +1568,17 @@ function  Controller_______________________________________(){} /// Controller  
 	    return r
 	}
   
+  /*
+   sequence:   assign data from js
+			   treat qs;
+			   if gsheetid  assign data, daSett from gsheet
+			   if yt , keep incl it into data
+			   create YTPlayers, based on data 
+   */
 	var qsPars = treatQueryString(window.location.search.substr(1).split('&'));
 	
 	console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  treat query string qsPars =', qsPars)
+	
 	
 	
 	if(qsPars.keep=='0') { // htEv.clear(); htPL.clear(); 
@@ -1615,8 +1591,9 @@ function  Controller_______________________________________(){} /// Controller  
 	} 
 	cl('Before "GET"  daPL=', daPL)
 	cl('Before "GET"  daEv=', daEv)
+	
 
-	if(qsPars.yt){
+	if(qsPars.yt && qsPars.yt.length){
 
 		cl('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww  treat query string qsPars.yt=', qsPars.yt)
 		
@@ -1631,7 +1608,7 @@ function  Controller_______________________________________(){} /// Controller  
 //			} else {yid= q[1]; c= q[0]}
 			if(! /http/.test(q) ) {c= q
 			} else { yid= q
-					var  ty= qsPars.type || sett('defTy'), t= sett('defSec')
+					var  ty= qsPars.type || sett('defTy'), t= qsPars.time*1 || sett('defSec')
 					//daPL.push({YTId: yid, type:ty, Comment:c}) 
 				 	daPL.push({Id: yid, Type: ty*1, Comment:c}) 
 //					daEv.push(ty==1 ? {Video1:yid, t1:t, Phase:c}
@@ -1669,13 +1646,48 @@ function  Controller_______________________________________(){} /// Controller  
 		dbPL().each(function (p, i) {
 			if(i >= nrowPL || qsPars.keep=='0') htPL2htEv(i, false)
 		})
- 		//setTimeout(function() {htPL.loadData(daPL)	}, 1000)
 		
-		htEv.loadData(daEv)
+		
+		//htEv.loadData(daEv)
+		
+ 		setTimeout(function() {htPL.loadData(daPL);	
+ 		                       setTimeout(function() {htEv.loadData(daEv)	}
+ 		                       , 1000)}, 500)
+ 		
+		
 		
 		//setTimeout(LoadPlaylists, 1000)
 		setTimeout(function(){LoadPlaylists(daEv.length-1)}, 1000)
-	}
+	} //qsPars.yt
+	
+
+	///  Settings ========================
+
+	var daSett=[{name:'defTy', Parameter:'Defaut video Type\n1 -Left Player, 2 -right, 3 - both', value:3}
+		      , {name:'defSec', Parameter:'Default t, sec', value:2}
+		     , {name:'nSymb', Parameter:'Default # symb in Id', value:3}
+		     //, {name:'spreadsheetID', Parameter:'G-sheet (to copy-paste the data)', value:"170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI"}
+		     , {name:'spreadsheetID', Parameter:'G-sheet (to copy-paste the data)'
+		    	 , value:qsPars.gsheetid? qsPars.gsheetid: '170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'
+		     }
+		]
+	
+
+	if(qsPars.gsheetid){ 
+		daSett= daSett.map(function(p){ p.value=(p.name=='spreadsheetID') ? qsPars.gsheetid : p.value; return p})
+		GSheet2_HT(); GSheet2db(); LoadPlaylists()	
+	} else qsPars.gsheetid='170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'; //1N_Q2aDghKX-BkC9cRwFrxY_ttxoEQuqJEMGvCW2MUCE
+	// MA2: 1LNGbHzhgto8cawjAre7-X3fOBQ08sJwwgZzvgd_rdSc
+
+	htSett= new Handsontable($("#tbSett")[0], {
+		data: daSett,
+		colHeaders: 'name Parameter Value'.split(" "),
+		rowHeaders: false, stretchH: 'all'})
+
+	function sett(nm) {return daSett.filter(function(s){return s.name==nm})[0].value}
+	// test: sett('defTy');	sett('spreadsheetID')
+	
+	
 
 //}) /////////////////////////////////////////////////////////////////
 
