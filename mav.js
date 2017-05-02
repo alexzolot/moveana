@@ -91,20 +91,6 @@ Vue.component('vplayer',{
 
 
 
-var vm = new Vue({
-			el: '#app',
-			data: {}
-  
-		});
-
-
-
-    // 2. This code loads the IFrame pp[1] API code asynchronously.
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
     // 3. This function creates an <iframe> (and YouTube pp[1])
     //    after the API code downloads.
@@ -240,70 +226,8 @@ var vm = new Vue({
   }
   
 
- /// Handsontables:  Sett, PL,  Events, db 
-  var htEv,  htPL; 
-  var daPL= [//{Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:3, 	Info:"R", 	Comment:""}, 
-	  //{Id:"Z", 	YTId:"4oiPmaBlJNA", 	Type:3, 	Info:"Zep", 	Comment:""}, 
-          //    {Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:2, 	Info:"med", 	Comment:""}, 
-                   {Id:"AZ1", 	YTId:"TSDx6RK15es", 	Type:1, 	Info:"Med radius turns, at Palmer Field, by Alex Zolotovitski", 	Comment:""}, 
-                   {Id:"AZ2", 	YTId:"urAXN77X6zU", 	Type:1, 	Info:"3 runs on Outland 87 x 178, by Alex Zolotovitski", 	Comment:""}, 
-                   {Id:"==", 	YTId:"==", 	Type:"", 	Info:"", 	Comment:""}, 
-                   {Id:"Reilly", 	YTId:"t334XENKLFo", 	Type:2, 	Info:"Reilly Ski Training 2012.mov, by Reilly McGlashan", 	Comment:"32-bumps, 75-med back, 87-short, 129=med"}, 
-//                   {Id:"Berger", 	YTId:"5SZqiCggJN8", 	Type:2, 	Info:"Imagination Richard Berger, by Dnalor Elraes", 	Comment:""}, 
-                   {Id:"BASI", 	YTId:"SgrO7Dprl6g", 	Type:3, 	Info:"BASI level 4 interpretation by Jon AhlsÃƒÂ©n, by Jon AhlsÃƒÂ©n", 	Comment:"22-short back, 33-med,71-bumps,114-med"}, 
-//                   {Id:"CSIA", 	YTId:"aiSzmN82I4A", 	Type:2, 	Info:"Training demos for the level 4 CSIA 2013, by Javier Fuentes", 	Comment:""}, 
-                   {Id:"PSIANW", 	YTId:"HrCfQR3qwi0", 	Type:2, 	Info:"LEVEL III - MEDIUM RADIUS TURNS, by BaileyPSIANW", 	Comment:""}, 
-//                   {Id:"JfB29", 	YTId:"r07Ea0TYkaA", 	Type:2, 	Info:"Jf Beaulieu: Video 29, by Jf Beaulieu", 	Comment:"1. Carving -"}, 
-//                   {Id:"Landes", 	YTId:"ZoRsJYRmD5k", 	Type:2, 	Info:"Landes 1 Mogul Training Ski Instructor Academy 2013, by SIA Austria", 	Comment:"2. Bumps -"}, 
-                   {Id:"ReMog", 	YTId:"cIMfJKslkyo", 	Type:2, 	Info:"Reilly McGlashan Spring Mogul Skiing Niseko Japan 2016, by Reilly McGlashan", 	Comment:"3. Bumps -"} 
-//                   {Id:"Cats", 	YTId:"9Y0v2tpSP0s", 	Type:2, 	Info:"Cat skiing with Selkirk Powder @ Schweitzer Mountain, by Thomas Smiley", 	Comment:"4. Powder -"}, 
-//                   {Id:"Powder", 	YTId:"vp4OgUjJx2M", 	Type:2, 	Info:"Powder 101 with CMH - Powder Intro with Roko, by skipurepowder", 	Comment:"5. Powder -"}, 
-//                   {Id:"ReTu", 	YTId:"aJVhrraLRkw", 	Type:2, 	Info:"Reilly McGlashan - Long turn to short turn rhythm change, Hokkaido Technical Ski Championships 2016, by Reilly McGlashan", 	Comment:"6. Turn Variation -"}, 
-//                   {Id:"JBa", 	YTId:"i-lgX65esDo", 	Type:2, 	Info:"Jonathan Ballou - Medium Turns, by Jonathan Ballou", 	Comment:""}, 
-//                   {Id:"BB", 	YTId:"XpA9XXa7vAU", 	Type:2, 	Info:"JF Beaulieau & Jonthan Ballou TC August 2014, by Jonathan Ballou", 	Comment:""}, 
-//                   {Id:"JfB3", 	YTId:"Us85e6y-NCE", 	Type:2, 	Info:"video 3: Expert skiing, various situations: Jf beaulieu training in Whistler, April, 2014, by Jf Beaulieu", 	Comment:""}, 
-//                   {Id:"CPow", 	YTId:"fdaudGMBaO0", 	Type:2, 	Info:"Tips Up Ã¢â‚¬â€œ How To Steer Your Skis Through Powder, by Canadian Ski Council", 	Comment:"Powder"},  
-//   {Id:"BASIA", 	YTId:"YsIvjr1uH-4", 	Type:1, 	Info:"BASI Alpine  Level 4 Bumps.mpg, by OfficialBASI", 	Comment:""}, 
-//   {Id:"SKIIN", 	YTId:"7tyY8A8hobc", 	Type:1, 	Info:"SKIING LEVEL 4 BASI ISTD, by admirallimos admirallimos", 	Comment:""}, 
-//   {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}
-  ]; 
 
 
-  var daEv=[//{	Video1:"R", 	t1:4.31, 	Video2:"Z", 	t2:377, 	Info:"R, apex", 	SSI:"sss", 	BM:"banbb", 	TD:"outsi" 	},
-//	  {	Video1:"Z", 	t1:4.31, 	Video2:"R", 	t2:4.89, 	Info:"R, apex", 	SSI:"sss", 	BM:"banbb", 	TD:"outsi" 	},
-	      {Video1:"AZ1", 	t1:4.31, 	Video2:"PSIANW", 	t2:4.89, 	Phase:"m3", 	SSI:"small edge angle", 	BM:"banking", 	TD:"outside arm too high and back" 	},
-      {Video1:"", 	t1:5.94, 	Video2:"", 	t2:5.82, 	Phase:"", 	SSI:"", 	BM:"outs arm low", 	TD:"poll in arms, parallel to ground" 	},
-      {Video1:"", 	t1:7.8, 	Video2:"", 	t2:6.75, 	Phase:"m9", 	SSI:"small edge angle", 	BM:"hips too high", 	TD:"more ang before apex; look at dir of travel" 	},
-//      {Video1:"", 	t1:8.75, 	Video2:"", 	t2:8.08, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
-      {Video1:"", 	t1:4.49, 	Video2:"Reilly", 	t2:63.61, 	Phase:"m3", 	SSI:"", 	BM:"", 	TD:"" 	},
-      {Video1:"AZ2", 	t1:50.7, 	Video2:"", 	t2:69.74, 	Phase:"m3", 	SSI:"", 	BM:"", 	TD:"" 	},
-////      {Video1:"", 	t1:50.7, 	Video2:"Berger", 	t2:413.83, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	}
-      {Video1:"", 	t1:50.7, 	Video2:"BASI", 	t2:65.14, 	Phase:"m3", 	SSI:"", 	BM:"", 	TD:"" 	}
-      ]
-//      {Video1:"BASIL", 	t1:83.25, 	Video2:"JBa", 	t2:2.65, 	Phase:"Long - Med turns", 	SSI:"", 	BM:"", 	TD:"" 	},
-//      {Video1:"BASIL", 	t1:93.29, 	Video2:"JBa", 	t2:4.84, 	Phase:"Long - Med turns. 9oc", 	SSI:"", 	BM:"", 	TD:"" 	},
-//      {Video1:"BASIL", 	t1:94.03, 	Video2:"JBa", 	t2:5.24, 	Phase:"Long - Med turns. trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
-//      {Video1:"BASIL", 	t1:94.9, 	Video2:"JBa", 	t2:5.77, 	Phase:"Long - Med turns. 3 oc", 	SSI:"", 	BM:"", 	TD:"" 	},
-//      {Video1:"BASIL", 	t1:96.07, 	Video2:"JBa", 	t2:6.54, 	Phase:"Long - Med turns. trans to left", 	SSI:"", 	BM:"", 	TD:"" 	},
-//      {Video1:"BASIL", 	t1:129.26, 	Video2:"ReMog", 	t2:1.39, 	Phase:"Bumps, trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
-//      {Video1:"BASIL", 	t1:129.78, 	Video2:"ReMog", 	t2:2.19, 	Phase:"Bumps, trans to L", 	SSI:"", 	BM:"", 	TD:"" 	},
-//      {Video1:"BASIL", 	t1:28.3, 	Video2:"Reilly", 	t2:18.6, 	Phase:"Short", 	SSI:"", 	BM:"", 	TD:"" 	},
-//      {Video1:"BASIL", 	t1:31.29, 	Video2:"Reilly", 	t2:18.7, 	Phase:"Short, 8 oc", 	SSI:"", 	BM:"", 	TD:"" 	}]; 
-
-
-
-  var dbPL= TAFFY(daPL); console.log('dbPL = ', dbPL().get());
-  var dbEv= TAFFY(daEv); console.log('dbEv = ', dbEv().get());
-  var dbVid= TAFFY(); dbVid.store("dbVid"); console.log('dbVid = ', dbVid().get()); // localStorage.dbVid
-  var dbPhases= TAFFY(); dbPhases.store("dbPhases"); 
-  dbPhases= uniq_dbPhases()
-  console.log('dbPhases = ', dbPhases().get()); // localStorage.dbVid
-//  dbPL().remove()
-//  dbVid().remove() ; localStorage.clear()
-  
-
-   var playlistsDict={}, playlistsDictY={}, plt={1:[], 2:[]}; // by Id; by YTId; by player type
-   
    function fillPlaylistsDict(){  /// fillPlaylistsDict(daPL)
 	     playlistsDict={}; playlistsDictY={}; plt= {1:[], 2:[]};
 	     for(var i=0, l= daPL.length; i<l; i++){ var p= daPL[i];
@@ -313,12 +237,10 @@ var vm = new Vue({
 		  }
    }
    
-   fillPlaylistsDict();
+
 
   
-  var cl= console.log;
-  var evData_Filled, currEvent=0;
-  var infoRich= true;
+
 
 //function fullScreen(ip){
 //	   $('#vp' + ip + ' iframe').detach().appendTo('body').css({position: 'absolute','top':0,'left':0, 'width': '100%','height':'100%','z-index':'120'});
@@ -412,7 +334,12 @@ var vm = new Vue({
 //	  $('#vpcontr1').draggable();
 //	  $('#vpcontr2').draggable();
 
-	  positionCanvas= function (info, refContain){
+
+	  
+	  
+function Canvas________________________________________________________() {}
+
+positionCanvas= function (info, refContain){
 		   refContain=  refContain || $("#vplayers")
 		   setTimeout(function(){
 			   var vof= refContain.offset(); //.position()
@@ -424,12 +351,8 @@ var vm = new Vue({
 				offsetY = canvasOffset.top;
 				
 		   }, 50);
-		}
-	  
-	  
-function Canvas________________________________________________________() {}
+}	 
 
-	  
 	function  createCanvas(){
 
 	   var canvas= $('<canvas />').attr({  id: "canvas"
@@ -449,28 +372,7 @@ function Canvas________________________________________________________() {}
 	    }, 1000)
 	    
 	} //createCanvas
-	
-	
-	setTimeout(createCanvas, 3000);
-	
-	
-	var isCanv= true
-	toggleCanv= function(){
-					isCanv= !isCanv; 
-					$('#canv-tools').toggle(); 
-					$('#canvas').css('z-index', isCanv ? 15 : 0)
-					//$('#bt-draw').html(isCanv ? "X" :"Draw")
-					$('#bt-draw').toggleClass('glyphicon-pencil glyphicon-remove-circle') //$('#fullscr'+ip).text('fs')
-				}
-	
 
-	
-	//setTimeout(toggleCanv, 4000);
-
-	  evData_Filled= fillEvs();
-	  
-	  $('#v1').height(9./16 * $('#v1').width())
-	  $('#v2').height(9./16 * $('#v2').width())
 
 	// original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
   function strip_tags(input, allowed) {
@@ -609,8 +511,6 @@ function render_YT_URL(ro, value, callback) {  // value is YT_Id or url
 
 	if(test=0){ render_YT_URL(0, 'https://www.youtube.com/watch?v=d1IXMk6uSAU', function(){alert(tit)})}
 	
- //function hashId(title){ return title.replace(/\s+ /g, '').substr(0,5)}	
- //function hashId(title){ return title.replace(/\s*/g, '').substr(0,3)+ title.substr(3,99).replace(/[^A-Z0-9]/g, '')}	
 
 function hashId(title){ 
 	title= title || ''
@@ -764,146 +664,6 @@ var toggleRich= function () {infoRich= !infoRich;  htPL.loadData(daPL)
 
 
 
-htPL= new Handsontable($("#tbPlaylistsH")[0], {
-		data: daPL,  //dbPL().get(), //
-		minSpareRows: 1,
-		height: 296,
-	    colHeaders: function(j) {
-			  return j==3 ? 'Info &nbsp; &nbsp; &nbsp;     <i  onclick="toggleRich()" class="fa fa-copy" style="font-size: 14px; float: right" ' + 
-			//		  return j==3 ? 'Info &nbsp; &nbsp; &nbsp;    <i  onclick="toggleRich()" class="fa fa-copy"  ' + 
-						    '  title="toggle Info to Plain Text before copy the table to Excel or G-Sheets Ctrl-A,Ctrl-C "> Toggle before copy</i> &nbsp; &nbsp; &nbsp;'
-            		              : 'Id YTId Type Info Comment'.split(" ")[j]
-	    },
-		rowHeaders: true,
-		stretchH: 'all',
-		contextMenu: true,
-		readOnly: false,
-		columns: [
-		  {data: 'Id' , type: 'text' , renderer:YTId_Renderer }, //?}, // PL_Id_Renderer 
-		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 12  }, // 4 },
-		  {data: 'Type' , type: 'numeric', format: '0'},  //, width: 14
-		  {data: 'Info'  , renderer: "html"},  // , width: 1
-		  {data: 'Comment'  , type: 'text'}
-		] 
-        , autoWrapRow: false ///true
-        , manualRowResize: true,
-         manualColumnResize: true,
-         contextMenu: ['row_above', 'row_below', 'remove_row','undo', 'redo','commentsAddEdit'],
-		 comments: true,  //TODO: comment does not work, 
-		 cell: [
-		      {row: 0, col: 0, comment: 'You can paste youtube Id or links to this column'}
-			, {row: daPL.length-1, col: 0, comment: 'You can paste youtube Id or links to this cell'}
-			, {row: daPL.length-1, col: 1, comment: 'You can paste youtube Id or links to this cell'}
-		 ]
-	    , afterRender: function(){ fillPlaylistsDict(); evData_Filled= fillEvs(); 
-
-// cl('htPL.afterRender()')
-//	    	dbVid.store('dbVid'); dbPL.store('dbPL'); cl('afterRender: dbVid.store(); dbPL.store()', dbPL()) 
-	    	}
-       // , afterRender : createCanvas // function(){positionCanvas('htPL afterRender');  }
-//nOK zzz        , afterRender : htEv.loadData(daEv) //updateSettings()  // // function(){positionCanvas('htPL afterRender');  }
-
-        , afterChange: function(changes, source) {
-        	//if(changes) if(1 || source === 'alter'){
-            if(changes) if(source === 'alter'){
-            	for(var i=0, l= changes.length; i<l; i++){
-        			// console.log(changes)
-        			var yid= changes[i][3].replace(/.*watch.v=/, '').replace(/&.*/, '')
-        			var hlink= '<a href="https://www.youtube.com/watch?v=%s" target="_blank">%s</a>'.sf(yid, yid)
-
-        			var ro= changes[i][0], th= this;
-
-        			daPL[ro].YTId= yid
-        			//htPL.setDataAtCell(ro, 1, yid);
-        			
-        			$.ajax({
-        	            url: 'http://query.yahooapis.com/v1/public/yql',
-        	                data: {
-        	                	
-// http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=iTc9QclQ_l0&format=json
-// {"thumbnail_url": "https:\/\/i.ytimg.com\/vi\/iTc9QclQ_l0\/hqdefault.jpg"
-//	, "title": "[FUN]CARVING Passo Tonale 2012"
-//	, "author_url": "https:\/\/www.youtube.com\/user\/MarshallCZE"
-//	, "author_name": "Luk\u00e1\u0161 Mar\u0161\u00edk"
-//	, "html": "\u003ciframe width=\"480\" height=\"270\" src=\"https:\/\/www.youtube.com\/embed\/iTc9QclQ_l0?feature=oembed\" frameborder=\"0\" allowfullscreen\u003e\u003c\/iframe\u003e"
-
-        	                	
-        	                	
-        	                	q: "select * from json where url ='http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v="+ yid + "&format=json'",
-        	                    format: "json"
-        	                },
-        	                dataType: "jsonp"            		    //$.get({url: "https://www.youtube.com/watch?v="+ yid + '&format=json&callback=?'
-        		    	  , success: function(result){
-        		    		  var rj= result.query.results.json
-        		    		  console.log('afterChange ajax result=', rj)
-        		    		  var tit= rj.title;
-        		    		  console.log('afterChange ajax tit=', tit)
-        		    		  //daPL[changes[i][0]].Info= result.getElementsByTagName("title");
-        		    		  daPL[ro].Info= note(infoRich, rj);
-        		    		  //th.render();
-        		    		  th.setDataAtCell(ro, 1, yid); // hlink);
-        		    		 // th.setDataAtCell(ro, 3, '%s, by %s'.sf(tit, result.query.results.json.author_name));
-         		    		  th.setDataAtCell(ro, 3, note(infoRich, rj));
-       		    	  }});
-        		}
-        		//this.render();
-        	}
-        	
-        }
-	  });  
-
-  
-htEv= new Handsontable($("#tbEventsH")[0], {
-		data: daEv,  //dbEv().get(), //
-		minSpareRows: 1,
-		height: 196,
-
-		//colHeaders: 'Video1 t1 Video2 t2 Phase SSI BM TD img'.split(" "),
-		colHeaders: 'Video1 t1 Video2 t2 Phase SSI BM TD'.split(" "),
-
-		rowHeaders: true,
-		stretchH: 'all',
-		columnSorting: true,
-		contextMenu: true,
-	    manualRowResize: true,
-	    manualColumnResize: true,
-		
-	    currentRowClassName: 'currentRow',
-	    currentColClassName: 'currentCol',
-	    
-		//className: "htCenter htMiddle",
-		readOnly: false,
-		columns: [
-	//	  {data: 'Index' , type: 'numeric', format: '0'}, // width: 13},
-		  {data: 'Video1' , type: 'text' , renderer: Video_Renderer1
-//zzz			  , editor: 'select'
-//			  , selectOptions: daPL.filter(function(p){return p.Type==1}) .map(function(i){return i['Id']})
-			}, //, width: 20}, 
-		  {data: 't1' , type: 'numeric', format: '0.00'},  // renderer: function(){alert("ttt")}}, //, width: 14},
-//		  {data: 'Video2', renderer: function(){alert("zzz")} //Video_Renderer1   , type: 'text'
-		  {data: 'Video2' , type: 'text', renderer: Video_Renderer1  
-//zzz			  , editor: 'select'
-//			  , selectOptions: daPL.filter(function(p){return p.Type==2}) .map(function(i){return i.Id})
-			}, //, width: 20}, 
-		  {data: 't2' , type: 'numeric', format: '0.00'}, //, width: 14},
-		  {data: 'Phase'  , type: 'text'},
-		  {data: 'SSI'  , type: 'text'},
-		  {data: 'BM'  , type: 'text', renderer: "html"}, // renderer: "html" for Phases 
-		  {data: 'TD'  , type: 'text'}
-//		, {data: 'img'  }  // , renderer: imgRenderer}
-
-		 ] //,     minSpareRows: 1
-		, comments: true,
-		 cell: [
-			  {row: daEv.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
-			, {row: daEv.length, col: 2, comment: 'You can paste youtube Id or links to this cell'}
-		 ]
-         , autoWrapRow: true
-         
-     //   , afterRender : function(){positionCanvas('htEv afterRender');  }
-         , afterRender : function(){evData_Filled= fillEvs()}
-	  });	
-  
 
 $('#tbPlaylistsH table tbody').on('dblclick', 'tr th', function(evt){
 	var row= $(this).text()
@@ -1131,9 +891,6 @@ function GSheet2_HT(db){
 }
 
 
-
-
-  
 //  })  /// on doc ready  ===================================================================================
   
 
@@ -1390,7 +1147,7 @@ function matchPhase(ph){
 
 
 
-	function fillEvs(){  /// fill empty cells in daEv
+function fillEvs(){  /// fill empty cells in daEv
 		var evData_Filled=[];	
 		
 			  for (var i=0, l= daEv.length; i<l; i++){ evData_Filled[i]= {}  // evData_Filled[i] || {};
@@ -1407,9 +1164,9 @@ function matchPhase(ph){
 			}
 		}
 		return evData_Filled;
-	}
+}
 
-  function db2GSheet() {
+function db2GSheet() {
       request= $.ajax({
           url: 'https://script.google.com/macros/s/AKfycbwUv4gQ7KqdZU4xcovE595iUGDWiewTteyuUqgAmll3Mf9iA6M/exec',
           type: 'post', 
@@ -1500,15 +1257,6 @@ function daEvPL2email() {
 }
 
 
-var unP= uniq_dbPhases()
-cl('uniq_dbPhases=', unP )
-if(1){
-	dbPhases= unP;
-	localStorage.removeItem('taffy_' + "dbPhases");
-	dbPhases.store("dbPhases")
-	//dbPhases.store("dbPhases")
-	console.log('dbPhases = ', dbPhases().get())
-}
 
 
 function  Controller_______________________________________(){} /// Controller  ////////////////////////////////////////////////////////////////////////////
@@ -1568,18 +1316,13 @@ function  Controller_______________________________________(){} /// Controller  
 	    return r
 	}
   
-  /*
-   sequence:   assign data from js
-			   treat qs;
-			   if gsheetid  assign data, daSett from gsheet
-			   if yt , keep incl it into data
-			   create YTPlayers, based on data 
-   */
-	var qsPars = treatQueryString(window.location.search.substr(1).split('&'));
-	
+
+	function treat_qsPars(qsPars){
+		//qsPars = qsPars || treatQueryString(window.location.search.substr(1).split('&')) || {};
+		qsPars = qsPars || {};
+
 	console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  treat query string qsPars =', qsPars)
-	
-	
+
 	
 	if(qsPars.keep=='0') { // htEv.clear(); htPL.clear(); 
 		daPL= []; daEv= []; dbPL= TAFFY(daPL); dbEv= TAFFY(daEv); 
@@ -1589,13 +1332,13 @@ function  Controller_______________________________________(){} /// Controller  
 		daEv= daEv.map(function(e){var rm= 3 - qsPars.keep; e['Video'+ rm]= ''; e['t'+ rm]= ''; return e })
 		dbPL= TAFFY(daPL); dbEv= TAFFY(daEv)
 	} 
-	cl('Before "GET"  daPL=', daPL)
-	cl('Before "GET"  daEv=', daEv)
+	cl('treat_qsPars: Before "GET"  daPL=', daPL)
+	cl('treat_qsPars: Before "GET"  daEv=', daEv)
 	
 
 	if(qsPars.yt && qsPars.yt.length){
 
-		cl('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww  treat query string qsPars.yt=', qsPars.yt)
+		cl('treat_qsPars: wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww  treat query string qsPars.yt=', qsPars.yt)
 		
 		var c='', yid
 		
@@ -1620,7 +1363,7 @@ function  Controller_______________________________________(){} /// Controller  
 //			var yid= (q.length==1) ? q[0].replace(/.*http/, 'http'): q[1]
 //			var c  = (q.length==1) ? q[0].replace(/http.*/, '')    : q[0]
 //			
-	    	cl('222 yid, c=', yid, c)
+	    	cl('treat_qsPars: 222 yid, c=', yid, c)
 //			daPL.push({YTId: yid, type:3, Comment:c}) 
 //			daEv.push({Video2:yid, t2:2, Phase:c})
 		})
@@ -1650,15 +1393,294 @@ function  Controller_______________________________________(){} /// Controller  
 		
 		//htEv.loadData(daEv)
 		
- 		setTimeout(function() {htPL.loadData(daPL);	
- 		                       setTimeout(function() {htEv.loadData(daEv)	}
- 		                       , 1000)}, 500)
- 		
+		setTimeout(function() {htPL.loadData(daPL);	
+		                       setTimeout(function() {htEv.loadData(daEv)	}
+		                       , 1000)}, 500)
+		
 		
 		
 		//setTimeout(LoadPlaylists, 1000)
 		setTimeout(function(){LoadPlaylists(daEv.length-1)}, 1000)
+
 	} //qsPars.yt
+	return qsPars
+}
+
+  
+  
+  /*
+   sequence:   assign data from js
+			   treat qs;
+			   if gsheetid  assign data, daSett from gsheet
+			   if yt , keep incl it into data
+			   create YTPlayers, based on data 
+   */
+  
+  
+function  Run_______________________________________(){} /// Execution  ////////////////////////////////////////////////////////////////////////////
+
+
+var vm = new Vue({
+			el: '#app',
+			data: {}
+  
+		});
+
+
+
+    // 2. This code loads the IFrame pp[1] API code asynchronously.
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    
+    
+    /// Handsontables:  Sett, PL,  Events, db 
+    var htEv,  htPL; 
+    var daPL= [//{Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:3, 	Info:"R", 	Comment:""}, 
+  	  //{Id:"Z", 	YTId:"4oiPmaBlJNA", 	Type:3, 	Info:"Zep", 	Comment:""}, 
+            //    {Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:2, 	Info:"med", 	Comment:""}, 
+                     {Id:"AZ1", 	YTId:"TSDx6RK15es", 	Type:1, 	Info:"Med radius turns, at Palmer Field, by Alex Zolotovitski", 	Comment:""}, 
+                     {Id:"AZ2", 	YTId:"urAXN77X6zU", 	Type:1, 	Info:"3 runs on Outland 87 x 178, by Alex Zolotovitski", 	Comment:""}, 
+                     {Id:"==", 	YTId:"==", 	Type:"", 	Info:"", 	Comment:""}, 
+                     {Id:"Reilly", 	YTId:"t334XENKLFo", 	Type:2, 	Info:"Reilly Ski Training 2012.mov, by Reilly McGlashan", 	Comment:"32-bumps, 75-med back, 87-short, 129=med"}, 
+//                     {Id:"Berger", 	YTId:"5SZqiCggJN8", 	Type:2, 	Info:"Imagination Richard Berger, by Dnalor Elraes", 	Comment:""}, 
+                     {Id:"BASI", 	YTId:"SgrO7Dprl6g", 	Type:3, 	Info:"BASI level 4 interpretation by Jon AhlsÃƒÂ©n, by Jon AhlsÃƒÂ©n", 	Comment:"22-short back, 33-med,71-bumps,114-med"}, 
+//                     {Id:"CSIA", 	YTId:"aiSzmN82I4A", 	Type:2, 	Info:"Training demos for the level 4 CSIA 2013, by Javier Fuentes", 	Comment:""}, 
+                     {Id:"PSIANW", 	YTId:"HrCfQR3qwi0", 	Type:2, 	Info:"LEVEL III - MEDIUM RADIUS TURNS, by BaileyPSIANW", 	Comment:""}, 
+//                     {Id:"JfB29", 	YTId:"r07Ea0TYkaA", 	Type:2, 	Info:"Jf Beaulieu: Video 29, by Jf Beaulieu", 	Comment:"1. Carving -"}, 
+//                     {Id:"Landes", 	YTId:"ZoRsJYRmD5k", 	Type:2, 	Info:"Landes 1 Mogul Training Ski Instructor Academy 2013, by SIA Austria", 	Comment:"2. Bumps -"}, 
+                     {Id:"ReMog", 	YTId:"cIMfJKslkyo", 	Type:2, 	Info:"Reilly McGlashan Spring Mogul Skiing Niseko Japan 2016, by Reilly McGlashan", 	Comment:"3. Bumps -"} 
+//                     {Id:"Cats", 	YTId:"9Y0v2tpSP0s", 	Type:2, 	Info:"Cat skiing with Selkirk Powder @ Schweitzer Mountain, by Thomas Smiley", 	Comment:"4. Powder -"}, 
+//                     {Id:"Powder", 	YTId:"vp4OgUjJx2M", 	Type:2, 	Info:"Powder 101 with CMH - Powder Intro with Roko, by skipurepowder", 	Comment:"5. Powder -"}, 
+//                     {Id:"ReTu", 	YTId:"aJVhrraLRkw", 	Type:2, 	Info:"Reilly McGlashan - Long turn to short turn rhythm change, Hokkaido Technical Ski Championships 2016, by Reilly McGlashan", 	Comment:"6. Turn Variation -"}, 
+//                     {Id:"JBa", 	YTId:"i-lgX65esDo", 	Type:2, 	Info:"Jonathan Ballou - Medium Turns, by Jonathan Ballou", 	Comment:""}, 
+//                     {Id:"BB", 	YTId:"XpA9XXa7vAU", 	Type:2, 	Info:"JF Beaulieau & Jonthan Ballou TC August 2014, by Jonathan Ballou", 	Comment:""}, 
+//                     {Id:"JfB3", 	YTId:"Us85e6y-NCE", 	Type:2, 	Info:"video 3: Expert skiing, various situations: Jf beaulieu training in Whistler, April, 2014, by Jf Beaulieu", 	Comment:""}, 
+//                     {Id:"CPow", 	YTId:"fdaudGMBaO0", 	Type:2, 	Info:"Tips Up Ã¢â‚¬â€œ How To Steer Your Skis Through Powder, by Canadian Ski Council", 	Comment:"Powder"},  
+  //   {Id:"BASIA", 	YTId:"YsIvjr1uH-4", 	Type:1, 	Info:"BASI Alpine  Level 4 Bumps.mpg, by OfficialBASI", 	Comment:""}, 
+  //   {Id:"SKIIN", 	YTId:"7tyY8A8hobc", 	Type:1, 	Info:"SKIING LEVEL 4 BASI ISTD, by admirallimos admirallimos", 	Comment:""}, 
+  //   {Id:"BASIL", 	YTId:"tG4g62wTZXg", 	Type:1, 	Info:"BASI Level 4 Criteria - Short turns, Long turns and Bumps, by Altitude Futures - Ski & Snowboard Instructor Courses", 	Comment:""}
+    ]; 
+
+
+    var daEv=[//{	Video1:"R", 	t1:4.31, 	Video2:"Z", 	t2:377, 	Info:"R, apex", 	SSI:"sss", 	BM:"banbb", 	TD:"outsi" 	},
+//  	  {	Video1:"Z", 	t1:4.31, 	Video2:"R", 	t2:4.89, 	Info:"R, apex", 	SSI:"sss", 	BM:"banbb", 	TD:"outsi" 	},
+  	      {Video1:"AZ1", 	t1:4.31, 	Video2:"PSIANW", 	t2:4.89, 	Phase:"m3", 	SSI:"small edge angle", 	BM:"banking", 	TD:"outside arm too high and back" 	},
+        {Video1:"", 	t1:5.94, 	Video2:"", 	t2:5.82, 	Phase:"", 	SSI:"", 	BM:"outs arm low", 	TD:"poll in arms, parallel to ground" 	},
+        {Video1:"", 	t1:7.8, 	Video2:"", 	t2:6.75, 	Phase:"m9", 	SSI:"small edge angle", 	BM:"hips too high", 	TD:"more ang before apex; look at dir of travel" 	},
+//        {Video1:"", 	t1:8.75, 	Video2:"", 	t2:8.08, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	},
+        {Video1:"", 	t1:4.49, 	Video2:"Reilly", 	t2:63.61, 	Phase:"m3", 	SSI:"", 	BM:"", 	TD:"" 	},
+        {Video1:"AZ2", 	t1:50.7, 	Video2:"", 	t2:69.74, 	Phase:"m3", 	SSI:"", 	BM:"", 	TD:"" 	},
+////        {Video1:"", 	t1:50.7, 	Video2:"Berger", 	t2:413.83, 	Phase:"", 	SSI:"", 	BM:"", 	TD:"" 	}
+        {Video1:"", 	t1:50.7, 	Video2:"BASI", 	t2:65.14, 	Phase:"m3", 	SSI:"", 	BM:"", 	TD:"" 	}
+        ]
+//        {Video1:"BASIL", 	t1:83.25, 	Video2:"JBa", 	t2:2.65, 	Phase:"Long - Med turns", 	SSI:"", 	BM:"", 	TD:"" 	},
+//        {Video1:"BASIL", 	t1:93.29, 	Video2:"JBa", 	t2:4.84, 	Phase:"Long - Med turns. 9oc", 	SSI:"", 	BM:"", 	TD:"" 	},
+//        {Video1:"BASIL", 	t1:94.03, 	Video2:"JBa", 	t2:5.24, 	Phase:"Long - Med turns. trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
+//        {Video1:"BASIL", 	t1:94.9, 	Video2:"JBa", 	t2:5.77, 	Phase:"Long - Med turns. 3 oc", 	SSI:"", 	BM:"", 	TD:"" 	},
+//        {Video1:"BASIL", 	t1:96.07, 	Video2:"JBa", 	t2:6.54, 	Phase:"Long - Med turns. trans to left", 	SSI:"", 	BM:"", 	TD:"" 	},
+//        {Video1:"BASIL", 	t1:129.26, 	Video2:"ReMog", 	t2:1.39, 	Phase:"Bumps, trans to R", 	SSI:"", 	BM:"", 	TD:"" 	},
+//        {Video1:"BASIL", 	t1:129.78, 	Video2:"ReMog", 	t2:2.19, 	Phase:"Bumps, trans to L", 	SSI:"", 	BM:"", 	TD:"" 	},
+//        {Video1:"BASIL", 	t1:28.3, 	Video2:"Reilly", 	t2:18.6, 	Phase:"Short", 	SSI:"", 	BM:"", 	TD:"" 	},
+//        {Video1:"BASIL", 	t1:31.29, 	Video2:"Reilly", 	t2:18.7, 	Phase:"Short, 8 oc", 	SSI:"", 	BM:"", 	TD:"" 	}]; 
+
+
+
+    var dbPL= TAFFY(daPL); console.log('dbPL = ', dbPL().get());
+    var dbEv= TAFFY(daEv); console.log('dbEv = ', dbEv().get());
+    var dbVid= TAFFY(); dbVid.store("dbVid"); console.log('dbVid = ', dbVid().get()); // localStorage.dbVid
+    var dbPhases= TAFFY(); dbPhases.store("dbPhases"); 
+    dbPhases= uniq_dbPhases()
+    console.log('dbPhases = ', dbPhases().get()); // localStorage.dbVid
+  //  dbPL().remove()
+  //  dbVid().remove() ; localStorage.clear()
+    
+    
+
+    var playlistsDict={}, playlistsDictY={}, plt={1:[], 2:[]}; // by Id; by YTId; by player type
+        
+    fillPlaylistsDict();
+
+
+    var cl= console.log;
+    var evData_Filled, currEvent=0;
+    var infoRich= true;
+    
+
+	setTimeout(createCanvas, 3000);
+	
+	
+	var isCanv= true
+	toggleCanv= function(){
+					isCanv= !isCanv; 
+					$('#canv-tools').toggle(); 
+					$('#canvas').css('z-index', isCanv ? 15 : 0)
+					//$('#bt-draw').html(isCanv ? "X" :"Draw")
+					$('#bt-draw').toggleClass('glyphicon-pencil glyphicon-remove-circle') //$('#fullscr'+ip).text('fs')
+				}
+	
+	//setTimeout(toggleCanv, 4000);
+
+	  evData_Filled= fillEvs();
+	  
+	  $('#v1').height(9./16 * $('#v1').width())
+	  $('#v2').height(9./16 * $('#v2').width())
+	  
+	  
+
+htPL= new Handsontable($("#tbPlaylistsH")[0], {
+		data: daPL,  //dbPL().get(), //
+		minSpareRows: 1,
+		height: 296,
+	    colHeaders: function(j) {
+			  return j==3 ? 'Info &nbsp; &nbsp; &nbsp;     <i  onclick="toggleRich()" class="fa fa-copy" style="font-size: 14px; float: right" ' + 
+			//		  return j==3 ? 'Info &nbsp; &nbsp; &nbsp;    <i  onclick="toggleRich()" class="fa fa-copy"  ' + 
+						    '  title="toggle Info to Plain Text before copy the table to Excel or G-Sheets Ctrl-A,Ctrl-C "> Toggle before copy</i> &nbsp; &nbsp; &nbsp;'
+            		              : 'Id YTId Type Info Comment'.split(" ")[j]
+	    },
+		rowHeaders: true,
+		stretchH: 'all',
+		contextMenu: true,
+		readOnly: false,
+		columns: [
+		  {data: 'Id' , type: 'text' , renderer:YTId_Renderer }, //?}, // PL_Id_Renderer 
+		  {data: 'YTId' , type: 'text', renderer: YTId_Renderer, width: 12  }, // 4 },
+		  {data: 'Type' , type: 'numeric', format: '0'},  //, width: 14
+		  {data: 'Info'  , renderer: "html"},  // , width: 1
+		  {data: 'Comment'  , type: 'text'}
+		] 
+        , autoWrapRow: false ///true
+        , manualRowResize: true,
+         manualColumnResize: true,
+         contextMenu: ['row_above', 'row_below', 'remove_row','undo', 'redo','commentsAddEdit'],
+		 comments: true,  //TODO: comment does not work, 
+		 cell: [
+		      {row: 0, col: 0, comment: 'You can paste youtube Id or links to this column'}
+			, {row: daPL.length-1, col: 0, comment: 'You can paste youtube Id or links to this cell'}
+			, {row: daPL.length-1, col: 1, comment: 'You can paste youtube Id or links to this cell'}
+		 ]
+	    , afterRender: function(){ fillPlaylistsDict(); evData_Filled= fillEvs(); 
+
+// cl('htPL.afterRender()')
+//	    	dbVid.store('dbVid'); dbPL.store('dbPL'); cl('afterRender: dbVid.store(); dbPL.store()', dbPL()) 
+	    	}
+       // , afterRender : createCanvas // function(){positionCanvas('htPL afterRender');  }
+//nOK zzz        , afterRender : htEv.loadData(daEv) //updateSettings()  // // function(){positionCanvas('htPL afterRender');  }
+
+        , afterChange: function(changes, source) {
+        	//if(changes) if(1 || source === 'alter'){
+            if(changes) if(source === 'alter'){
+            	for(var i=0, l= changes.length; i<l; i++){
+        			// console.log(changes)
+        			var yid= changes[i][3].replace(/.*watch.v=/, '').replace(/&.*/, '')
+        			var hlink= '<a href="https://www.youtube.com/watch?v=%s" target="_blank">%s</a>'.sf(yid, yid)
+
+        			var ro= changes[i][0], th= this;
+
+        			daPL[ro].YTId= yid
+        			//htPL.setDataAtCell(ro, 1, yid);
+        			
+        			$.ajax({
+        	            url: 'http://query.yahooapis.com/v1/public/yql',
+        	                data: {
+        	                	
+// http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v=iTc9QclQ_l0&format=json
+// {"thumbnail_url": "https:\/\/i.ytimg.com\/vi\/iTc9QclQ_l0\/hqdefault.jpg"
+//	, "title": "[FUN]CARVING Passo Tonale 2012"
+//	, "author_url": "https:\/\/www.youtube.com\/user\/MarshallCZE"
+//	, "author_name": "Luk\u00e1\u0161 Mar\u0161\u00edk"
+//	, "html": "\u003ciframe width=\"480\" height=\"270\" src=\"https:\/\/www.youtube.com\/embed\/iTc9QclQ_l0?feature=oembed\" frameborder=\"0\" allowfullscreen\u003e\u003c\/iframe\u003e"
+
+        	                	
+        	                	
+        	                	q: "select * from json where url ='http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v="+ yid + "&format=json'",
+        	                    format: "json"
+        	                },
+        	                dataType: "jsonp"            		    //$.get({url: "https://www.youtube.com/watch?v="+ yid + '&format=json&callback=?'
+        		    	  , success: function(result){
+        		    		  var rj= result.query.results.json
+        		    		  console.log('afterChange ajax result=', rj)
+        		    		  var tit= rj.title;
+        		    		  console.log('afterChange ajax tit=', tit)
+        		    		  //daPL[changes[i][0]].Info= result.getElementsByTagName("title");
+        		    		  daPL[ro].Info= note(infoRich, rj);
+        		    		  //th.render();
+        		    		  th.setDataAtCell(ro, 1, yid); // hlink);
+        		    		 // th.setDataAtCell(ro, 3, '%s, by %s'.sf(tit, result.query.results.json.author_name));
+         		    		  th.setDataAtCell(ro, 3, note(infoRich, rj));
+       		    	  }});
+        		}
+        		//this.render();
+        	}
+        	
+        }
+	  });  
+
+	  
+	  htEv= new Handsontable($("#tbEventsH")[0], {
+	  		data: daEv,  //dbEv().get(), //
+	  		minSpareRows: 1,
+	  		height: 196,
+
+	  		//colHeaders: 'Video1 t1 Video2 t2 Phase SSI BM TD img'.split(" "),
+	  		colHeaders: 'Video1 t1 Video2 t2 Phase SSI BM TD'.split(" "),
+
+	  		rowHeaders: true,
+	  		stretchH: 'all',
+	  		columnSorting: true,
+	  		contextMenu: true,
+	  	    manualRowResize: true,
+	  	    manualColumnResize: true,
+	  		
+	  	    currentRowClassName: 'currentRow',
+	  	    currentColClassName: 'currentCol',
+	  	    
+	  		//className: "htCenter htMiddle",
+	  		readOnly: false,
+	  		columns: [
+	  	//	  {data: 'Index' , type: 'numeric', format: '0'}, // width: 13},
+	  		  {data: 'Video1' , type: 'text' , renderer: Video_Renderer1
+	  //zzz			  , editor: 'select'
+//	  			  , selectOptions: daPL.filter(function(p){return p.Type==1}) .map(function(i){return i['Id']})
+	  			}, //, width: 20}, 
+	  		  {data: 't1' , type: 'numeric', format: '0.00'},  // renderer: function(){alert("ttt")}}, //, width: 14},
+//	  		  {data: 'Video2', renderer: function(){alert("zzz")} //Video_Renderer1   , type: 'text'
+	  		  {data: 'Video2' , type: 'text', renderer: Video_Renderer1  
+	  //zzz			  , editor: 'select'
+//	  			  , selectOptions: daPL.filter(function(p){return p.Type==2}) .map(function(i){return i.Id})
+	  			}, //, width: 20}, 
+	  		  {data: 't2' , type: 'numeric', format: '0.00'}, //, width: 14},
+	  		  {data: 'Phase'  , type: 'text'},
+	  		  {data: 'SSI'  , type: 'text'},
+	  		  {data: 'BM'  , type: 'text', renderer: "html"}, // renderer: "html" for Phases 
+	  		  {data: 'TD'  , type: 'text'}
+//	  		, {data: 'img'  }  // , renderer: imgRenderer}
+
+	  		 ] //,     minSpareRows: 1
+	  		, comments: true,
+	  		 cell: [
+	  			  {row: daEv.length, col: 0, comment: 'You can paste youtube Id or links to this cell'}
+	  			, {row: daEv.length, col: 2, comment: 'You can paste youtube Id or links to this cell'}
+	  		 ]
+	           , autoWrapRow: true
+	           
+	       //   , afterRender : function(){positionCanvas('htEv afterRender');  }
+	           , afterRender : function(){evData_Filled= fillEvs()}
+	  	  });	
+
+	  var unP= uniq_dbPhases()
+	  cl('uniq_dbPhases=', unP )
+	  if(1){
+	  	dbPhases= unP;
+	  	localStorage.removeItem('taffy_' + "dbPhases");
+	  	dbPhases.store("dbPhases")
+	  	//dbPhases.store("dbPhases")
+	  	console.log('dbPhases = ', dbPhases().get())
+	  }
+	
+	qsPars= treat_qsPars(treatQueryString(window.location.search.substr(1).split('&')))
 	
 
 	///  Settings ========================
