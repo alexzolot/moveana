@@ -77,7 +77,8 @@ Vue.component('vplayer',{
 		     
 		      pp[ip]=   new YT.Player('v' + ip, {
 		      width: '100%', height: "100%",
-		      playerVars: {'autoplay': 0, playlist: plt[ip].join()}, //'urAXN77X6zU'}, // 'M7lc1UVf-VE,taJ60kskkns,FG0fTKAqZ5g'
+		      //playerVars: {'autoplay': 0, playlist: plt[ip].join()}, //'urAXN77X6zU'}, // 'M7lc1UVf-VE,taJ60kskkns,FG0fTKAqZ5g'
+		      playerVars: {'autoplay': 0, playlist: []}, //'urAXN77X6zU'}, // 'M7lc1UVf-VE,taJ60kskkns,FG0fTKAqZ5g'
 		      events: {
 		       'onReady': onplaReady(ip), //onpla1Ready,
 		       'onStateChange': onplaStateChange(ip) //onpla1StateChange
@@ -175,7 +176,8 @@ Vue.component('vplayer',{
     	
     	initYTP=  function(ip){ return new YT.Player('v' + ip, {
 		            width: '100%', height: "100%",
-		            playerVars: {'autoplay': 0, playlist: plt[ip].join()}, // origin: 'null' ??
+		           // playerVars: {'autoplay': 0, playlist: plt[ip].join()}, // origin: 'null' ??
+		            playerVars: {'autoplay': 0, playlist: []}, // origin: 'null' ??
 		            events: {
 		             'onReady': onplaReady(ip), 
 		             'onStateChange': onplaStateChange(ip) 
@@ -209,11 +211,10 @@ Vue.component('vplayer',{
      }
       
 
-   function onplaStateChange(i){ return function(event) { 
+  function onplaStateChange(i){ return function(event) { 
     	  if (event.data == YT.PlayerState.PAUSED){updateTimerDisplay()
   	  }}
-   }
-
+  }
 
   function formatTime(time){
       time = Math.round(time);
@@ -224,17 +225,16 @@ Vue.component('vplayer',{
 
       return minutes + ":" + seconds;
   }
-  
-
-
 
    function fillPlaylistsDict(){  /// fillPlaylistsDict(daPL)
 	     playlistsDict={}; playlistsDictY={}; plt= {1:[], 2:[]};
-	     for(var i=0, l= daPL.length; i<l; i++){ var p= daPL[i];
+	     for(var i=0, l= daPL.length; i<l; i++){ var p= daPL[i], pt=p.Type;
 		  	//if(p.Type>0) plt[p.Type].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
-		  	if(p.Type==1 || p.Type==3) plt[1].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
-		  	if(p.Type==2 || p.Type==3) plt[2].push(p.YTId); playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
-		  }
+		  	if(pt==1 || pt==3) if(plt[1].indexOf(p.YTId) < 0) plt[1].push(p.YTId); 
+		  	if(pt==2 || pt==3) if(plt[2].indexOf(p.YTId) < 0) plt[2].push(p.YTId); 
+		  	playlistsDict[p.Id]= p; playlistsDictY[p.YTId]= p
+		 }
+	     return plt
    }
    
 
@@ -883,9 +883,11 @@ function GSheet2_HT(db){
 	  } else {
 		  GSheetRange2_HTcells(spreadsheetID, 4, 99, 11, 15, function(plls){console.log('plls10 =', plls)
 			  htPL.loadData(plls) 
+			  daPL= plls // htPL.getData()
 		  });
 		  GSheetRange2_HTcells(spreadsheetID, 4, 99, 1, 9, function(pts){console.log('points =', pts)
 			  htEv.loadData(pts) 
+			  daEv= pts // htEv.getData()
 		  }); 
 	  }
 }
@@ -911,7 +913,7 @@ function GSheetPh2dbPh_htEv(){
 		  }, 'dbLog')
 }
 
-function GSheet2db(spreadsheetID, db, callback){
+function GSheet2db(spreadsheetID, db, callback){ // this fun is not really used?
 	spreadsheetID= spreadsheetID || sett('spreadsheetID') // '170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'
 	db= db || 'dbPl'
 	var GSheets= {MA:'od6', dbLog:'ojacmh6', dbPl:'o8ewx2k', dbPhases:'o26bz5o', dbVid:'oevm3xw', dbEv:'ouj8mhj'} 
@@ -920,10 +922,10 @@ function GSheet2db(spreadsheetID, db, callback){
         url: 'https://spreadsheets.google.com/feeds/list/'+ spreadsheetID +'/' 
               + GSheets[db] + '/public/values?alt=json' 
         , dataType: "jsonp"            		    //$.get({url: "https://www.youtube.com/watch?v="+ yid + '&format=json&callback=?'
-    	, success: function(res){	console.log('Gdoc2db: ', db, res)
+    	, success: function(res){	console.log('GSheet2db: ', db, res)
 			    		callback(res)
 					}
-    	, error: function(xhr, status, err){console.log('Gdoc2db: Err ', xhr, status, err)}
+    	, error: function(xhr, status, err){console.log('GSheet2db: Err ', xhr, status, err)}
 	})
 }
 // test: GDoc2db(0, dbPhases, 0)
@@ -970,24 +972,27 @@ function dbPhases2htEv(all){
 //	htEv.loadData(dat)
 }
 
-function LoadPlaylists(ev0){console.log(daPL); //alert(daPL)
+function LoadPlaylists(ev0){console.log('LoadPlaylists: from ', daPL); //alert(daPL)
 		ev0= ev0 || 0;
 
-		fillPlaylistsDict()
 
-		var pl=[[], []]; // pl[0]=[]; pl[1]=[];
-		for(var i=0, l= daPL.length; i<l; i++) if(daPL[i].YTId > ''){
-	  			var p=daPL[i], t= p.Type-1;
-	  			if(t==0 || t==2) if(pl[0].indexOf(p.YTId) < 0) { pl[0].push(p.YTId) }
-	  			if(t==1 || t==2) if(pl[1].indexOf(p.YTId) < 0) { pl[1].push(p.YTId) }
-	  			//if(pl[t].indexOf(p.YTId) < 0) { pl[t].push(p.YTId) }
-	  		}
-		console.log('pl=', pl);
-//	    pp[1].loadPlaylist(pl[0]); setTimeout(function(){pp[1].pauseVideo().seekTo(0)}, 1000);
-//		pp[2].loadPlaylist(pl[1]); setTimeout(function(){pp[2].pauseVideo().seekTo(0)}, 1000);
+		var plt= fillPlaylistsDict()  // dup with following ?
 
-	    pp[1].cuePlaylist(pl[0]); 
-		pp[2].cuePlaylist(pl[1]);
+//		var pl=[[], []]; // pl[0]=[]; pl[1]=[];
+//		for(var i=0, l= daPL.length; i<l; i++) if(daPL[i].YTId > ''){
+//	  			var p=daPL[i], t= p.Type-1;
+//	  			if(t==0 || t==2) if(pl[0].indexOf(p.YTId) < 0) { pl[0].push(p.YTId) }
+//	  			if(t==1 || t==2) if(pl[1].indexOf(p.YTId) < 0) { pl[1].push(p.YTId) }
+//	  			//if(pl[t].indexOf(p.YTId) < 0) { pl[t].push(p.YTId) }
+//	  		}
+//		console.log('pl=', pl);
+////	    pp[1].loadPlaylist(pl[0]); setTimeout(function(){pp[1].pauseVideo().seekTo(0)}, 1000);
+////		pp[2].loadPlaylist(pl[1]); setTimeout(function(){pp[2].pauseVideo().seekTo(0)}, 1000);
+//
+//	    pp[1].cuePlaylist(pl[0]); 
+//		pp[2].cuePlaylist(pl[1]);
+	    pp[1].cuePlaylist(plt[1]); 
+		pp[2].cuePlaylist(plt[2]);
 		
 		fillEvs()
 		
@@ -1145,8 +1150,6 @@ function matchPhase(ph){
 	  htEv.loadData(daEv)	
 }
 
-
-
 function fillEvs(){  /// fill empty cells in daEv
 		var evData_Filled=[];	
 		
@@ -1297,7 +1300,7 @@ function  Controller_______________________________________(){} /// Controller  
 	    if (aa == "") return [];
 	    
 	    cl('aa', aa)
-	    cl('decodeURIComponent(aa)=', decodeURIComponent(aa))
+	    cl('treatQueryString: decodeURIComponent(aa)=', decodeURIComponent(aa))
 
       var r= {keep:3, type:3, yt:[], gsheetid:'170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'}
 	     , sep= /(keep=|type=|yt=|gsheetid=|time=)/g,  //decodeURIComponent(aa)        //.split('&')
@@ -1306,13 +1309,13 @@ function  Controller_______________________________________(){} /// Controller  
 			          .replace(sep,'$1zz2').split(/\s*zz1|zz2\s*/)
 			          .notEmpty()
 			 })
-	    cl('treat in query string  b=', b)
+	    cl('treatQueryString: treat in query string  b=', b)
 	     
 	    b.map(function(q){ // cl('b.map q=', q)
 			if(q.length==1) {  // yt  directly after '...com?'
 				r.yt= q[0]} else r[q[0].replace(/=$/, '')]= q.length==2 ? q[1] : q.slice(1)
 		})
-		cl('out query str  r=', r)
+		cl('treatQueryString: out query str  r=', r)
 	    return r
 	}
   
@@ -1321,7 +1324,7 @@ function  Controller_______________________________________(){} /// Controller  
 		//qsPars = qsPars || treatQueryString(window.location.search.substr(1).split('&')) || {};
 		qsPars = qsPars || {};
 
-	console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  treat query string qsPars =', qsPars)
+	console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  treat_qsPars: qsPars =', qsPars)
 
 	
 	if(qsPars.keep=='0') { // htEv.clear(); htPL.clear(); 
@@ -1334,6 +1337,13 @@ function  Controller_______________________________________(){} /// Controller  
 	} 
 	cl('treat_qsPars: Before "GET"  daPL=', daPL)
 	cl('treat_qsPars: Before "GET"  daEv=', daEv)
+	
+	
+	if(qsPars.gsheetid){ 
+		daSett= daSett.map(function(p){ p.value=(p.name=='spreadsheetID') ? qsPars.gsheetid : p.value; return p})
+		GSheet2_HT(); GSheet2db(null, 'MA', function(res){cl('qsPars.gsheetid: MA res=', res)}); //LoadPlaylists()	
+	} else qsPars.gsheetid='170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'; //1N_Q2aDghKX-BkC9cRwFrxY_ttxoEQuqJEMGvCW2MUCE
+	// MA2: 1LNGbHzhgto8cawjAre7-X3fOBQ08sJwwgZzvgd_rdSc
 	
 
 	if(qsPars.yt && qsPars.yt.length){
@@ -1399,15 +1409,18 @@ function  Controller_______________________________________(){} /// Controller  
 		
 		
 		
-		//setTimeout(LoadPlaylists, 1000)
-		setTimeout(function(){LoadPlaylists(daEv.length-1)}, 1000)
+		//setTimeout(function(){LoadPlaylists(daEv.length-1)}, 1000)
 
 	} //qsPars.yt
 	return qsPars
 }
+	
+	
+function sett(nm) {return daSett.filter(function(s){return s.name==nm})[0].value}
+// test: sett('defTy');	sett('spreadsheetID')
+	
+	
 
-  
-  
   /*
    sequence:   assign data from js
 			   treat qs;
@@ -1419,6 +1432,10 @@ function  Controller_______________________________________(){} /// Controller  
   
 function  Run_______________________________________(){} /// Execution  ////////////////////////////////////////////////////////////////////////////
 
+var cl= console.log;
+var evData_Filled, currEvent=0;
+var infoRich= true;
+
 
 var vm = new Vue({
 			el: '#app',
@@ -1427,15 +1444,6 @@ var vm = new Vue({
 		});
 
 
-
-    // 2. This code loads the IFrame pp[1] API code asynchronously.
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    
-    
     /// Handsontables:  Sett, PL,  Events, db 
     var htEv,  htPL; 
     var daPL= [//{Id:"R", 	YTId:"GG4pgtfDpWY", 	Type:3, 	Info:"R", 	Comment:""}, 
@@ -1498,16 +1506,40 @@ var vm = new Vue({
   //  dbVid().remove() ; localStorage.clear()
     
     
+	
+
+	///  Settings ========================
+    var qsPars={}
+
+	var daSett=[{name:'defTy', Parameter:'Defaut video Type\n1 -Left Player, 2 -right, 3 - both', value:3}
+		      , {name:'defSec', Parameter:'Default t, sec', value:2}
+		     , {name:'nSymb', Parameter:'Default # symb in Id', value:3}
+		     //, {name:'spreadsheetID', Parameter:'G-sheet (to copy-paste the data)', value:"170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI"}
+		     , {name:'spreadsheetID', Parameter:'G-sheet (to copy-paste the data)'
+		    	 , value: qsPars.gsheetid? qsPars.gsheetid: '170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'
+		     }
+		]
+	
+	qsPars= treat_qsPars(treatQueryString(window.location.search.substr(1).split('&')))
+
+	htSett= new Handsontable($("#tbSett")[0], {
+		data: daSett,
+		colHeaders: 'name Parameter Value'.split(" "),
+		rowHeaders: false, stretchH: 'all'})
+
 
     var playlistsDict={}, playlistsDictY={}, plt={1:[], 2:[]}; // by Id; by YTId; by player type
         
     fillPlaylistsDict();
 
 
-    var cl= console.log;
-    var evData_Filled, currEvent=0;
-    var infoRich= true;
+    // 2. This code loads the IFrame pp[1] API code asynchronously.
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
     
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
 
 	setTimeout(createCanvas, 3000);
 	
@@ -1679,37 +1711,9 @@ htPL= new Handsontable($("#tbPlaylistsH")[0], {
 	  	//dbPhases.store("dbPhases")
 	  	console.log('dbPhases = ', dbPhases().get())
 	  }
-	
-	qsPars= treat_qsPars(treatQueryString(window.location.search.substr(1).split('&')))
-	
 
-	///  Settings ========================
+	 setTimeout(LoadPlaylists, 3000)
 
-	var daSett=[{name:'defTy', Parameter:'Defaut video Type\n1 -Left Player, 2 -right, 3 - both', value:3}
-		      , {name:'defSec', Parameter:'Default t, sec', value:2}
-		     , {name:'nSymb', Parameter:'Default # symb in Id', value:3}
-		     //, {name:'spreadsheetID', Parameter:'G-sheet (to copy-paste the data)', value:"170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI"}
-		     , {name:'spreadsheetID', Parameter:'G-sheet (to copy-paste the data)'
-		    	 , value:qsPars.gsheetid? qsPars.gsheetid: '170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'
-		     }
-		]
-	
-
-	if(qsPars.gsheetid){ 
-		daSett= daSett.map(function(p){ p.value=(p.name=='spreadsheetID') ? qsPars.gsheetid : p.value; return p})
-		GSheet2_HT(); GSheet2db(); LoadPlaylists()	
-	} else qsPars.gsheetid='170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'; //1N_Q2aDghKX-BkC9cRwFrxY_ttxoEQuqJEMGvCW2MUCE
-	// MA2: 1LNGbHzhgto8cawjAre7-X3fOBQ08sJwwgZzvgd_rdSc
-
-	htSett= new Handsontable($("#tbSett")[0], {
-		data: daSett,
-		colHeaders: 'name Parameter Value'.split(" "),
-		rowHeaders: false, stretchH: 'all'})
-
-	function sett(nm) {return daSett.filter(function(s){return s.name==nm})[0].value}
-	// test: sett('defTy');	sett('spreadsheetID')
-	
-	
 
 //}) /////////////////////////////////////////////////////////////////
 
