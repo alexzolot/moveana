@@ -4,7 +4,7 @@ function r100(x) {return round(x, 100)};
 function v100(x) {return r100($(x).val())};
 
 var fJ= JSON.parse, tJ= JSON.stringify;
-//String.prototype.fJ= function() {return JSON.parse(this)} htPL
+//String.prototype.fJ= function() {return JSON.parse(this)} 
 //Object.prototype.tJ= function() {return JSON.stringify(this)} 
 Array.prototype.notEmpty= function() {return this.filter(function(s){return s>''})}
 
