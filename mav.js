@@ -780,24 +780,27 @@ function Model_________________________________________ ( ) {}/// Model  ///////
 
 function Data_Down_______________________________________(){} // gsheet -> HT -> da,db -> videoplayers
   
-function GSheetRange2_HTcells(spreadsheetID, r1, r2, c1, c2, cbfun, db){
+//function GSheetRange2_HTcells(spreadsheetID, r1, r2, c1, c2, cbfun, db){
+function GSheetRange2_HTcells(spreadsheetID, r1, r2, c1, c2, db, sheet){
     //spreadsheetID= spreadsheetID || '170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'
     var spreadsheetID= sett('spreadsheetID');
 
-    db= db || 'MA'
+    sheet= sheet || 'MA'
 
     var GSheets= {MA:'od6', dbLog:'ojacmh6', dbPl:'o8ewx2k', dbPhases:'o26bz5o', dbVid:'oevm3xw', dbEv:'ouj8mhj'} 
 // https://spreadsheets.google.com/feeds/cells/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/o8ewx2k/public/values?alt=json&min-row=1&max-row=4&min-col=1&max-col=5
 // https://spreadsheets.google.com/feeds/list/170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI/4/public/values?alt=json&min-row=1&max-row=4&min-col=1&max-col=5    
-    var urlc= "https://spreadsheets.google.com/feeds/cells/" + spreadsheetID +'/'  + GSheets[db]
+    var urlc= "https://spreadsheets.google.com/feeds/cells/" + spreadsheetID +'/'  + GSheets[sheet]
               + '/public/values?alt=json&min-row='+r1 + '&max-row='+r2 + '&min-col='+c1 + '&max-col='+c2 ;
     console.log('GSheetRange2_HTcells(spreadsheetID, r1, r2, c1, c2, cbfun): urlc =', urlc)
-    $.getJSON(urlc, gcellsToArr(cbfun))
+    //$.getJSON(urlc, gcellsToArr(cbfun))
+    $.getJSON(urlc, gcellsToArr(db))
 } 
 			 
 		  
-function gcellsToArr(cbfun){ return function(data){ 
-		   var entryc= data.feed.entry, res=[], header=[], rOld=-2;
+//function gcellsToArr(cbfun)(data){ 
+	function gcellsToArr(db){ return function(data){ 
+		   var entryc= data.feed.entry, res= [], header= [], rOld=-2;
 		   console.log('gcellsToArr: entryc=', entryc )
 		   
 		   r1= parseInt(entryc[0].gs$cell.row);
@@ -807,20 +810,22 @@ function gcellsToArr(cbfun){ return function(data){
 			  var e= entryc[i].gs$cell, r= parseInt(e.row) - r1 - 1, c= parseInt(e.col)-c1;
 			  console.log('gcellsToArr: i, r1, rOld, r, c, e.$t =', i, r1, rOld, r, c, e.$t )
 		      if(r > rOld+1) {break}; 
+		      if(r == rOld+1 && r > -1) {res[r]= {}}; 
 		      rOld= r;
 
-			  if(c==0 && r> -1 && e.$t==null) {break} /// break on empty first col in the row
+			  if(c==0 && r > -1 && e.$t==null) {break} /// break on empty first col in the row - never happens
 			  if(r== -1) {header[c]= e.$t} else {
-				  if(res[r]== undefined){ if(c>0) break; res[r]= {} }; /// break on empty first col in the row
-				  res[r][header[c]]= e.$t
+		//		  if(res[r]== undefined){ if(c>0) break; res[r]= {} }; /// break on empty first col in the row
+				  cl('r=', r, res)
+				  if(e.$t != null) res[r][header[c]]= e.$t
 			  } 
 		   }
 		   
-		   console.log('header =', header )
-		   console.log('res =', res )
-		   console.log('cbfun =', cbfun )
-		   cbfun(res)
-		   return res
+		   //console.log('header =', header )
+		   console.log('gcellsToArr: res =', res )
+		   //console.log('cbfun =', cbfun )
+		   //cbfun(res)
+		   eval(db + '= res; '+ db.replace('da', 'ht') + '.loadData(res) ')
 }}	
   
 
@@ -881,14 +886,24 @@ function GSheet2_HT(db){
 	    	  , success: function(res){console.log('get db:', db, res)}
 		  })		  
 	  } else {
-		  GSheetRange2_HTcells(spreadsheetID, 4, 99, 11, 15, function(plls){console.log('plls10 =', plls)
-			  htPL.loadData(plls) 
-			  daPL= plls // htPL.getData()
-		  });
-		  GSheetRange2_HTcells(spreadsheetID, 4, 99, 1, 9, function(pts){console.log('points =', pts)
-			  htEv.loadData(pts) 
-			  daEv= pts // htEv.getData()
-		  }); 
+//		  GSheetRange2_HTcells(spreadsheetID, 4, 99, 11, 15, function(plls){console.log('plls10 =', plls)
+//			  htPL.loadData(plls) 
+//			  daPL= plls // htPL.getData()
+//		  });
+//		  GSheetRange2_HTcells(spreadsheetID, 4, 99, 1, 9, function(pts){console.log('points =', pts)
+//			  htEv.loadData(pts) 
+//			  daEv= pts // htEv.getData()
+//		  }); 
+		  
+		  GSheetRange2_HTcells(spreadsheetID, 4, 99, 11, 15, 'daPL')
+	//		  htPL.loadData(daPL) 
+	
+		  GSheetRange2_HTcells(spreadsheetID, 4, 99, 1, 9, 'daEv')
+	//		  htEv.loadData(daEv) 
+
+		  
+		  
+		  
 	  }
 }
 
@@ -1326,6 +1341,13 @@ function  Controller_______________________________________(){} /// Controller  
 
 	console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  treat_qsPars: qsPars =', qsPars)
 
+	if(qsPars.gsheetid){ 
+		daSett= daSett.map(function(p){ p.value=(p.name=='spreadsheetID') ? qsPars.gsheetid : p.value; return p})
+		GSheet2_HT(); 
+		//GSheet2db(null, 'MA', function(res){cl('treat_qsPars: if(qsPars.gsheetid): MA res=', res)}); //LoadPlaylists()	
+	} else qsPars.gsheetid='170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'; //1N_Q2aDghKX-BkC9cRwFrxY_ttxoEQuqJEMGvCW2MUCE
+	// MA2: 1LNGbHzhgto8cawjAre7-X3fOBQ08sJwwgZzvgd_rdSc
+
 	
 	if(qsPars.keep=='0') { // htEv.clear(); htPL.clear(); 
 		daPL= []; daEv= []; dbPL= TAFFY(daPL); dbEv= TAFFY(daEv); 
@@ -1339,12 +1361,7 @@ function  Controller_______________________________________(){} /// Controller  
 	cl('treat_qsPars: Before "GET"  daEv=', daEv)
 	
 	
-	if(qsPars.gsheetid){ 
-		daSett= daSett.map(function(p){ p.value=(p.name=='spreadsheetID') ? qsPars.gsheetid : p.value; return p})
-		GSheet2_HT(); GSheet2db(null, 'MA', function(res){cl('qsPars.gsheetid: MA res=', res)}); //LoadPlaylists()	
-	} else qsPars.gsheetid='170sfsB8VLSeWO1JU6dDMi9DNWgjwytfeb6fosZwN8SI'; //1N_Q2aDghKX-BkC9cRwFrxY_ttxoEQuqJEMGvCW2MUCE
-	// MA2: 1LNGbHzhgto8cawjAre7-X3fOBQ08sJwwgZzvgd_rdSc
-	
+
 
 	if(qsPars.yt && qsPars.yt.length){
 
