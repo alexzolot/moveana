@@ -665,18 +665,19 @@ var toggleRich= function () {infoRich= !infoRich;  htPL.loadData(daPL)
 
 
 
-$('#tbPlaylistsH table tbody').on('dblclick', 'tr th', function(evt){
+//$('#tbPlaylistsH table tbody').on('dblclick', 'tr th', function(evt){
+	$('#tbPlaylistsH').on('mousedown', 'th:has(.rowHeader)', function(evt){
 	var row= $(this).text()
 	htPL2htEv(row-1, true)
 }) ;
 
-
-$('#tbEventsH table tbody').on('dblclick', 'tr', function(evt){
-	//var index= $($(this).find('td')[0]).text();
+////$('#tbEventsH').on('dblclick', 'table tbody tr', function(evt){
+$('#tbEventsH').on('mousedown', 'th:has(.rowHeader)', function () {
 	var index= $($(this).find('.rowHeader')[0]).text();
 	console.log('#tbEventsH table tbody index=', index)
+	
 	go2ev(index-1)
-}) ;
+});
 
   
 //  $('.pp').resizable();  // .draggable()
@@ -1196,7 +1197,8 @@ function db2GSheet() {
 }
 
 function LogCurrentPoint(){  // to htEv
-	  var vid1=pp[1].getVideoData().video_id, vid2=pp[2].getVideoData().video_id;
+	  var vid1= pp[1].getVideoData().video_id, vid2= pp[2].getVideoData().video_id;
+	  daEv.pop()  // remove empty last row
   	  daEv.push({ //Index:daEv.length+1,
   		 Video1: playlistsDictY[vid1].Id || vid1, 	t1: $('#t1').val()
   		, Video2: playlistsDictY[vid2].Id || vid2, 	t2: $('#t2').val()
@@ -1601,7 +1603,9 @@ htPL= new Handsontable($("#tbPlaylistsH")[0], {
 						    '  title="toggle Info to Plain Text before copy the table to Excel or G-Sheets Ctrl-A,Ctrl-C "> Toggle before copy</i> &nbsp; &nbsp; &nbsp;'
             		              : 'Id YTId Type Info Comment'.split(" ")[j]
 	    },
-		rowHeaders: true,
+		//rowHeaders: true,
+		rowHeaders: function(i) {return '<span title="Click here to push the video to the  <Points for MA>  table">'+ i +'</span>'},
+
 		stretchH: 'all',
 		contextMenu: true,
 		readOnly: false,
@@ -1683,7 +1687,7 @@ htPL= new Handsontable($("#tbPlaylistsH")[0], {
 	  htEv= new Handsontable($("#tbEventsH")[0], {
 	  		data: daEv,  //dbEv().get(), //
 	  		minSpareRows: 1,
-	  		minRows: daEv.length, //200, //
+	  		//minRows: daEv.length, //200, //
 	  		height: 196,
 	  		//colHeaders: 'Video1 t1 Video2 t2 Phase SSI BM TD img'.split(" "),
 	  		colHeaders: 'Video1 t1 Video2 t2 Phase SSI BM TD'.split(" "),
